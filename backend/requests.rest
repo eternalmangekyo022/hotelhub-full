@@ -1,0 +1,73 @@
+@base=http://localhost:3000/api/v1
+@access=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImJlbmV6b2x0YW5jaW1lQGdtYWlsLmNvbSIsImlkIjoxLCJpYXQiOjE3MzE5NzA1NzcsImV4cCI6MTczMTk3MTQ3N30.H1_FV5VEGfY52DoVso7k2pkucPDQS7nqSolgljmeZyc
+@refresh=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImJlbmV6b2x0YW5jaW1lQGdtYWlsLmNvbSIsImlkIjoxLCJpYXQiOjE3MzE5NTQzMTYsImV4cCI6MTczMjU1OTExNn0.ZSpo0D7MKdmLU765W8_ZX6nnMkhN4aGkoJSKe5JfD-0
+### correct login
+POST {{base}}/login
+Content-Type: application/json
+
+{
+	"email": "benezoltancime@gmail.com",
+	"password": "admin123"
+}
+
+###wrong password
+
+POST {{base}}/login
+Content-Type: application/json
+
+{
+	"email": "benezoltancime@gmail.com",
+	"password": "wrongpassword123"
+}
+
+###wrong user
+
+POST {{base}}/login
+Content-Type: application/json
+
+{
+	"email": "wrongemail@gmail.com",
+	"password": "wrongpassword123"
+}
+
+###
+
+GET {{base}}/hotels
+Authorization: Bearer {{access}}
+
+###
+POST {{base}}/register
+Content-Type: application/json
+
+{
+	"firstname": "ttteeeest",
+	"lastname": "from rest client",
+	"email": "ahherewego@go.com",
+	"password": "cdsfes232",
+	"phone": "36304443453"
+}
+
+###
+POST {{base}}/refresh
+Content-Type: application/json
+
+{
+	"refreshToken": "{{refresh}}"
+}
+
+###
+DELETE {{base}}/users/1
+Authorization: Bearer {{access}}
+
+###
+GET {{base}}/users
+
+###
+PATCH {{base}}/users/1
+Content-Type: application/json
+Authorization: Bearer pankix
+
+{
+	"permissionId": 1,
+	"lastname": "Bene"
+}

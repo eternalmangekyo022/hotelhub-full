@@ -1,0 +1,76 @@
+@use "sass:map";
+@use "../../global.scss" as global;
+
+$header-h: 6vh;
+$footer-h: 25vh;
+
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+* {
+  font-family: sans-serif;
+  font-style: normal;
+  font-weight: 500;
+
+  p {
+    font-weight: 400;
+    letter-spacing: 0.8px;
+    line-height: 1.7rem;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(86, 82, 146);
+  background: radial-gradient(circle, rgba(86, 82, 146, 1) 0%, rgba(128, 60, 236, 1) 35%, rgba(169, 153, 216, 1) 98%);
+  width: 100%;
+  border-radius: 1rem;
+}
+
+body,
+#root {
+  width: 100vw;
+  height: 100vh;
+  position: sticky;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+.menu-icon {
+  cursor: pointer;
+}
+
+.wrapper {
+  width: 100%;
+  height: 100%;
+}
+
+main {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  min-height: calc(100vh - ($footer-h + $header-h));
+  position: relative;
+  z-index: 10;
+}
+
+@media (max-width: 768px) {
+  * {
+    font-size: x-small;
+  }
+
+  .footer-box-inner.second {
+    img {
+      width: 25%;
+    }
+  }
+}
