@@ -9,6 +9,5 @@ export async function delImage(id: number) {
     "SELECT hotelId FROM images WHERE id = ?",
     id
   );
-  await db.delete("DELETE FROM images WHERE id = ?", id);
-  await db.delete("DELETE FROM hotels WHERE id = ?", id);
+  await db.delete("DELETE FROM hotels WHERE id = ?", hotelId);
 }
