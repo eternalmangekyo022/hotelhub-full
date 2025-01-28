@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import users from "./routes/users.routes";
 import jwt from "jsonwebtoken";
 import hotels from "./routes/hotels.routes";
+import images from "./routes/images.routes";
 
 dotenv.config({ path: "./.env" });
 
@@ -32,7 +33,6 @@ app.use(
     const {
       headers: { authorization },
     } = req;
-    console.log(req);
     if (!authorization)
       return res.status(401).json({ message: "Unauthorized" });
     const token = authorization && authorization.split(" ")[1];
@@ -58,6 +58,7 @@ app.use(
 
 users(use, app);
 hotels(use, app);
+images(use, app);
 
 api.use("/api/v1", app);
 
