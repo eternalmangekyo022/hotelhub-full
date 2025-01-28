@@ -5,6 +5,8 @@ import users from "./routes/users.routes";
 import jwt from "jsonwebtoken";
 import hotels from "./routes/hotels.routes";
 import images from "./routes/images.routes";
+import bookings from "./routes/bookings.routes";
+import ratings from "./routes/ratings.routes";
 
 dotenv.config({ path: "./.env" });
 
@@ -59,6 +61,8 @@ app.use(
 users(use, app);
 hotels(use, app);
 images(use, app);
+bookings(use, app);
+ratings(use, app);
 
 api.use("/api/v1", app);
 
