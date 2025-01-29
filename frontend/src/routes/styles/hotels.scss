@@ -1,0 +1,29 @@
+@use "../../global.scss" as global;
+
+// fill: map-get(global.$main, "dark");
+
+$hover-detail: #0056b3; // For button hover effect
+
+.details-btn {
+	&:hover {
+		background: $hover-detail;
+	}
+}
+
+.thumb-img {
+	width: 100%;
+	height: 150px;
+	object-fit: cover;
+	border-radius: 1rem;
+}
+
+.hotel-list {
+	width: 100%;
+	$min-h: calc(calc(100svh - map-get(global.$main, "footer-h")) - map-get(global.$main, "header-h"));
+	min-height: $min-h;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 16px;
+	justify-content: center;
+	padding: 20px;
+}

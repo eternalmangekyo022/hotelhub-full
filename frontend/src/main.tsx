@@ -4,10 +4,10 @@ import Home from './Home.tsx'
 import About from './routes/About.tsx'
 import Contact from './routes/Contact.tsx'
 import NotFound from './routes/NotFound.tsx'
+import Hotels from './routes/Hotels.tsx'
 import PrivacyPolicy from './routes/PrivacyPolicy.tsx'
 import Header from './components/Header.tsx'
 import Footer from './components/Footer.tsx'
-import HotelList from './routes/HotelCard.tsx'
 import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom'
 import './components/styles/style.scss'
 
@@ -35,7 +35,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/hotelcard',
-        element: <HotelList/>
+        element: <Hotels/>
       },
       {
         path: '*',
