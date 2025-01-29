@@ -1,7 +1,7 @@
 import db from "./db";
 
 export async function getImages() {
-  return await db.select("SELECT id, full FROM images");
+  return await db.select("SELECT id, thumb FROM images");
 }
 
 export async function delImage(id: number) {

@@ -18,6 +18,8 @@ export default function Header() {
           <Link onClick={() => document.title = 'HotelHub™'} style={linkStyle} to='/' className='navlink'>Home</Link>
           <Link onClick={() => document.title = 'HotelHub™ - About'} style={linkStyle} to='/about' className='navlink'>About Us</Link>
           <Link onClick={() => document.title = 'HotelHub™ - Contact'} style={linkStyle} to='/contact' className='navlink' >Contact</Link>
+          <Link onClick={() => document.title = 'HotelHub™ - Hotels'} style={linkStyle} to='/hotelcard' className='navlink' >Hotels</Link>
+
         </>}
       </nav>
     </header>

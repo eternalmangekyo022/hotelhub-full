@@ -7,6 +7,7 @@ import NotFound from './routes/NotFound.tsx'
 import PrivacyPolicy from './routes/PrivacyPolicy.tsx'
 import Header from './components/Header.tsx'
 import Footer from './components/Footer.tsx'
+import HotelList from './routes/HotelCard.tsx'
 import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom'
 import './components/styles/style.scss'
 
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
       {
         path: '/privacy-policy',
         element: <PrivacyPolicy/>
+      },
+      {
+        path: '/hotelcard',
+        element: <HotelList/>
       },
       {
         path: '*',
