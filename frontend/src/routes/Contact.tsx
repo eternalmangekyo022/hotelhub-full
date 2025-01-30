@@ -33,7 +33,7 @@ export default function Contact() {
 	}
 
 	useEffect(() => {
-		document.title = 'DineEase™ - Contact Us'
+		document.title = 'HotelHub™ - Contact Us'
 	}, [])
 
 	return <>

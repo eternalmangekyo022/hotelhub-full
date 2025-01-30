@@ -4,7 +4,7 @@ export default function TimeLine() {
 	const timelines: TimeLine[] = [
 		{
 			date: 2019,
-			description: "Birth of DineEase"
+			description: "Birth of HotelHub"
 		},
 		{
 			date: 2020,

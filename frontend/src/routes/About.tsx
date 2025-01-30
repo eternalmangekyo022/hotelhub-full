@@ -44,7 +44,7 @@ export default function About() {
 	]
 
 	useEffect(() => {
-		document.title = 'DineEase™ - About Us'
+		document.title = 'HotelHub™ - About Us'
 	}, [])
 
 	return <>
@@ -55,7 +55,7 @@ export default function About() {
 		<TimeLine />
 
 		<h1>Meet our Team</h1>
-		<h2>The Culinary Visionaries Behind HotelHub</h2>
+		<h2>The Visionaries Behind HotelHub</h2>
 
 		<div className='people'>
 				{people.map(({ name, position, img }) => <div className='person'>
