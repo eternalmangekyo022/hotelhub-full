@@ -20,6 +20,22 @@ declare global {
     code: number;
   }
 
+  type Image = { thumb: string; full: string };
+
+  type Hotel = {
+    id: number;
+    name: string;
+    price: number;
+    city: string;
+    payment: string;
+    owner_id: number;
+    coords: { x: number; y: number };
+    class: number;
+    description: string;
+    averageRating?: number; //  rating
+    ratingCount?: number; // rating count
+    images: Image[];
+  };
   interface User {
     id: number;
     firstname: string;

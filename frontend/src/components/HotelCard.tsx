@@ -1,12 +1,24 @@
-const HotelCard = ({ hotel: { city, payment, price, name, thumb, description, class: _class, averageRating, ratingCount } }: { hotel: Hotel }) => (
-  <div className="hotel-card">
-    <img
-      src={thumb}
-      alt={name}
-      className="thumb-img"
-      loading="lazy"
-    />
+import { useState } from "react";
+const HotelCard = ({ hotel: { city, payment, price, name, images, description, class: _class, averageRating, ratingCount } }: { hotel: Hotel }) => {
+  const [imgIndex, setImgIndex] = useState(0);
+  console.log(images)
+
+  return <div className="hotel-card">
     <h2 className="hotel-title">{name}</h2>
+
+    <div className="thumb-img-container">
+      <button className="prev">
+        <img src="https://www.svgrepo.com/show/440707/action-paging-prev.svg" alt="prev" />
+      </button>
+      <button className="next">
+        <img src="https://www.svgrepo.com/show/440707/action-paging-prev.svg" alt="next" />
+      </button>
+      <img
+        src={images[imgIndex].thumb}
+        alt={name}
+        className="thumb-img"
+      />
+    </div>
     <p className="hotel-text">
       <strong>City:</strong> {city}
     </p>
@@ -32,6 +44,5 @@ const HotelCard = ({ hotel: { city, payment, price, name, thumb, description, cl
 
     <button className="details-btn">See Details</button>
   </div>
-);
-
+}
 export default HotelCard;

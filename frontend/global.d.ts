@@ -11,9 +11,9 @@ declare global {
     coords: { x: number; y: number };
     class: number;
     description: string;
-    thumb: string; //  image URL
     averageRating?: number; //  rating
     ratingCount?: number; // rating count
+    images: { thumb: string; full: string }[];
   };
 
   interface User {

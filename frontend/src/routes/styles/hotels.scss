@@ -22,12 +22,54 @@ $hover-detail: #0056b3; // For button hover effect
 		background: #0056b3;
 	}
 }
-
-.thumb-img {
+.thumb-img-container {
+	position: relative;
 	width: 100%;
 	height: 150px;
-	object-fit: cover;
 	border-radius: 1rem;
+	overflow: hidden;
+
+	.thumb-img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+
+	button {
+		background: none;
+		border: none;
+		cursor: pointer;
+		position: absolute;
+		top: 0;
+		height: 100%;
+		width: 20%;
+		transition: 0.2s;
+		display: flex;
+		justify-content: start;
+
+		img {
+			width: 50%;
+			filter: invert(1);
+		}
+
+		&:hover {
+			background: rgba(0, 0, 0, 0.1);
+			box-shadow: 0 0 1rem rgba(0, 0, 0, 0.2);
+
+			img {
+				filter: opacity(0.8);
+			}
+		}
+
+		&.next {
+			right: 0;
+			justify-content: end;
+
+			img {
+				transform: rotate(180deg);
+			}
+		}
+	}
 }
 
 .hotel-list {
@@ -57,7 +99,7 @@ $hover-detail: #0056b3; // For button hover effect
 		}
 
 		&:hover {
-			transform: scale(1.05);
+			transform: scale(1.02);
 			box-shadow: 4px 8px 20px rgba(0, 0, 0, 0.3);
 		}
 

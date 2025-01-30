@@ -11,22 +11,6 @@ export async function getHotels(): Promise<Hotel[]> {
         },
       }
     );
-
-    // Fetch images with Authorization header
-    const { data: imagesData } = await axios.get(
-      "http://localhost:3000/api/v1/images",
-      {
-        headers: {
-          Authorization: "Bearer pankix",
-          "Content-Type": "application/json",
-        },
-      }
-    );
-
-    const images: { id: number; thumb: string }[] = Array.isArray(imagesData)
-      ? imagesData
-      : [];
-
     // Fetch ratings with Authorization header
     const { data: ratingsData } = await axios.get(
       "http://localhost:3000/api/v1/ratings",
@@ -55,10 +39,8 @@ export async function getHotels(): Promise<Hotel[]> {
             ) / totalRatings
           : 0;
 
-      const matchingImage = images.find((img) => img.id === hotel.id);
       return {
         ...hotel,
-        thumb: matchingImage ? matchingImage.thumb : "", // Default to empty string if no image found
         averageRating, // Set average rating
         ratingCount: totalRatings, // Set rating count
       };
