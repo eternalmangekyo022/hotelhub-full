@@ -13,7 +13,9 @@ export default function Header() {
   return <>
     <header>
       <nav className='navbar'>
-        <img src={Logo} alt="Logo" />
+      <Link to="/" onClick={() => (document.title = 'HotelHub™')}>
+          <img src={Logo} alt="Logo" />
+        </Link>
         {width <= 768 ? <><img src={Menu} alt="Menu" className='menu-icon' /></>: <>
           <Link onClick={() => document.title = 'HotelHub™'} style={linkStyle} to='/' className='navlink'>Home</Link>
           <Link onClick={() => document.title = 'HotelHub™ - About'} style={linkStyle} to='/about' className='navlink'>About Us</Link>
