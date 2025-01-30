@@ -5,12 +5,14 @@ import Search from '../assets/images/Search Icon.png'
 
 //hooks
 import useScreen from '../hooks/useScreen.ts'
+import { useNavigate } from 'react-router-dom';
 
 //styles
 import './styles/hero.scss'
 
 export default function Hero() {
 	const [width,] = useScreen();
+	const navigate = useNavigate();
 
 
 	return <section className="hero">
@@ -21,8 +23,9 @@ export default function Hero() {
 			From hotels to bnbs',
 			find your perfect spot with HotelHub.
 		</p>
-		<button type="button"><img width='13%' src={Search} alt="Search" />Explore Hotels</button>
-	</section>
+		<button type="button" onClick={() => navigate('/hotelcard')}>
+					<img width="13%" src={Search} alt="Search" />Explore Hotels
+				</button>	</section>
 		<div className="hero-image">
 			<img src={width > 768 ? DineEase: DineEaseVector} alt="DineEase Logo" title="DineEase Logo"/>
 		</div>
