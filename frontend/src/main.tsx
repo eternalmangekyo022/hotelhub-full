@@ -35,7 +35,7 @@ const router = createBrowserRouter([
         element: <PrivacyPolicy/>
       },
       {
-        path: '/hotelcard',
+        path: '/hotels',
         element: <Hotels/>
       },
       {
