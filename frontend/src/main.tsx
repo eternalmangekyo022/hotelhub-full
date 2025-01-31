@@ -8,6 +8,7 @@ import Hotels from './routes/Hotels.tsx'
 import PrivacyPolicy from './routes/PrivacyPolicy.tsx'
 import Header from './components/Header.tsx'
 import Footer from './components/Footer.tsx'
+import HotelDetails from './components/HotelDetails.tsx'; // Import the component
 import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom'
 import './components/styles/style.scss'
 
@@ -36,6 +37,10 @@ const router = createBrowserRouter([
       {
         path: '/hotelcard',
         element: <Hotels/>
+      },
+      {
+        path: '/hotel/:id', // Add this route
+        element: <HotelDetails />
       },
       {
         path: '*',
