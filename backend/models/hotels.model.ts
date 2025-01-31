@@ -26,3 +26,20 @@ export async function getHotels(offset: string) {
 
   return hotels;
 }
+export async function getHotelById(id: string) {
+  const hotel = await db.selectOne<Hotel>(
+    "SELECT * FROM hotels WHERE id = ?",
+    [id]
+  );
+
+  if (!hotel) return null;
+
+  const images = await db.select<{
+    id: number;
+    hotel_id: number;
+    thumb: string;
+    full: string;
+  }>("SELECT * FROM images WHERE hotel_id = ?", [id]);
+
+  return { ...hotel, images };
+}

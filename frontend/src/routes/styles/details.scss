@@ -1,0 +1,53 @@
+@use "../../global.scss" as global;
+
+.hotel-details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 40px;
+  background: #f9f9f9;
+  min-height: calc(100vh - map-get(global.$main, "header-h") - map-get(global.$main, "footer-h"));
+
+  h1 {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 20px;
+  }
+
+  .hotel-image {
+    width: 500px;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    margin-bottom: 20px;
+  }
+
+  p {
+    font-size: 1.2rem;
+    color: #555;
+    margin: 8px 0;
+
+    strong {
+      color: #222;
+    }
+  }
+
+  .book-now-btn {
+    margin-top: 20px;
+    padding: 12px 24px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out, transform 0.2s;
+
+    &:hover {
+      background-color: #0056b3;
+      transform: scale(1.05);
+    }
+  }
+}

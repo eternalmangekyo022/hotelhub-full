@@ -1,9 +1,13 @@
 import { useState } from "react";
-const HotelCard = ({ hotel: { city, payment, price, name, images, description, class: _class, averageRating, ratingCount } }: { hotel: Hotel }) => {
+import { useNavigate } from "react-router-dom";
+
+const HotelCard = ({ hotel: { id, city, payment, price, name, images, description, class: _class, averageRating, ratingCount } }: { hotel: Hotel }) => {
   const [imgIndex, setImgIndex] = useState(0);
+  const navigate = useNavigate();
+
   console.log(images)
 
-  return <div className="hotel-card">
+  return <div className="hotel-card" onClick={() => navigate(`/hotel/${id}`)}>
     <h2 className="hotel-title">{name}</h2>
 
     <div className="thumb-img-container">
