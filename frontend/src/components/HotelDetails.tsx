@@ -22,7 +22,7 @@ const HotelDetails = () => {
     fetchHotel();
   }, [id]);
 
-  if (!hotel) return <p>Loading...</p>;
+  if (!hotel) return <div className="loading"></div>;
 
   return (
     <div className="hotel-details">
