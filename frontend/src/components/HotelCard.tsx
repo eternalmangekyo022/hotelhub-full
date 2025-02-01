@@ -26,8 +26,8 @@ const HotelCard = ({ hotel: { id, city, payment, price, name, images, descriptio
     <p className="hotel-text">
       <strong>City:</strong> {city}
     </p>
-    <p className="hotel-text">
-      <strong>Price:</strong> ${price} per night
+    <p className="hotel-price">
+      <strong></strong> ${price} <span>per night</span>
     </p>
     <p className="hotel-text">
       <strong>Payment:</strong> {payment}
@@ -35,7 +35,7 @@ const HotelCard = ({ hotel: { id, city, payment, price, name, images, descriptio
     <p className="hotel-text">
       <strong>Class:</strong> {_class} stars
     </p>
-    <p className="hotel-text">{description}</p>
+    
 
     {/* Display average rating and total count */}
     <p className="hotel-text">

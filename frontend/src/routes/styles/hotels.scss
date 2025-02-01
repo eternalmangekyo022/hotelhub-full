@@ -109,5 +109,16 @@ $hover-detail: #0056b3; // For button hover effect
 			color: #333;
 			margin-bottom: 8px;
 		}
+		.hotel-price {
+			font-size: 24px; 
+			font-weight: bold;
+			line-height: 1.2; 
+		  }
+		  
+		  .hotel-price span {
+			font-size: 14px;
+			font-weight: normal;
+			display: block;
+		  }
 	}
 }
