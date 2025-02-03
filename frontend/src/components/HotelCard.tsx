@@ -46,7 +46,7 @@ const HotelCard = ({ hotel: { id, city, payment, price, name, images, descriptio
       <strong>Total Ratings:</strong> {ratingCount || 0}
     </p>
 
-    <button className="details-btn">See Details</button>
+    {/*<button className="details-btn">See Details</button>*/}
   </div>
 }
 export default HotelCard;
