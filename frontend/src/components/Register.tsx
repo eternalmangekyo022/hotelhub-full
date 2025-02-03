@@ -95,6 +95,7 @@ export default function Register() {
     className="register-input"
     required
   />
+  <a className="loglink" href="/login">Already have an account?</a>
   <button 
     type="submit" 
     className="register-button" 
