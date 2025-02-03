@@ -14,16 +14,26 @@ export default function Login() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
+    console.log("Submit button clicked");
+  
     setError("");
     setSuccess("");
-
+  
     try {
-      const response = await axios.post("http://localhost:3000/api/v1/login", formData);
-      setSuccess("Login successful");
+      const response = await axios.post("http://localhost:3000/api/v1/login", formData, { headers: { 'Content-Type': 'application/json' } });
+      console.log("Response received:", response.data);
+  
+      setSuccess("User logged in successfully");
+      setError("");
+      setFormData({
+        email: "",
+        password: "",
+      } as UserRegister);
+      
     } catch (err: any) {
-      setError(err.response?.data?.message || "An error occurred");
+      console.error("Error occurred:", err); 
+      setError(err.response?.data?.message || err.message || "An error occurred");
     }
   };
 
@@ -51,7 +61,7 @@ export default function Login() {
           className="login-input"
           required
         />
-        <button type="submit" className="login-button">Login</button>
+        <button type="submit" className="login-button" onClick={handleSubmit}>Login</button>
       </form>
     </div>
   );

@@ -21,11 +21,17 @@ export async function login(email: string, password: string) {
 // |><|
 
 export async function register(user: UserRegister) {
+  console.log(user);
   const foundUser = await db.selectOne<User>(
     "SELECT * FROM users WHERE email = ?",
     user.email
   );
   if (foundUser) throw { message: "User already exists", code: 409 };
+  const hashedPassword = crypto
+    .createHash("md5")
+    .update(user.password)
+    .digest("hex");
+  user.password = hashedPassword;
   const { insertId } = await db.insert("INSERT INTO users SET ?", user);
   return await db.selectOne("select * from users where id = ?", insertId);
 }
