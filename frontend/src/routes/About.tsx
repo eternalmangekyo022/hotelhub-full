@@ -10,6 +10,7 @@ import Person2 from '../assets/images/Person2.png'
 import Person3 from '../assets/images/Person3.png'
 import Person4 from '../assets/images/Person4.png'
 import Person5 from '../assets/images/Person5.png'
+import Person6 from '../assets/images/bene.png'
 
 //components
 import TimeLine from '../components/TimeLine.tsx'
@@ -19,17 +20,17 @@ export default function About() {
 		{
 			name: "Elena Martinez",
 			position: "Founder & CEO",
-			img: Person1
+			img: Person3
 		},
 		{
-			name: "Raj Singh",
+			name: "Bene Zoltán",
 			position: "Chief Culinary Curator",
-			img: Person3
+			img: Person6
 		},
 		{
 			name: "Sophia Dawson",
 			position: "Director of Community Engagement",
-			img: Person2
+			img: Person3
 		},
 		{
 			name: "Lucas Kim",
@@ -59,7 +60,7 @@ export default function About() {
 
 		<div className='people'>
 				{people.map(({ name, position, img }) => <div className='person'>
-					<img src={img} alt={name} />
+					<img width={"25%"} src={img} alt={name} />
 					<h3>{name}</h3>
 					<span>{position}</span>
 				</div>)}
