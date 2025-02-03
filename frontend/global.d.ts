@@ -1,6 +1,15 @@
-export {};
-
 declare global {
+  type UserPut = { [key in keyof Omit<User, "id">]?: User[key] } & {
+    id: number;
+  };
+
+  interface Err {
+    message: string;
+    code: number;
+  }
+
+  type Image = { thumb: string; full: string };
+
   type Hotel = {
     id: number;
     name: string;
@@ -13,37 +22,26 @@ declare global {
     description: string;
     averageRating?: number; //  rating
     ratingCount?: number; // rating count
-    images: { thumb: string; full: string }[];
+    images: Image[];
   };
-
   interface User {
     id: number;
-    age: number;
-    name: string;
+    firstname: string;
+    lastname: string;
+    permission: string;
+    phone: string;
+    email: string;
+    registered: Date;
+    password: string;
   }
 
-  interface Card {
-    name: string;
-    description: string;
-    rating: number;
-    link?: string;
-    image: string;
-    cuisine?: string;
-  }
+  type UserRegister = Omit<User, "permission" | "registered" | "id">;
 
-  interface Experience {
-    author: string;
-    text: string;
-  }
-
-  interface Person {
-    name: string;
-    position: string;
-    img: string;
-  }
-
-  interface TimeLine {
-    date: number;
-    description: string;
+  interface TokenVerified {
+    id: number;
+    email: string;
+    iat: number;
   }
 }
+
+export {};
