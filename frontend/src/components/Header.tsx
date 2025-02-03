@@ -21,8 +21,8 @@ export default function Header() {
           <Link onClick={() => document.title = 'HotelHub™ - About'} style={linkStyle} to='/about' className='navlink'>About Us</Link>
           <Link onClick={() => document.title = 'HotelHub™ - Contact'} style={linkStyle} to='/contact' className='navlink' >Contact</Link>
           <Link onClick={() => document.title = 'HotelHub™ - Hotels'} style={linkStyle} to='/hotels' className='navlink' >Hotels</Link>
-          <Link onClick={() => document.title = 'HotelHub™ - Hotels'} style={linkStyle} to='/register' className='navlink' >Register</Link>
-          <Link onClick={() => document.title = 'HotelHub™ - Hotels'} style={linkStyle} to='/login' className='navlink' >Login</Link>
+          <Link onClick={() => document.title = 'HotelHub™ - Register'} style={linkStyle} to='/register' className='navlink' >Register</Link>
+          <Link onClick={() => document.title = 'HotelHub™ - Login'} style={linkStyle} to='/login' className='navlink' >Login</Link>
 
         </>}
       </nav>
