@@ -26,9 +26,9 @@ export default function Footer() {
 				<div className='footer-box-inner between'>
 					<Link onClick={() => document.title = 'HotelHub™ - Privacy Policy'} to='/privacy-policy'>Privacy Policy</Link>
 					<div className='socials'>
-						<img src={Facebook} alt="Follow us on Facebook" title="Follow us on Facebook"/>
-						<img src={Instagram} alt="Follow us on Instagram" title="Follow us on Instagram"/>
-						<img src={Twitter} alt="Follow us on Twitter" title="Follow us on Twitter" />
+						<a href='https://www.facebook.com/' target='_blank'><img src={Facebook} alt="Follow us on Facebook" title="Follow us on Facebook"/></a>
+						<a href='https://www.instagram.com/' target='_blank'><img src={Instagram} alt="Follow us on Instagram" title="Follow us on Instagram"/></a>
+						<a href='https://www.x.com/' target='_blank'><img src={Twitter} alt="Follow us on Twitter" title="Follow us on Twitter" /></a>
 					</div>
 				</div>
 				<div className='footer-box-inner start'>
