@@ -2,7 +2,7 @@ import db from "./db";
 
 export async function getHotels(offset: string) {
   let hotels = await db.select<Hotel>(
-    "SELECT * FROM hotels limit 20 offset ?",
+    "SELECT * FROM hotels limit 1000 offset ?",
     parseInt(offset)
   );
 
