@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { getHotels } from "../hooks/useHotels";
 import HotelCard from "../components/HotelCard";
+import Find from '../components/Find.tsx'
+
 import './styles/hotels.scss'
 
 export default function Hotels() {
@@ -20,10 +22,13 @@ export default function Hotels() {
   }, []);
 
   return (
+    <>
+    <Find/>
     <div className="hotel-list">
       {hotels.map((hotel) => (
         <HotelCard key={hotel.id} hotel={hotel} />
       ))}
     </div>
+    </>
   );
 }
