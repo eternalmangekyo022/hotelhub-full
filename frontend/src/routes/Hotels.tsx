@@ -36,9 +36,13 @@ export default function Hotels() {
       case "name-desc":
         return b.name.localeCompare(a.name);
       case "rating-asc":
-        return a.averageRating - b.averageRating; // Assuming rating is a number
+        return a.averageRating - b.averageRating;
       case "rating-desc":
-        return b.averageRating - a.averageRating; // Assuming rating is a number
+        return b.averageRating - a.averageRating;
+      case "ratingtotal-asc":
+        return a.ratingCount - b.ratingCount;
+      case "ratingtotal-desc":
+        return b.ratingCount - a.ratingCount;
       default:
         return 0; // No sorting
     }
