@@ -6,11 +6,10 @@ import { useEffect } from 'react'
 
 //assets, images
 import Person1 from '../assets/images/Person1.png'
-import Person2 from '../assets/images/Person2.png'
+import Person2 from '../assets/images/bene.png'
 import Person3 from '../assets/images/Person3.png'
 import Person4 from '../assets/images/Person4.png'
 import Person5 from '../assets/images/Person5.png'
-import Person6 from '../assets/images/bene.png'
 
 //components
 import TimeLine from '../components/TimeLine.tsx'
@@ -20,12 +19,12 @@ export default function About() {
 		{
 			name: "Elena Martinez",
 			position: "Founder & CEO",
-			img: Person3
+			img: Person1
 		},
 		{
 			name: "Bene Zoltán",
 			position: "Chief Culinary Curator",
-			img: Person6
+			img: Person2
 		},
 		{
 			name: "Sophia Dawson",
