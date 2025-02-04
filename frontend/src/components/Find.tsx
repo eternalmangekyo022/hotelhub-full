@@ -11,7 +11,7 @@ interface FindProps {
 
 export default function Find({ setSearchQuery }: FindProps) {
   const [input, setInput] = useState("");
-  const [cusine, setCusine] = useState("");
+  const [rating, setRating] = useState("");
   const [location, setLocation] = useState("");
   const [name, setName] = useState("");
   const [isSimple, setIsSimple] = useState(true);
@@ -42,11 +42,11 @@ export default function Find({ setSearchQuery }: FindProps) {
             ) : (
               <>
                 <input
-                  placeholder="Cuisine"
+                  placeholder="Name"
                   type="text"
-                  className="cusine"
-                  value={cusine}
-                  onChange={e => setCusine(e.target.value)}
+                  className="name"
+                  value={name}
+                  onChange={e => setName(e.target.value)}
                 />
                 <div className="location-input">
                   <img src={Location} alt="Location" />
@@ -59,11 +59,13 @@ export default function Find({ setSearchQuery }: FindProps) {
                   />
                 </div>
                 <input
-                  placeholder="Name"
-                  type="text"
-                  className="name"
-                  value={name}
-                  onChange={e => setName(e.target.value)}
+                  placeholder="Rating"
+                  type="number"
+                  className="rating"
+				  max={5}
+				  min={0}
+                  value={rating}
+                  onChange={e => setRating(e.target.value)}
                 />
                 <button className="simple-button" onClick={() => setIsSimple(true)}>
                   Simple search
