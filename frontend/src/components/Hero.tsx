@@ -23,7 +23,7 @@ export default function Hero() {
 			From hotels to bnbs',
 			find your perfect spot with HotelHub.
 		</p>
-		<button type="button" onClick={() => navigate('/hotelcard')}>
+		<button type="button" onClick={() => navigate('/hotels')}>
 					<img width="13%" src={Search} alt="Search" />Explore Hotels
 				</button>	</section>
 		<div className="hero-image">
