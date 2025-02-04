@@ -9,10 +9,9 @@ import PrivacyPolicy from './routes/PrivacyPolicy.tsx'
 import Header from './components/Header.tsx'
 import Footer from './components/Footer.tsx'
 import HotelDetails from './components/HotelDetails.tsx';
-import Register from './components/Register.tsx'
-import Login from './components/Login.tsx'
-import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom'
+import Login from './routes/Login.tsx'
 import './components/styles/style.scss'
+import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom'
 
 // import styles, routing, component, routes, and necessary react utilities
 
@@ -46,7 +45,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/register',
-        element: <Register />
+        element: <Login register/>
       },
       {
         path: '/login',
