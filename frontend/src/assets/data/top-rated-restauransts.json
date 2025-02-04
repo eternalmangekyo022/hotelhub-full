@@ -1,29 +1,26 @@
 [
   {
     "id": 12,
-    "name": "Sarmale Bistro",
-    "location": "Timisoara",
-    "cuisine": "Romanian",
-    "description": "Experience Romania's culinary heart at Sarmale Bistro. Savor classics with a modern touch in our intimate, authentic ambiance. Celebrate timeless tradition.",
+    "name": "Grand Royal Hotel",
+    "location": "Cluj-Napoca",
+    "description": "Experience luxury and comfort at Grand Royal Hotel. Nestled in the heart of the city, we offer elegant rooms, top-notch amenities, and exceptional service for an unforgettable stay.",
     "rating": 5,
-    "image": "https://es2025-s17-hu-r1-backend.onrender.com/Restaurant2.png"
+    "image": "https://lh5.googleusercontent.com/p/AF1QipPjfBGa1vZDtJBrFn7ah9f0pzSWQLshgaIMZwub=s287-w287-h192-n-k-no-v1"
   },
   {
     "id": 2,
-    "name": "La Piața",
-    "location": "Bucharest",
-    "cuisine": "Romanian",
-    "description": "Discover a fusion of Europe's flavors at La Piața, set in the heart of the city. Savor dishes from locally-sourced ingredients in our cozy bistro ambiance.",
+    "name": "Central Plaza Inn",
+    "location": "Sibiu",
+    "description": "Stay at Central Plaza Inn and enjoy a perfect blend of modern comfort and historic charm. Located in the city's vibrant center, we provide a welcoming retreat for all travelers.",
     "rating": 4,
-    "image": "https://es2025-s17-hu-r1-backend.onrender.com/Restaurant1.png"
+    "image": "https://lh5.googleusercontent.com/p/AF1QipNeXCL2yWcQtslq0HS4Dt5LirKk_sSJFVFfwGhN=s287-w287-h192-n-k-no-v1"
   },
   {
     "id": 14,
-    "name": "Halász Fogadó",
-    "location": "Székesfehérvár",
-    "cuisine": "Seafood",
-    "description": "Immerse in Eastern European authenticity at Halász Fogadö. Relish traditional dishes amid an atmosphere rich in charm and history. Join us for a timeless culinary experience.",
+    "name": "Danube Riverside Hotel",
+    "location": "Budapest",
+    "description": "Discover elegance at Danube Riverside Hotel. Overlooking the stunning river, our hotel offers premium accommodations, fine dining, and a serene atmosphere in the heart of the city.",
     "rating": 5,
-    "image": "https://es2025-s17-hu-r1-backend.onrender.com/Restaurant3.png"
+    "image": "https://lh5.googleusercontent.com/p/AF1QipOtnto0NxjETv-xHwXbg57Zi4-A68VvFspbXcCj=s287-w287-h192-n-k-no-v1"
   }
 ]
