@@ -18,7 +18,7 @@ const experiences: Experience[] = [
 	},
 	{
 		author: "Emma & Jacob",
-		text: "With HotelHub, we've uncovered culinary treasures right in our city. Every hotel recommendation feels like an exclusive invitation to a world of flavors. We thought we knew our local scene, but HotelHub introduced us to so much more."
+		text: "HotelHub truly opened our eyes to hidden gems in our city. Each hotel recommendation felt like a personal invitation to explore something new. We thought we knew our local scene, but thanks to HotelHub, we discovered so many more incredible places we never would have found on our own!"
 	},	
 ];
 

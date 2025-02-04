@@ -8,6 +8,7 @@ import "./styles/hotels.scss";
 export default function Hotels() {
   const [hotels, setHotels] = useState<Hotel[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [sortBy, setSortBy] = useState("");
 
   useEffect(() => {
     async function loadHotels() {
@@ -27,11 +28,31 @@ export default function Hotels() {
     hotel.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  // Sort hotels based on the selected sort criteria
+  const sortedHotels = [...filteredHotels].sort((a, b) => {
+    switch (sortBy) {
+      case "name-asc":
+        return a.name.localeCompare(b.name);
+      case "name-desc":
+        return b.name.localeCompare(a.name);
+      case "rating-asc":
+        return a.averageRating - b.averageRating;
+      case "rating-desc":
+        return b.averageRating - a.averageRating;
+      case "ratingtotal-asc":
+        return a.ratingCount - b.ratingCount;
+      case "ratingtotal-desc":
+        return b.ratingCount - a.ratingCount;
+      default:
+        return 0; // No sorting
+    }
+  });
+
   return (
     <>
-      <Find setSearchQuery={setSearchQuery} />
+      <Find setSearchQuery={setSearchQuery} setSortBy={setSortBy} />
       <div className="hotel-list">
-        {filteredHotels.map(hotel => (
+        {sortedHotels.map(hotel => (
           <HotelCard key={hotel.id} hotel={hotel} />
         ))}
       </div>

@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import star from "../assets/images/star.png";
+import emptyStar from "../assets/images/empty_star.png";
 
 const HotelCard = ({ hotel: { id, city, payment, price, name, images, description, class: _class, averageRating, ratingCount } }: { hotel: Hotel }) => {
   const [imgIndex, setImgIndex] = useState(0);
@@ -38,6 +40,17 @@ const HotelCard = ({ hotel: { id, city, payment, price, name, images, descriptio
   const handleNext = () => {
     setImgIndex((prev) => (prev < images.length - 1 ? prev + 1 : 0));
   };
+  // Calculate the number of filled and empty stars
+
+  const roundedRating = Math.round(averageRating || 0);
+
+  const totalStars = 5; // Total number of stars to display
+
+  const stars = Array.from({ length: totalStars }, (_, index) => 
+
+    index < roundedRating ? star : emptyStar
+
+  );
 
   return (
     <div className="hotel-card" onClick={() => navigate(`/hotel/${id}`)}>
@@ -75,12 +88,23 @@ const HotelCard = ({ hotel: { id, city, payment, price, name, images, descriptio
 
       {/* Display average rating and total count */}
       <p className="hotel-text">
-        <strong>Average Rating:</strong>{" "}
-        {averageRating ? averageRating.toFixed(1) : "No ratings yet"}
+
+        
+
+        <span className="rating-stars">
+
+          {stars.map((star, index) => (
+
+            <img key={index} src={star} alt={index < roundedRating ? star : emptyStar} />
+
+          ))}
+
+        </span>
+
+        <span style={{ margin: '.2rem'}}>{`(${ratingCount || 0})`}</span>
+
       </p>
-      <p className="hotel-text">
-        <strong>Total Ratings:</strong> {ratingCount || 0}
-      </p>
+      
     </div>
   );
 };
