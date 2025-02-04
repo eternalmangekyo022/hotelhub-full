@@ -10,13 +10,17 @@ $hover-detail: #0056b3; // For button hover effect
 	background: linear-gradient(currentColor 0 0) 0 100%/0% 3px no-repeat;
 	animation: l2 2s linear infinite;
 	margin: auto;
-  width: 50%;
-  padding: 10px;
-  }
-  .loading:before {
-	content:"Loading..."
-  }
-  @keyframes l2 {to{background-size: 100% 3px}}
+	width: 50%;
+	padding: 10px;
+}
+.loading:before {
+	content: "Loading...";
+}
+@keyframes l2 {
+	to {
+		background-size: 100% 3px;
+	}
+}
 
 .details-btn {
 	&:hover {
@@ -62,6 +66,7 @@ $hover-detail: #0056b3; // For button hover effect
 		transition: 0.2s;
 		display: flex;
 		justify-content: start;
+		align-items: center;
 
 		img {
 			width: 50%;
@@ -85,7 +90,6 @@ $hover-detail: #0056b3; // For button hover effect
 				transform: rotate(180deg);
 			}
 		}
-		
 	}
 }
 
@@ -127,16 +131,15 @@ $hover-detail: #0056b3; // For button hover effect
 			margin-bottom: 8px;
 		}
 		.hotel-price {
-			font-size: 24px; 
+			font-size: 24px;
 			font-weight: bold;
-			line-height: 1.2; 
-		  }
-		  
-		  .hotel-price span {
+			line-height: 1.2;
+		}
+
+		.hotel-price span {
 			font-size: 14px;
 			font-weight: normal;
 			display: block;
-		  }
-		  
+		}
 	}
 }

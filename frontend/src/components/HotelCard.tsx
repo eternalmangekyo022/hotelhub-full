@@ -88,19 +88,11 @@ const HotelCard = ({ hotel: { id, city, payment, price, name, images, descriptio
 
       {/* Display average rating and total count */}
       <p className="hotel-text">
-
-        
-
         <span className="rating-stars">
-
           {stars.map((star, index) => (
-
             <img key={index} src={star} alt={index < roundedRating ? star : emptyStar} />
-
           ))}
-
         </span>
-
         <span style={{ margin: '.2rem'}}>{`(${ratingCount || 0})`}</span>
 
       </p>
