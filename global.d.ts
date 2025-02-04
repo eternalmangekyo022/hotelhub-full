@@ -102,7 +102,6 @@ declare global {
     email: string;
     iat: number;
   }
-
   type Person = {
     [key in "name" | "position" | "img"]: string;
   };
