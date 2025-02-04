@@ -1,12 +1,10 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import star from "../assets/images/star.png";
 import emptyStar from "../assets/images/empty_star.png";
 
 const HotelCard = ({ hotel: { id, city, payment, price, name, images, description, class: _class, averageRating, ratingCount } }: { hotel: Hotel }) => {
   const [imgIndex, setImgIndex] = useState(0);
   const [loadedImages, setLoadedImages] = useState<string[]>([]);
-  const navigate = useNavigate();
 
   useEffect(() => {
     // Preload the first image immediately
@@ -53,7 +51,7 @@ const HotelCard = ({ hotel: { id, city, payment, price, name, images, descriptio
   );
 
   return (
-    <div className="hotel-card" onClick={() => navigate(`/hotel/${id}`)}>
+    <div className="hotel-card" onClick={() => window.open(`/hotel/${id}`, "_blank")}>
       <h2 className="hotel-title">{name}</h2>
 
       <div className="thumb-img-container">
