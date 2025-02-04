@@ -33,7 +33,7 @@ export default function Find({ setSearchQuery, setSortBy }: FindProps) {
     <section className="find-wrapper">
       <div className="search">
         <h1>Find Your Perfect Stay</h1>
-        <h2>Search by Cuisine, Location, or Name</h2>
+        <h2>Search by Name, Location, or Ratings</h2>
         <div className="searchbar">
           <form onSubmit={onSubmit} className={`input${isSimple ? "" : " complex"}`}>
             {isSimple ? (
