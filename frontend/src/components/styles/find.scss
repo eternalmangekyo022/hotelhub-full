@@ -5,6 +5,32 @@
 	-webkit-text-fill-color: transparent;
 }
 
+.sort-by {
+	margin-top: 20px;
+	display: flex;
+	align-items: center;
+	gap: 10px;
+  
+	label {
+	  font-size: 16px;
+	  color: #333;
+	}
+  
+	select {
+	  padding: 8px 12px;
+	  border: 1px solid #ccc;
+	  border-radius: 4px;
+	  font-size: 14px;
+	  background-color: #fff;
+	  cursor: pointer;
+  
+	  &:focus {
+		outline: none;
+		border-color: #6c5ce7;
+	  }
+	}
+  }
+
 $main: (
 	"light": #f0ecfc,
 	"dark": #803cec
