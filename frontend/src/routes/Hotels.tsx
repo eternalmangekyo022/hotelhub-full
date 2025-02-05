@@ -43,6 +43,10 @@ export default function Hotels() {
         return a.ratingCount - b.ratingCount;
       case "ratingtotal-desc":
         return b.ratingCount - a.ratingCount;
+      case "price-asc":
+        return a.price - b.price;
+      case "price-desc":
+        return b.price - a.price;
       default:
         return 0; // No sorting
     }
