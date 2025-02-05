@@ -14,7 +14,11 @@ export default function LoginFormInput({ uid, value, setValue, children }: IProp
 		if(inputRef.current) inputRef.current.focus()
 	}
 
-	return <div className={`input-wrapper${value.trim() === '' ? '': ' filled'}`}>
+	function shouldCollapse(): boolean {
+		return uid === 'login-password' ? (value === ''): (value.trim() === '')
+	}
+
+	return <div className={`input-wrapper${shouldCollapse() ? '': ' filled'}`}>
 		<label onClick={onLabelClick} htmlFor={uid}>{children}</label>
 		<input onKeyDown={e => e.key === 'Escape' && inputRef.current?.blur()} type={uid === 'login-password' ? 'password': 'text'} name={uid} ref={inputRef} value={value} onChange={e => setValue(e.target.value)}/>
 	</div>
