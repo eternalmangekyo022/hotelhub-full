@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getHotels } from "../hooks/useHotels";
+import star from "../assets/images/star.png";
+import emptyStar from "../assets/images/empty_star.png";
 import "../routes/styles/details.scss";
 
 
@@ -22,6 +24,16 @@ const HotelDetails = () => {
     fetchHotel();
   }, [id]);
 
+  const roundedRating = Math.round(hotel?.averageRating || 0);
+
+  const totalStars = 5; // Total number of stars to display
+
+  const stars = Array.from({ length: totalStars }, (_, index) => 
+
+    index < roundedRating ? star : emptyStar
+
+  );
+
   if (!hotel) return <div className="loading"></div>;
 
   return (
@@ -33,8 +45,14 @@ const HotelDetails = () => {
       <p><strong>Payment:</strong> {hotel.payment}</p>
       <p><strong>Class:</strong> {hotel.class} stars</p>
       <p><strong>Description:</strong> {hotel.description}</p>
-      <p><strong>Average Rating:</strong> {hotel.averageRating ? hotel.averageRating.toFixed(1) : "No ratings yet"}</p>
-      <p><strong>Total Ratings:</strong> {hotel.ratingCount || 0}</p>
+      <p>
+        <span className="rating-stars">
+          {stars.map((star, index) => (
+            <img key={index} src={star} alt={index < roundedRating ? star : emptyStar} />
+          ))}
+        </span>
+        <span style={{ margin: '.2rem'}}>{`(${hotel.ratingCount || 0})`}</span>
+      </p>
       <button className="book-now-btn">Book Now</button>
     </div>
   );
