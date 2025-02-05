@@ -82,4 +82,20 @@
    button:hover::before {
     width: 9em;
    }
+   .arrow{
+    width: 60px;
+    cursor: pointer;
+    padding-bottom: 150px;
+
+   }
+   .other-arrow{
+    transform: scaleX(-1);
+    width: 60px;
+    cursor: pointer;
+    padding-bottom: 150px;
+   }
+   .hotel-image{
+    width: 500px;
+    max-height: 500px;
+   }
 }
