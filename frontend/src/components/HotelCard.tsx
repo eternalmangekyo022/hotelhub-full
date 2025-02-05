@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import star from "../assets/images/star.png";
 import emptyStar from "../assets/images/empty_star.png";
 
-const HotelCard = ({ hotel: { id, city, payment, price, name, images, description, class: _class, averageRating, ratingCount } }: { hotel: Hotel }) => {
+const HotelCard = ({ hotel: { id, city, payment, price, name, images, class: _class, averageRating, ratingCount } }: { hotel: Hotel }) => {
   const [imgIndex, setImgIndex] = useState(0);
   const [loadedImages, setLoadedImages] = useState<string[]>([]);
 
@@ -72,18 +72,11 @@ const HotelCard = ({ hotel: { id, city, payment, price, name, images, descriptio
         )}
       </div>
       <p className="hotel-text">
-        <strong>City:</strong> {city}
+        {city}
       </p>
       <p className="hotel-price">
         <strong></strong> ${price} <span>per night</span>
       </p>
-      <p className="hotel-text">
-        <strong>Payment:</strong> {payment}
-      </p>
-      <p className="hotel-text">
-        <strong>Class:</strong> {_class} stars
-      </p>
-
       {/* Display average rating and total count */}
       <p className="hotel-text">
         <span className="rating-stars">

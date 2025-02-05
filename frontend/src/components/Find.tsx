@@ -100,7 +100,7 @@ export default function Find({ setSearchQuery, setSortBy }: FindProps) {
             <option value="name-desc">Alphabetical (Z-A)</option>
             <option value="rating-asc">Rating (Low to High)</option>
             <option value="rating-desc">Rating (High to Low)</option>
-			<option value="ratingtotal-asc">Rating Count (Low to High)</option>
+			      <option value="ratingtotal-asc">Rating Count (Low to High)</option>
             <option value="ratingtotal-desc">Rating Count (High to Low)</option>
           </select>
         </div>
