@@ -6,48 +6,80 @@
   align-items: center;
   text-align: center;
   padding: 40px;
-  background: #f9f9f9;
+  background: #f5f7fa;
   min-height: calc(100vh - map-get(global.$main, "header-h") - map-get(global.$main, "footer-h"));
+  font-family: "Poppins", sans-serif;
 
   h1 {
-    font-size: 2rem;
-    color: #333;
-    margin-bottom: 20px;
+    font-size: 2.5rem;
+    font-weight: 600;
+    color: #222;
+    margin-bottom: 15px;
   }
 
   .hotel-image {
-    width: 500px;
+    width: 100%;
+    max-width: 600px;
     height: auto;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
     margin-bottom: 20px;
   }
 
   p {
-    font-size: 1.2rem;
-    color: #555;
-    margin: 8px 0;
+    font-size: 1.1rem;
+    color: #444;
+    margin: 10px 0;
 
     strong {
-      color: #222;
+      color: #111;
+      font-weight: 600;
     }
   }
 
-  .book-now-btn {
-    margin-top: 20px;
-    padding: 12px 24px;
-    font-size: 1.2rem;
+  .rating-stars {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+
+    img {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  button {
+    width: 9em;
+    height: 3em;
+    border-radius: 30em;
+    font-size: 15px;
+    font-family: inherit;
     font-weight: bold;
-    color: #fff;
-    background-color: #007bff;
     border: none;
-    border-radius: 5px;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
     cursor: pointer;
-    transition: background-color 0.3s ease-in-out, transform 0.2s;
-
-    &:hover {
-      background-color: #0056b3;
-      transform: scale(1.05);
-    }
-  }
+    box-shadow: 6px 6px 12px #c5c5c5,
+                -6px -6px 12px #ffffff;
+   }
+   
+   button::before {
+    content: '';
+    width: 0;
+    height: 3em;
+    border-radius: 30em;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-image: linear-gradient(to right, #0fd850 0%, #f9f047 100%);
+    transition: .5s ease;
+    display: block;
+    z-index: -1;
+   }
+   
+   button:hover::before {
+    width: 9em;
+   }
 }
