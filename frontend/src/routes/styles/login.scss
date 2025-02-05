@@ -70,11 +70,12 @@
 						left: 4%;
 						top: 50%;
 						transform: translateY(-50%);
+						cursor: text;
 					}
 
-					&:focus-within {
+					&:focus-within,
+					&.filled {
 						outline: none;
-						border: 1px solid #000;
 
 						label {
 							left: 3%;
