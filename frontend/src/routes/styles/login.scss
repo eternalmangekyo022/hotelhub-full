@@ -22,106 +22,131 @@
 
 		.login-form {
 			flex: 1;
-			padding: 3rem;
 			display: flex;
-			flex-direction: column;
 			justify-content: center;
+			align-items: center;
 
-			h1 {
-				font-size: 1.8rem;
-				font-weight: bold;
-				margin-bottom: 0.5rem;
-			}
-
-			h2 {
-				font-size: 1rem;
-				font-weight: normal;
-				color: #6b6b6b;
-				margin-bottom: 2rem;
-			}
-
-			label {
-				font-size: 0.875rem;
-				margin-bottom: 0.25rem;
-			}
-
-			input {
-				width: 100%;
-				padding: 0.75rem;
-				margin-bottom: 1.5rem;
-				border: 1px solid #ddd;
-				border-radius: 6px;
-				font-size: 1rem;
-			}
-
-			.password-section {
+			.login-form-inner {
+				width: 90%;
+				height: 90%;
+				padding: 2rem;
 				display: flex;
-				justify-content: space-between;
-				align-items: center;
-				margin-bottom: 1rem;
+				flex-direction: column;
+				align-items: start;
+				justify-content: space-evenly;
 
-				label {
-					margin-bottom: 0;
+				h1 {
+					font-size: 1.8rem;
+					font-weight: bold;
 				}
 
-				span {
-					font-size: 0.875rem;
-					cursor: pointer;
-				}
-			}
-
-			button {
-				width: 100%;
-				padding: 0.75rem;
-				background-color: #000;
-				color: #fff;
-				font-size: 1rem;
-				border: none;
-				border-radius: 6px;
-				cursor: pointer;
-				margin-bottom: 1.5rem;
-
-				&:hover {
-					background-color: #333;
-				}
-			}
-
-			.login-divider {
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				margin-bottom: 1.5rem;
-
-				.line {
-					flex: 1;
-					height: 1px;
-					background-color: #ddd;
+				h2 {
+					font-size: 1rem;
+					font-weight: normal;
+					color: #6b6b6b;
+					margin-bottom: 2rem;
 				}
 
-				span {
-					font-size: 0.875rem;
-					margin: 0 1rem;
-				}
-			}
+				.input-wrapper {
+					position: relative;
+					width: 100%;
+					height: 2.4rem;
+					margin-bottom: 1.5rem;
+					border-radius: 6px;
+					font-size: 1rem;
 
-			span {
-				font-size: 0.875rem;
-				height: 0.8rem;
+					* {
+						transition: 0.2s;
+					}
+
+					display: flex;
+					justify-content: center;
+					align-items: center;
+
+					label {
+						position: absolute;
+						font-size: 0.975rem;
+						color: gray;
+						left: 4%;
+						top: 50%;
+						transform: translateY(-50%);
+					}
+
+					&:focus-within {
+						outline: none;
+						border: 1px solid #000;
+
+						label {
+							left: 3%;
+
+							transform: translateY(-150%);
+							padding: 0.2rem;
+							background: #fff;
+							font-size: 0.75rem;
+						}
+					}
+
+					input {
+						border-radius: 6px;
+						border: 1px solid #ddd;
+						width: 100%;
+						height: 100%;
+						font-size: 1rem;
+						text-indent: 0.8rem;
+					}
+				}
+
+				.forgot-password {
+					display: flex;
+					justify-content: end;
+					align-items: center;
+					width: 100%;
+
+					span {
+						font-size: 0.875rem;
+						cursor: pointer;
+
+						&:hover {
+							text-decoration: underline;
+						}
+					}
+				}
 
 				button {
-					color: gray;
-					width: fit-content;
+					width: 100%;
+					height: 2.9rem;
+					background-color: #000;
+					color: #fff;
+					font-size: 1rem;
+					border: none;
+					border-radius: 6px;
 					cursor: pointer;
-					background: none;
-					border: none;
-					font-size: 0.875rem;
-					display: inline;
-					border: none;
-					background: none;
-					text-decoration: underline;
+					margin-bottom: 1.5rem;
 
 					&:hover {
+						background-color: #333;
+					}
+				}
+
+				span {
+					font-size: 0.875rem;
+					height: 0.8rem;
+
+					button {
+						color: gray;
+						width: fit-content;
+						cursor: pointer;
 						background: none;
+						border: none;
+						font-size: 0.875rem;
+						display: inline;
+						border: none;
+						background: none;
+						text-decoration: underline;
+
+						&:hover {
+							background: none;
+						}
 					}
 				}
 			}
