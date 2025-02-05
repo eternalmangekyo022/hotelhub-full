@@ -22,9 +22,16 @@ export default function Header() {
           <Link onClick={() => document.title = 'HotelHub™ - Contact'} style={linkStyle} to='/contact' className='navlink' >Contact</Link>
           <Link onClick={() => document.title = 'HotelHub™ - Hotels'} style={linkStyle} to='/hotels' className='navlink' >Hotels</Link>
           <Link onClick={() => document.title = 'HotelHub™ - Register'} style={linkStyle} to='/register' className='navlink' >Register/Login</Link>
-
+          
         </>}
       </nav>
+      <Link to="/wishlist" className="wishlist-button" style={linkStyle}>
+          <img 
+            src="https://iconscout.com/icons/wishlist" 
+            alt="Wishlist" 
+            style={{ width: '24px', height: '24px' }} 
+          />
+        </Link>
     </header>
   </>
 }

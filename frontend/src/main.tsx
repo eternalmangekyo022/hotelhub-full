@@ -6,18 +6,18 @@ import Contact from './routes/Contact.tsx'
 import NotFound from './routes/NotFound.tsx'
 import Hotels from './routes/Hotels.tsx'
 import PrivacyPolicy from './routes/PrivacyPolicy.tsx'
-import Header from './components/Header.tsx'
-import Footer from './components/Footer.tsx'
 import HotelDetails from './components/HotelDetails.tsx';
 import Login from './routes/Login.tsx'
+import Wishlist from './components/Wishlist.tsx'
 import './components/styles/style.scss'
 import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom'
+import AppWrapper from './routes/AppWrapper.tsx'; 
 
 // import styles, routing, component, routes, and necessary react utilities
 
 const router = createBrowserRouter([
   {
-    element: <><Header /><Outlet /><Footer /></>,
+    element: <AppWrapper />,
     children: [
       {
         path: '/',
@@ -50,6 +50,10 @@ const router = createBrowserRouter([
       {
         path: '/login',
         element: <Login />
+      },
+      {
+        path: '/wishlist',
+        element: <Wishlist />
       },
       {
         path: '*',
