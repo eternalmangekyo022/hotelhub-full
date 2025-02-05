@@ -85,17 +85,25 @@
    .arrow{
     width: 60px;
     cursor: pointer;
-    padding-bottom: 150px;
+    padding-bottom: 160px;
+    padding-top: 150px;
+    border-radius: 10px;
 
    }
    .other-arrow{
     transform: scaleX(-1);
     width: 60px;
     cursor: pointer;
-    padding-bottom: 150px;
+    padding-bottom: 160px;
+    padding-top: 150px;
+    border-radius: 10px;
    }
    .hotel-image{
     width: 500px;
     max-height: 500px;
    }
+   .arrow:hover,
+  .other-arrow:hover {
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+}
 }
