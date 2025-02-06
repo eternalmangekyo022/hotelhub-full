@@ -58,7 +58,7 @@ export default function About() {
 		<h2>The Visionaries Behind HotelHub</h2>
 
 		<div className='people'>
-				{people.map(({ name, position, img }) => <div className='person'>
+				{people.map(({ name, position, img }) => <div className='person' key={position}>
 					<img width={"25%"} src={img} alt={name} />
 					<h3>{name}</h3>
 					<span>{position}</span>
