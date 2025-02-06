@@ -66,6 +66,15 @@ ratings(use, app);
 
 api.use("/api/v1", app);
 
+const rateLimit = require("express-rate-limit");
+
+const limiter = rateLimit({
+  windowMs: 60 * 1000, // 1 minute
+  max: 10000, // Limit each IP to 100 requests per windowMs
+});
+
+app.use("/images", limiter);
+
 api.use((error: Err | null, _req: Req, res: Res, _next: NextFunction) => {
   console.log("error", error);
   if (error?.message === "jwt expired")
