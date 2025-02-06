@@ -4,11 +4,13 @@ import { getHotels } from "../hooks/useHotels";
 import star from "../assets/images/star.png";
 import emptyStar from "../assets/images/empty_star.png";
 import "../routes/styles/details.scss";
+import { useWishlist } from "./WishListContext"; 
 
 const HotelDetails = () => {
   const { id } = useParams();
   const [hotel, setHotel] = useState<Hotel | null>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const { addToWishlist } = useWishlist(); 
 
   useEffect(() => {
     const fetchHotel = async () => {
@@ -20,7 +22,7 @@ const HotelDetails = () => {
         console.error("Error fetching hotel details:", error);
       }
     };
-    
+
     fetchHotel();
   }, [id]);
 
@@ -63,7 +65,7 @@ const HotelDetails = () => {
         </span>
         <span style={{ margin: '.2rem'}}>{`(${hotel.ratingCount || 0})`}</span>
       </p>
-      <button className="book-now-btn">Book Now</button>
+      <button className="book-now-btn" onClick={() => addToWishlist(hotel)}>Add to Wishlist</button>
     </div>
   );
 };

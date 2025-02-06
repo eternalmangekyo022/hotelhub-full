@@ -27,7 +27,8 @@ export default function Login({ register }: IProps) {
 	});
 	const [error, setError] = useState<string | null>(null);
 
-	async function handleSubmit() {
+	async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+		e.preventDefault();
 		setError(null);
 		const url = register ? 'api/v1/register' : 'api/v1/login';
 		try {
@@ -51,7 +52,7 @@ export default function Login({ register }: IProps) {
 	return (
 		<div className="login-wrapper">
 			<div className="login-form-wrapper">
-				<form className="login-form" onSubmit={(e) => e.preventDefault()}>
+				<form className="login-form" onSubmit={(e) => handleSubmit(e)}>
 					<div className="login-form-inner">
 						<h1>{register ? 'Register' : 'Welcome back'}</h1>
 						<h2>{register ? 'Create a HotelHub account' : 'Sign in to your HotelHub account'}</h2>
@@ -76,7 +77,7 @@ export default function Login({ register }: IProps) {
 						</LoginFormInput>
 						{!register && <div className="forgot-password"><span className="no-select">Forgot your password?</span></div>}
 						{error && <p className="error">{error}</p>}
-						<button className="no-select" onClick={handleSubmit} type="button">
+						<button className="no-select" type="button">
 							{register ? 'Register' : 'Login'}
 						</button>
 						<span>

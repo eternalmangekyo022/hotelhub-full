@@ -27,14 +27,12 @@ $footer-h: 25vh;
 }
 
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 8px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgb(86, 82, 146);
-  background: radial-gradient(circle, rgba(86, 82, 146, 1) 0%, rgba(128, 60, 236, 1) 35%, rgba(169, 153, 216, 1) 98%);
+  background: rgb(92, 91, 106);
   width: 100%;
-  border-radius: 1rem;
 }
 
 body,
