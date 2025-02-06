@@ -57,11 +57,3 @@ export default function Experiences() {
 			</div>
 	</section>
 }
-
-/**
- * 
- * {[experiences[2], experiences[1]].map(({ author, text, id }) => 
-  <Experience key={id} id={id} author={author} text={text} />
-)}
-
- */
