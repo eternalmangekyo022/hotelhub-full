@@ -26,11 +26,7 @@ export default function Header() {
         </>}
       </nav>
       <Link to="/wishlist" className="wishlist-button" style={linkStyle}>
-          <img 
-            src="https://iconscout.com/icons/wishlist" 
-            alt="Wishlist" 
-            style={{ width: '24px', height: '24px' }} 
-          />
+          <p className='wishlist'>Wishlist</p>
         </Link>
     </header>
   </>
