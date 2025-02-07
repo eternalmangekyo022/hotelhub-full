@@ -50,7 +50,7 @@ export default function Login({ register }: IProps) {
 	}
 
 	return (
-		<div className="login-wrapper">
+		<div className={`login-wrapper${register ? ' register': ''}`}>
 			<div className="login-form-wrapper">
 				<form className="login-form" onSubmit={(e) => handleSubmit(e)}>
 					<div className="login-form-inner">
