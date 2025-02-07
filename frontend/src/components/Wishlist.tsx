@@ -1,10 +1,9 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { useWishlist } from './WishListContext'; // Import the hook
+import { Link } from '@tanstack/react-router';
+import { useWishlist } from './WishListContext';
 import './styles/wishlist.scss';
 
-const Wishlist: React.FC = () => {
-  const { wishlist, removeFromWishlist } = useWishlist(); // Use the hook
+const Wishlist = () => {
+  const { wishlist, removeFromWishlist } = useWishlist();
 
   return (
     <div className="wishlist-page">

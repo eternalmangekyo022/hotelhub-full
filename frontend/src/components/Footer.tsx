@@ -1,5 +1,5 @@
 // link, so we can navigate through pages
-import { Link } from 'react-router-dom'
+import { Link } from '@tanstack/react-router'
 
 // images
 import Logo from '../assets/images/Logomarkvector.svg'

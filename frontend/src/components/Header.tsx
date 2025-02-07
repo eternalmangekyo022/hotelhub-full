@@ -1,6 +1,6 @@
 import React from 'react'
 import useScreen from '../hooks/useScreen.ts'
-import { Link } from 'react-router-dom'
+import { Link } from '@tanstack/react-router'
 import Logo from '../assets/images/Logo.png'
 import Menu from '../assets/images/Menu Icon.png'
 import './styles/header.scss'
