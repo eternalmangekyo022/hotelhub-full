@@ -5,7 +5,7 @@ import Search from '../assets/images/Search Icon.png'
 
 //hooks
 import useScreen from '../hooks/useScreen.ts'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from '@tanstack/react-router';
 
 //styles
 import './styles/hero.scss'
