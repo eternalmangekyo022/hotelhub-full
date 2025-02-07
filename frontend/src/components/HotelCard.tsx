@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import star from "../assets/images/star.png";
 import emptyStar from "../assets/images/empty_star.png";
+import locationpin from "../assets/images/location-pin.png";
 
 const HotelCard = ({ hotel: { id, city, payment, price, name, images, class: _class, averageRating, ratingCount } }: { hotel: Hotel }) => {
   const [imgIndex, setImgIndex] = useState(0);
@@ -72,6 +73,7 @@ const HotelCard = ({ hotel: { id, city, payment, price, name, images, class: _cl
         )}
       </div>
       <p className="hotel-text">
+        <img src={locationpin} alt="" className="location-pin"/>
         {city}
       </p>
       <p className="hotel-price">
