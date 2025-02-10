@@ -18,61 +18,75 @@ function Hotels() {
   const [mutatedHotels, setMutatedHotels] = useState<Hotel[]>([])
   const { data: hotels } = useQuery({
     queryKey: ['hotels', page],
-    queryFn: async() => {
+    queryFn: async () => {
       const response = await getHotels(page - 1)
-      setMutatedHotels(prev => [...prev, ...response])
+      setMutatedHotels((prev) => [...prev, ...response])
       return response
     },
     initialData: [],
-    refetchOnWindowFocus: false
+    refetchOnWindowFocus: false,
   })
 
   const observe: IntersectionObserverCallback = (entries) => {
     entries.forEach((entry) => {
-      if (entry.isIntersecting) setPage(prev => prev + 1)
-    });
+      if (entry.isIntersecting) setPage((prev) => prev + 1)
+    })
   }
-  
-  const observer = new IntersectionObserver(observe, { root: null, rootMargin: '0px', threshold: 1 });
+
+  const observer = new IntersectionObserver(observe, {
+    root: null,
+    rootMargin: '0px',
+    threshold: 1,
+  })
 
   useEffect(() => {
-    if(!hotels.length) return;
-    const filtered = searchQuery.trim() === '' ? hotels : hotels.filter(hotel => hotel.name.toLowerCase().includes(searchQuery.toLowerCase()))
-    setMutatedHotels(filtered.sort((a, b) => {
-      switch (sortBy) {
-        case 'name-asc':
-          return a.name.localeCompare(b.name)
-        case 'name-desc':
-          return b.name.localeCompare(a.name)
-        case 'rating-asc':
-          return a.averageRating - b.averageRating
-        case 'rating-desc':
-          return b.averageRating - a.averageRating
-        case 'ratingtotal-asc':
-          return a.ratingCount - b.ratingCount
-        case 'ratingtotal-desc':
-          return b.ratingCount - a.ratingCount
-        case 'price-asc':
-          return a.price - b.price
-        case 'price-desc':
-          return b.price - a.price
-        default:
-          return 0 // No sorting
-      }
-    }))
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    if (!hotels.length) return
+    const filtered =
+      searchQuery.trim() === ''
+        ? hotels
+        : hotels.filter((hotel) =>
+            hotel.name.toLowerCase().includes(searchQuery.toLowerCase()),
+          )
+    setMutatedHotels(
+      filtered.sort((a, b) => {
+        switch (sortBy) {
+          case 'name-asc':
+            return a.name.localeCompare(b.name)
+          case 'name-desc':
+            return b.name.localeCompare(a.name)
+          case 'rating-asc':
+            return a.averageRating - b.averageRating
+          case 'rating-desc':
+            return b.averageRating - a.averageRating
+          case 'ratingtotal-asc':
+            return a.ratingCount - b.ratingCount
+          case 'ratingtotal-desc':
+            return b.ratingCount - a.ratingCount
+          case 'price-asc':
+            return a.price - b.price
+          case 'price-desc':
+            return b.price - a.price
+          default:
+            return 0 // No sorting
+        }
+      }),
+    )
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchQuery, sortBy])
 
   useEffect(() => {
-    if(!mutatedHotels.length) return
+    if (!mutatedHotels.length) return
     const hotelCards = document.querySelectorAll('.hotel-card')
-    const dividable: number[] = [];
+    const dividable: number[] = []
 
-    for(let i = 0; i < hotelCards.length; i++) (i + 1) % 20 === 0 && dividable.push(i);
+    for (let i = 0; i < hotelCards.length; i++)
+      (i + 1) % 20 === 0 && dividable.push(i)
 
     observer.observe(hotelCards[dividable[dividable.length - 1]])
 
-    return () => {observer.unobserve(hotelCards[dividable[dividable.length - 1]])};
+    return () => {
+      observer.unobserve(hotelCards[dividable[dividable.length - 1]])
+    }
   }, [mutatedHotels])
 
   return (
