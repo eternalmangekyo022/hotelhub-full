@@ -1,5 +1,9 @@
 import cors from "cors";
-import e, { type NextFunction } from "express";
+import e, {
+  type NextFunction,
+  type Response as Res,
+  type Request as Req,
+} from "express";
 import dotenv from "dotenv";
 import users from "./routes/users.routes";
 import jwt from "jsonwebtoken";
@@ -10,7 +14,7 @@ import ratings from "./routes/ratings.routes";
 
 dotenv.config({ path: "./.env" });
 
-const use = (fn: any) => (req: Req, res: Res, next: Next) =>
+const use: UseFn = (fn) => (req, res, next) =>
   Promise.resolve(fn(req, res, next)).catch(next);
 
 const PORT = 3000;
@@ -18,7 +22,7 @@ const app = e();
 const api = e();
 api.use(
   cors({
-    origin: "*",
+    origin: "http://localhost:5173",
     methods: ["GET", "POST", "PUT", "DELETE"],
   })
 );
@@ -31,7 +35,11 @@ const reg = `^(?!.*(${excludeToken.join("|")})).*`;
 const excludedTokenPath = new RegExp(reg);
 app.use(
   excludedTokenPath,
-  (req: Req<{ headers: { authorization: string } }>, res: any, next) => {
+  (
+    req: Req<{ headers: { authorization: string } }>,
+    res: any,
+    next: NextFunction
+  ) => {
     const {
       headers: { authorization },
     } = req;

@@ -3,6 +3,7 @@ import { getHotels } from '../hooks/useHotels.ts'
 import HotelCard from '../components/HotelCard.tsx'
 import Find from '../components/Find.tsx'
 import { createFileRoute } from '@tanstack/react-router'
+import { useQuery } from '@tanstack/react-query'
 
 import './styles/hotels.scss'
 
@@ -11,58 +12,78 @@ export const Route = createFileRoute('/hotels')({
 })
 
 function Hotels() {
-  const [hotels, setHotels] = useState<Hotel[]>([])
   const [searchQuery, setSearchQuery] = useState('')
-  const [sortBy, setSortBy] = useState('')
+  const [sortBy, setSortBy] = useState<ISortBy>('')
+  const [page, setPage] = useState(1)
+  const [mutatedHotels, setMutatedHotels] = useState<Hotel[]>([])
+  const { data: hotels } = useQuery({
+    queryKey: ['hotels', page],
+    queryFn: async() => {
+      const response = await getHotels(page - 1)
+      setMutatedHotels(prev => [...prev, ...response])
+      return response
+    },
+    initialData: [],
+    refetchOnWindowFocus: false
+  })
+
+  const observe: IntersectionObserverCallback = (entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        console.log('loading more')
+        setPage(prev => prev + 1)
+      }
+    });
+  }
+  
+  const observer = new IntersectionObserver(observe, { root: null, rootMargin: '0px', threshold: 1 });
 
   useEffect(() => {
-    async function loadHotels() {
-      try {
-        const hotels = await getHotels()
-        setHotels(hotels)
-      } catch (error) {
-        console.error('Error fetching hotels:', error)
+    if(!hotels.length) return;
+    const filtered = searchQuery.trim() === '' ? hotels : hotels.filter(hotel => hotel.name.toLowerCase().includes(searchQuery.toLowerCase()))
+    setMutatedHotels(filtered.sort((a, b) => {
+      switch (sortBy) {
+        case 'name-asc':
+          return a.name.localeCompare(b.name)
+        case 'name-desc':
+          return b.name.localeCompare(a.name)
+        case 'rating-asc':
+          return a.averageRating - b.averageRating
+        case 'rating-desc':
+          return b.averageRating - a.averageRating
+        case 'ratingtotal-asc':
+          return a.ratingCount - b.ratingCount
+        case 'ratingtotal-desc':
+          return b.ratingCount - a.ratingCount
+        case 'price-asc':
+          return a.price - b.price
+        case 'price-desc':
+          return b.price - a.price
+        default:
+          return 0 // No sorting
       }
-    }
+    }))
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchQuery, sortBy])
 
-    loadHotels()
-  }, [])
+  useEffect(() => {
+    if(!mutatedHotels.length) return
+    const hotelCards = document.querySelectorAll('.hotel-card')
+    const dividable: number[] = [];
 
-  // Filter hotels based on the search query (case insensitive)
-  const filteredHotels = hotels.filter((hotel) =>
-    hotel.name.toLowerCase().includes(searchQuery.toLowerCase()),
-  )
+    for(let i = 0; i < hotelCards.length; i++) (i + 1) % 20 === 0 && dividable.push(i);
 
-  // Sort hotels based on the selected sort criteria
-  const sortedHotels = [...filteredHotels].sort((a, b) => {
-    switch (sortBy) {
-      case 'name-asc':
-        return a.name.localeCompare(b.name)
-      case 'name-desc':
-        return b.name.localeCompare(a.name)
-      case 'rating-asc':
-        return a.averageRating - b.averageRating
-      case 'rating-desc':
-        return b.averageRating - a.averageRating
-      case 'ratingtotal-asc':
-        return a.ratingCount - b.ratingCount
-      case 'ratingtotal-desc':
-        return b.ratingCount - a.ratingCount
-      case 'price-asc':
-        return a.price - b.price
-      case 'price-desc':
-        return b.price - a.price
-      default:
-        return 0 // No sorting
-    }
-  })
+    observer.observe(hotelCards[dividable[dividable.length - 1]])
+
+    return () => {observer.unobserve(hotelCards[dividable[dividable.length - 1]])};
+  }, [mutatedHotels])
 
   return (
     <>
       <Find setSearchQuery={setSearchQuery} setSortBy={setSortBy} />
       <div className="hotel-list">
-        {sortedHotels.map((hotel) => (
-          <HotelCard key={hotel.id} hotel={hotel} />
+        {mutatedHotels.map((hotel, idx) => (
+          <HotelCard idx={idx} key={hotel.id} hotel={hotel} />
         ))}
       </div>
     </>

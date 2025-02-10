@@ -4,10 +4,11 @@ import Filter from "../assets/images/Filter Iconvector.svg";
 import Search from "../assets/images/Search Iconvector.svg";
 import SearchPurple from "../assets/images/Search Iconvector Purple.svg";
 import Location from "../assets/images/Location Iconvector.svg";
+import z from 'zod'
 
 interface FindProps {
   setSearchQuery: (query: string) => void;
-  setSortBy: (sortBy: string) => void; // Callback to pass sorting criteria to the parent
+  setSortBy: (sortBy: ISortBy) => void; // Callback to pass sorting criteria to the parent
 }
 
 export default function Find({ setSearchQuery, setSortBy }: FindProps) {
@@ -24,7 +25,9 @@ export default function Find({ setSearchQuery, setSortBy }: FindProps) {
   };
 
   const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const sortBy = e.target.value;
+    const sortBySchema = z.enum(['name-asc', 'name-desc', 'location-asc', 'location-desc', 'rating-asc', 'rating-desc']);
+    if (!sortBySchema.safeParse(e.target.value).success) return
+    const sortBy = e.target.value as ISortBy;
     setSelectedSort(sortBy);
     setSortBy(sortBy); // Pass the selected sorting option to the parent
   };
@@ -100,7 +103,7 @@ export default function Find({ setSearchQuery, setSortBy }: FindProps) {
             <option value="name-desc">Alphabetical (Z-A)</option>
             <option value="rating-asc">Rating (Low to High)</option>
             <option value="rating-desc">Rating (High to Low)</option>
-			      <option value="ratingtotal-asc">Rating Count (Low to High)</option>
+            <option value="ratingtotal-asc">Rating Count (Low to High)</option>
             <option value="ratingtotal-desc">Rating Count (High to Low)</option>
             <option value="price-asc">Price (Low to High)</option>
             <option value="price-desc">Price (High to Low)</option>
