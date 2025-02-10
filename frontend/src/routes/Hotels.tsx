@@ -29,10 +29,7 @@ function Hotels() {
 
   const observe: IntersectionObserverCallback = (entries) => {
     entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        console.log('loading more')
-        setPage(prev => prev + 1)
-      }
+      if (entry.isIntersecting) setPage(prev => prev + 1)
     });
   }
   
