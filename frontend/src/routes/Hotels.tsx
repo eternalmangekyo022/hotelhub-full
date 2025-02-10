@@ -6,7 +6,7 @@ import { createFileRoute } from '@tanstack/react-router'
 
 import './styles/hotels.scss'
 
-export const Route = createFileRoute('/hotels')({
+export const Route = createFileRoute('/Hotels')({
   component: Hotels,
 })
 
