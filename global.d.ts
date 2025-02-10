@@ -56,8 +56,8 @@ declare global {
   }
 
   type UseFn = (
-    fn: (...args: any[]) => any
-  ) => (req: Req, res: Res, next: Next) => Promise<any>;
+    fn: any
+  ) => (req: Req, res: Res, next: NextFunction) => Promise<any>;
 
   type UserPut = { [key in keyof Omit<User, "id">]?: User[key] } & {
     id: number;
