@@ -37,7 +37,8 @@ export default function Login({ register }: IProps) {
         { headers: { "Content-Type": "application/json" } }
       );
 
-      if (status !== 200) throw new Error(data.message || "Something went wrong");
+      if (status !== 200)
+        throw new Error(data.message || "Something went wrong");
       if (!register) localStorage.setItem("token", data.token);
 
       navigate({ to: register ? "/login" : "/register" }); // Redirect on success

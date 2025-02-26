@@ -15,10 +15,11 @@ import { Route as RegisterImport } from './routes/register'
 import { Route as PrivacyPolicyImport } from './routes/privacy-policy'
 import { Route as LoginImport } from './routes/login'
 import { Route as NotFoundRouteImport } from './routes/NotFoundRoute'
-import { Route as HotelsImport } from './routes/Hotels'
 import { Route as ContactImport } from './routes/Contact'
 import { Route as AboutImport } from './routes/About'
 import { Route as IndexImport } from './routes/index'
+import { Route as HotelIndexImport } from './routes/hotel/index'
+import { Route as HotelHotelIdImport } from './routes/hotel/$hotelId'
 
 // Create/Update Routes
 
@@ -46,12 +47,6 @@ const NotFoundRouteRoute = NotFoundRouteImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const HotelsRoute = HotelsImport.update({
-  id: '/Hotels',
-  path: '/Hotels',
-  getParentRoute: () => rootRoute,
-} as any)
-
 const ContactRoute = ContactImport.update({
   id: '/Contact',
   path: '/Contact',
@@ -67,6 +62,18 @@ const AboutRoute = AboutImport.update({
 const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const HotelIndexRoute = HotelIndexImport.update({
+  id: '/hotel/',
+  path: '/hotel/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const HotelHotelIdRoute = HotelHotelIdImport.update({
+  id: '/hotel/$hotelId',
+  path: '/hotel/$hotelId',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -93,13 +100,6 @@ declare module '@tanstack/react-router' {
       path: '/Contact'
       fullPath: '/Contact'
       preLoaderRoute: typeof ContactImport
-      parentRoute: typeof rootRoute
-    }
-    '/Hotels': {
-      id: '/Hotels'
-      path: '/Hotels'
-      fullPath: '/Hotels'
-      preLoaderRoute: typeof HotelsImport
       parentRoute: typeof rootRoute
     }
     '/NotFoundRoute': {
@@ -130,6 +130,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RegisterImport
       parentRoute: typeof rootRoute
     }
+    '/hotel/$hotelId': {
+      id: '/hotel/$hotelId'
+      path: '/hotel/$hotelId'
+      fullPath: '/hotel/$hotelId'
+      preLoaderRoute: typeof HotelHotelIdImport
+      parentRoute: typeof rootRoute
+    }
+    '/hotel/': {
+      id: '/hotel/'
+      path: '/hotel'
+      fullPath: '/hotel'
+      preLoaderRoute: typeof HotelIndexImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -139,22 +153,24 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/About': typeof AboutRoute
   '/Contact': typeof ContactRoute
-  '/Hotels': typeof HotelsRoute
   '/NotFoundRoute': typeof NotFoundRouteRoute
   '/login': typeof LoginRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/register': typeof RegisterRoute
+  '/hotel/$hotelId': typeof HotelHotelIdRoute
+  '/hotel': typeof HotelIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/About': typeof AboutRoute
   '/Contact': typeof ContactRoute
-  '/Hotels': typeof HotelsRoute
   '/NotFoundRoute': typeof NotFoundRouteRoute
   '/login': typeof LoginRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/register': typeof RegisterRoute
+  '/hotel/$hotelId': typeof HotelHotelIdRoute
+  '/hotel': typeof HotelIndexRoute
 }
 
 export interface FileRoutesById {
@@ -162,11 +178,12 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/About': typeof AboutRoute
   '/Contact': typeof ContactRoute
-  '/Hotels': typeof HotelsRoute
   '/NotFoundRoute': typeof NotFoundRouteRoute
   '/login': typeof LoginRoute
   '/privacy-policy': typeof PrivacyPolicyRoute
   '/register': typeof RegisterRoute
+  '/hotel/$hotelId': typeof HotelHotelIdRoute
+  '/hotel/': typeof HotelIndexRoute
 }
 
 export interface FileRouteTypes {
@@ -175,31 +192,34 @@ export interface FileRouteTypes {
     | '/'
     | '/About'
     | '/Contact'
-    | '/Hotels'
     | '/NotFoundRoute'
     | '/login'
     | '/privacy-policy'
     | '/register'
+    | '/hotel/$hotelId'
+    | '/hotel'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/About'
     | '/Contact'
-    | '/Hotels'
     | '/NotFoundRoute'
     | '/login'
     | '/privacy-policy'
     | '/register'
+    | '/hotel/$hotelId'
+    | '/hotel'
   id:
     | '__root__'
     | '/'
     | '/About'
     | '/Contact'
-    | '/Hotels'
     | '/NotFoundRoute'
     | '/login'
     | '/privacy-policy'
     | '/register'
+    | '/hotel/$hotelId'
+    | '/hotel/'
   fileRoutesById: FileRoutesById
 }
 
@@ -207,22 +227,24 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   ContactRoute: typeof ContactRoute
-  HotelsRoute: typeof HotelsRoute
   NotFoundRouteRoute: typeof NotFoundRouteRoute
   LoginRoute: typeof LoginRoute
   PrivacyPolicyRoute: typeof PrivacyPolicyRoute
   RegisterRoute: typeof RegisterRoute
+  HotelHotelIdRoute: typeof HotelHotelIdRoute
+  HotelIndexRoute: typeof HotelIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   ContactRoute: ContactRoute,
-  HotelsRoute: HotelsRoute,
   NotFoundRouteRoute: NotFoundRouteRoute,
   LoginRoute: LoginRoute,
   PrivacyPolicyRoute: PrivacyPolicyRoute,
   RegisterRoute: RegisterRoute,
+  HotelHotelIdRoute: HotelHotelIdRoute,
+  HotelIndexRoute: HotelIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -238,11 +260,12 @@ export const routeTree = rootRoute
         "/",
         "/About",
         "/Contact",
-        "/Hotels",
         "/NotFoundRoute",
         "/login",
         "/privacy-policy",
-        "/register"
+        "/register",
+        "/hotel/$hotelId",
+        "/hotel/"
       ]
     },
     "/": {
@@ -253,9 +276,6 @@ export const routeTree = rootRoute
     },
     "/Contact": {
       "filePath": "Contact.tsx"
-    },
-    "/Hotels": {
-      "filePath": "Hotels.tsx"
     },
     "/NotFoundRoute": {
       "filePath": "NotFoundRoute.tsx"
@@ -268,6 +288,12 @@ export const routeTree = rootRoute
     },
     "/register": {
       "filePath": "register.tsx"
+    },
+    "/hotel/$hotelId": {
+      "filePath": "hotel/$hotelId.tsx"
+    },
+    "/hotel/": {
+      "filePath": "hotel/index.tsx"
     }
   }
 }
