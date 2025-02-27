@@ -113,7 +113,7 @@ export default function Login({ register }: IProps) {
             </button>
             <span>
               {register ? "Already have an account?" : "Don't have an account?"}
-              <Link to={`/${register ? "login" : "register"}`}>
+              <Link to={`/${register ? "Login" : "register"}`}>
                 {register ? "Login" : "Sign up"}
               </Link>
             </span>

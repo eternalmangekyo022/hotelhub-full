@@ -54,7 +54,7 @@ function Hotels() {
       case "price-desc":
         return b.price - a.price;
       default:
-        return 0; // No sorting
+        return 0;
     }
   });
 

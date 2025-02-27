@@ -10,268 +10,268 @@
 
 // Import Routes
 
-import { Route as rootRoute } from "./routes/__root";
-import { Route as RegisterImport } from "./routes/register";
-import { Route as PrivacyPolicyImport } from "./routes/privacy-policy";
-import { Route as NotFoundRouteImport } from "./routes/NotFoundRoute";
-import { Route as LoginImport } from "./routes/Login";
-import { Route as HotelsImport } from "./routes/Hotels";
-import { Route as ContactImport } from "./routes/Contact";
-import { Route as AboutImport } from "./routes/About";
-import { Route as IndexImport } from "./routes/index";
-import { Route as HotelIndexImport } from "./routes/hotel/index";
-import { Route as HotelHotelIdImport } from "./routes/hotel/$hotelId";
+import { Route as rootRoute } from './routes/__root'
+import { Route as RegisterImport } from './routes/register'
+import { Route as PrivacyPolicyImport } from './routes/privacy-policy'
+import { Route as NotFoundRouteImport } from './routes/NotFoundRoute'
+import { Route as LoginImport } from './routes/Login'
+import { Route as HotelsImport } from './routes/Hotels'
+import { Route as ContactImport } from './routes/Contact'
+import { Route as AboutImport } from './routes/About'
+import { Route as IndexImport } from './routes/index'
+import { Route as HotelIndexImport } from './routes/hotel/index'
+import { Route as HotelHotelIdImport } from './routes/hotel/$hotelId'
 
 // Create/Update Routes
 
 const RegisterRoute = RegisterImport.update({
-  id: "/register",
-  path: "/register",
+  id: '/register',
+  path: '/register',
   getParentRoute: () => rootRoute,
-} as any);
+} as any)
 
 const PrivacyPolicyRoute = PrivacyPolicyImport.update({
-  id: "/privacy-policy",
-  path: "/privacy-policy",
+  id: '/privacy-policy',
+  path: '/privacy-policy',
   getParentRoute: () => rootRoute,
-} as any);
+} as any)
 
 const NotFoundRouteRoute = NotFoundRouteImport.update({
-  id: "/NotFoundRoute",
-  path: "/NotFoundRoute",
+  id: '/NotFoundRoute',
+  path: '/NotFoundRoute',
   getParentRoute: () => rootRoute,
-} as any);
+} as any)
 
 const LoginRoute = LoginImport.update({
-  id: "/Login",
-  path: "/Login",
+  id: '/Login',
+  path: '/Login',
   getParentRoute: () => rootRoute,
-} as any);
+} as any)
 
 const HotelsRoute = HotelsImport.update({
-  id: "/Hotels",
-  path: "/Hotels",
+  id: '/Hotels',
+  path: '/Hotels',
   getParentRoute: () => rootRoute,
-} as any);
+} as any)
 
 const ContactRoute = ContactImport.update({
-  id: "/Contact",
-  path: "/Contact",
+  id: '/Contact',
+  path: '/Contact',
   getParentRoute: () => rootRoute,
-} as any);
+} as any)
 
 const AboutRoute = AboutImport.update({
-  id: "/About",
-  path: "/About",
+  id: '/About',
+  path: '/About',
   getParentRoute: () => rootRoute,
-} as any);
+} as any)
 
 const IndexRoute = IndexImport.update({
-  id: "/",
-  path: "/",
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRoute,
-} as any);
+} as any)
 
 const HotelIndexRoute = HotelIndexImport.update({
-  id: "/hotel/",
-  path: "/hotel/",
+  id: '/hotel/',
+  path: '/hotel/',
   getParentRoute: () => rootRoute,
-} as any);
+} as any)
 
 const HotelHotelIdRoute = HotelHotelIdImport.update({
-  id: "/hotel/$hotelId",
-  path: "/hotel/$hotelId",
+  id: '/hotel/$hotelId',
+  path: '/hotel/$hotelId',
   getParentRoute: () => rootRoute,
-} as any);
+} as any)
 
 // Populate the FileRoutesByPath interface
 
-declare module "@tanstack/react-router" {
+declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    "/": {
-      id: "/";
-      path: "/";
-      fullPath: "/";
-      preLoaderRoute: typeof IndexImport;
-      parentRoute: typeof rootRoute;
-    };
-    "/About": {
-      id: "/About";
-      path: "/About";
-      fullPath: "/About";
-      preLoaderRoute: typeof AboutImport;
-      parentRoute: typeof rootRoute;
-    };
-    "/Contact": {
-      id: "/Contact";
-      path: "/Contact";
-      fullPath: "/Contact";
-      preLoaderRoute: typeof ContactImport;
-      parentRoute: typeof rootRoute;
-    };
-    "/Hotels": {
-      id: "/Hotels";
-      path: "/Hotels";
-      fullPath: "/Hotels";
-      preLoaderRoute: typeof HotelsImport;
-      parentRoute: typeof rootRoute;
-    };
-    "/Login": {
-      id: "/Login";
-      path: "/Login";
-      fullPath: "/Login";
-      preLoaderRoute: typeof LoginImport;
-      parentRoute: typeof rootRoute;
-    };
-    "/NotFoundRoute": {
-      id: "/NotFoundRoute";
-      path: "/NotFoundRoute";
-      fullPath: "/NotFoundRoute";
-      preLoaderRoute: typeof NotFoundRouteImport;
-      parentRoute: typeof rootRoute;
-    };
-    "/privacy-policy": {
-      id: "/privacy-policy";
-      path: "/privacy-policy";
-      fullPath: "/privacy-policy";
-      preLoaderRoute: typeof PrivacyPolicyImport;
-      parentRoute: typeof rootRoute;
-    };
-    "/register": {
-      id: "/register";
-      path: "/register";
-      fullPath: "/register";
-      preLoaderRoute: typeof RegisterImport;
-      parentRoute: typeof rootRoute;
-    };
-    "/hotel/$hotelId": {
-      id: "/hotel/$hotelId";
-      path: "/hotel/$hotelId";
-      fullPath: "/hotel/$hotelId";
-      preLoaderRoute: typeof HotelHotelIdImport;
-      parentRoute: typeof rootRoute;
-    };
-    "/hotel/": {
-      id: "/hotel/";
-      path: "/hotel";
-      fullPath: "/hotel";
-      preLoaderRoute: typeof HotelIndexImport;
-      parentRoute: typeof rootRoute;
-    };
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/About': {
+      id: '/About'
+      path: '/About'
+      fullPath: '/About'
+      preLoaderRoute: typeof AboutImport
+      parentRoute: typeof rootRoute
+    }
+    '/Contact': {
+      id: '/Contact'
+      path: '/Contact'
+      fullPath: '/Contact'
+      preLoaderRoute: typeof ContactImport
+      parentRoute: typeof rootRoute
+    }
+    '/Hotels': {
+      id: '/Hotels'
+      path: '/Hotels'
+      fullPath: '/Hotels'
+      preLoaderRoute: typeof HotelsImport
+      parentRoute: typeof rootRoute
+    }
+    '/Login': {
+      id: '/Login'
+      path: '/Login'
+      fullPath: '/Login'
+      preLoaderRoute: typeof LoginImport
+      parentRoute: typeof rootRoute
+    }
+    '/NotFoundRoute': {
+      id: '/NotFoundRoute'
+      path: '/NotFoundRoute'
+      fullPath: '/NotFoundRoute'
+      preLoaderRoute: typeof NotFoundRouteImport
+      parentRoute: typeof rootRoute
+    }
+    '/privacy-policy': {
+      id: '/privacy-policy'
+      path: '/privacy-policy'
+      fullPath: '/privacy-policy'
+      preLoaderRoute: typeof PrivacyPolicyImport
+      parentRoute: typeof rootRoute
+    }
+    '/register': {
+      id: '/register'
+      path: '/register'
+      fullPath: '/register'
+      preLoaderRoute: typeof RegisterImport
+      parentRoute: typeof rootRoute
+    }
+    '/hotel/$hotelId': {
+      id: '/hotel/$hotelId'
+      path: '/hotel/$hotelId'
+      fullPath: '/hotel/$hotelId'
+      preLoaderRoute: typeof HotelHotelIdImport
+      parentRoute: typeof rootRoute
+    }
+    '/hotel/': {
+      id: '/hotel/'
+      path: '/hotel'
+      fullPath: '/hotel'
+      preLoaderRoute: typeof HotelIndexImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
 // Create and export the route tree
 
 export interface FileRoutesByFullPath {
-  "/": typeof IndexRoute;
-  "/About": typeof AboutRoute;
-  "/Contact": typeof ContactRoute;
-  "/Hotels": typeof HotelsRoute;
-  "/Login": typeof LoginRoute;
-  "/NotFoundRoute": typeof NotFoundRouteRoute;
-  "/privacy-policy": typeof PrivacyPolicyRoute;
-  "/register": typeof RegisterRoute;
-  "/hotel/$hotelId": typeof HotelHotelIdRoute;
-  "/hotel": typeof HotelIndexRoute;
+  '/': typeof IndexRoute
+  '/About': typeof AboutRoute
+  '/Contact': typeof ContactRoute
+  '/Hotels': typeof HotelsRoute
+  '/Login': typeof LoginRoute
+  '/NotFoundRoute': typeof NotFoundRouteRoute
+  '/privacy-policy': typeof PrivacyPolicyRoute
+  '/register': typeof RegisterRoute
+  '/hotel/$hotelId': typeof HotelHotelIdRoute
+  '/hotel': typeof HotelIndexRoute
 }
 
 export interface FileRoutesByTo {
-  "/": typeof IndexRoute;
-  "/About": typeof AboutRoute;
-  "/Contact": typeof ContactRoute;
-  "/Hotels": typeof HotelsRoute;
-  "/Login": typeof LoginRoute;
-  "/NotFoundRoute": typeof NotFoundRouteRoute;
-  "/privacy-policy": typeof PrivacyPolicyRoute;
-  "/register": typeof RegisterRoute;
-  "/hotel/$hotelId": typeof HotelHotelIdRoute;
-  "/hotel": typeof HotelIndexRoute;
+  '/': typeof IndexRoute
+  '/About': typeof AboutRoute
+  '/Contact': typeof ContactRoute
+  '/Hotels': typeof HotelsRoute
+  '/Login': typeof LoginRoute
+  '/NotFoundRoute': typeof NotFoundRouteRoute
+  '/privacy-policy': typeof PrivacyPolicyRoute
+  '/register': typeof RegisterRoute
+  '/hotel/$hotelId': typeof HotelHotelIdRoute
+  '/hotel': typeof HotelIndexRoute
 }
 
 export interface FileRoutesById {
-  __root__: typeof rootRoute;
-  "/": typeof IndexRoute;
-  "/About": typeof AboutRoute;
-  "/Contact": typeof ContactRoute;
-  "/Hotels": typeof HotelsRoute;
-  "/Login": typeof LoginRoute;
-  "/NotFoundRoute": typeof NotFoundRouteRoute;
-  "/privacy-policy": typeof PrivacyPolicyRoute;
-  "/register": typeof RegisterRoute;
-  "/hotel/$hotelId": typeof HotelHotelIdRoute;
-  "/hotel/": typeof HotelIndexRoute;
+  __root__: typeof rootRoute
+  '/': typeof IndexRoute
+  '/About': typeof AboutRoute
+  '/Contact': typeof ContactRoute
+  '/Hotels': typeof HotelsRoute
+  '/Login': typeof LoginRoute
+  '/NotFoundRoute': typeof NotFoundRouteRoute
+  '/privacy-policy': typeof PrivacyPolicyRoute
+  '/register': typeof RegisterRoute
+  '/hotel/$hotelId': typeof HotelHotelIdRoute
+  '/hotel/': typeof HotelIndexRoute
 }
 
 export interface FileRouteTypes {
-  fileRoutesByFullPath: FileRoutesByFullPath;
+  fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    | "/"
-    | "/About"
-    | "/Contact"
-    | "/Hotels"
-    | "/Login"
-    | "/NotFoundRoute"
-    | "/privacy-policy"
-    | "/register"
-    | "/hotel/$hotelId"
-    | "/hotel";
-  fileRoutesByTo: FileRoutesByTo;
+    | '/'
+    | '/About'
+    | '/Contact'
+    | '/Hotels'
+    | '/Login'
+    | '/NotFoundRoute'
+    | '/privacy-policy'
+    | '/register'
+    | '/hotel/$hotelId'
+    | '/hotel'
+  fileRoutesByTo: FileRoutesByTo
   to:
-    | "/"
-    | "/About"
-    | "/Contact"
-    | "/Hotels"
-    | "/Login"
-    | "/NotFoundRoute"
-    | "/privacy-policy"
-    | "/register"
-    | "/hotel/$hotelId"
-    | "/hotel";
+    | '/'
+    | '/About'
+    | '/Contact'
+    | '/Hotels'
+    | '/Login'
+    | '/NotFoundRoute'
+    | '/privacy-policy'
+    | '/register'
+    | '/hotel/$hotelId'
+    | '/hotel'
   id:
-    | "__root__"
-    | "/"
-    | "/About"
-    | "/Contact"
-    | "/Hotels"
-    | "/Login"
-    | "/NotFoundRoute"
-    | "/privacy-policy"
-    | "/register"
-    | "/hotel/$hotelId"
-    | "/hotel/";
-  fileRoutesById: FileRoutesById;
+    | '__root__'
+    | '/'
+    | '/About'
+    | '/Contact'
+    | '/Hotels'
+    | '/Login'
+    | '/NotFoundRoute'
+    | '/privacy-policy'
+    | '/register'
+    | '/hotel/$hotelId'
+    | '/hotel/'
+  fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute;
-  AboutRoute: typeof AboutRoute;
-  ContactRoute: typeof ContactRoute;
-  NotFoundRouteRoute: typeof NotFoundRouteRoute;
-  LoginRoute: typeof LoginRoute;
-  NotFoundRouteRoute: typeof NotFoundRouteRoute;
-  PrivacyPolicyRoute: typeof PrivacyPolicyRoute;
-  RegisterRoute: typeof RegisterRoute;
-  HotelHotelIdRoute: typeof HotelHotelIdRoute;
-  HotelIndexRoute: typeof HotelIndexRoute;
+  IndexRoute: typeof IndexRoute
+  AboutRoute: typeof AboutRoute
+  ContactRoute: typeof ContactRoute
+  HotelsRoute: typeof HotelsRoute
+  LoginRoute: typeof LoginRoute
+  NotFoundRouteRoute: typeof NotFoundRouteRoute
+  PrivacyPolicyRoute: typeof PrivacyPolicyRoute
+  RegisterRoute: typeof RegisterRoute
+  HotelHotelIdRoute: typeof HotelHotelIdRoute
+  HotelIndexRoute: typeof HotelIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   ContactRoute: ContactRoute,
-  NotFoundRouteRoute: NotFoundRouteRoute,
+  HotelsRoute: HotelsRoute,
   LoginRoute: LoginRoute,
   NotFoundRouteRoute: NotFoundRouteRoute,
   PrivacyPolicyRoute: PrivacyPolicyRoute,
   RegisterRoute: RegisterRoute,
   HotelHotelIdRoute: HotelHotelIdRoute,
   HotelIndexRoute: HotelIndexRoute,
-};
+}
 
 export const routeTree = rootRoute
   ._addFileChildren(rootRouteChildren)
-  ._addFileTypes<FileRouteTypes>();
+  ._addFileTypes<FileRouteTypes>()
 
 /* ROUTE_MANIFEST_START
 {
