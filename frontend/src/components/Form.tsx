@@ -37,14 +37,9 @@ export default function Login({ register }: IProps) {
         { headers: { "Content-Type": "application/json" } }
       );
 
-      if (status !== 200) {
+      if (status !== 200)
         throw new Error(data.message || "Something went wrong");
-      }
-
-      if (!register) {
-        // Save token for login
-        localStorage.setItem("token", data.token);
-      }
+      if (!register) localStorage.setItem("token", data.token);
 
       navigate({ to: register ? "/login" : "/register" }); // Redirect on success
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -117,8 +112,8 @@ export default function Login({ register }: IProps) {
               {register ? "Register" : "Login"}
             </button>
             <span>
-              {register ? "Already have an account?" : "Don't have an account?"}{" "}
-              <Link to={`/${register ? "login" : "register"}`}>
+              {register ? "Already have an account?" : "Don't have an account?"}
+              <Link to={`/${register ? "Login" : "register"}`}>
                 {register ? "Login" : "Sign up"}
               </Link>
             </span>
