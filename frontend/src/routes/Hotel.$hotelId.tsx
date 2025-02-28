@@ -9,7 +9,7 @@ import emptyStar from "../assets/images/empty_star.png";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
-export const Route = createFileRoute("/Hotel/$hotelId")({
+export const Route = createFileRoute("/hotel/$hotelId")({
   component: HotelDetails,
 });
 
@@ -23,7 +23,9 @@ function HotelDetails() {
   const { data: hotel } = useQuery({
     queryKey: ["hotel", hotelId],
     queryFn: async () => {
-      const { data } = await axios.get<Hotel>(`/api/v1/hotels/${hotelId}`);
+      const { data } = await axios.get<Hotel>(
+        `http://localhost:3000/api/v1/hotels/id/${hotelId}`
+      );
       return data;
     },
     enabled: !selectedHotel,

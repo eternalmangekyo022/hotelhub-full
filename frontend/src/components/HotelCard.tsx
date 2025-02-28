@@ -79,8 +79,8 @@ const HotelCard = ({
       payment,
       price,
       ratingCount,
-    });
-    navigate({ to: `/Hotel/${id}` });
+    } as Hotel);
+    navigate({ to: `/hotel/${id}` });
   }
 
   useEffect(() => {
