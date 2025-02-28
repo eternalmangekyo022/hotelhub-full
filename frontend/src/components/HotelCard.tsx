@@ -1,11 +1,18 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import star from "../assets/images/star.png";
 import emptyStar from "../assets/images/empty_star.png";
 import locationpin from "../assets/images/location-pin.png";
 
-const HotelCard = ({ hotel: { id, city, payment, price, name, images, class: _class, averageRating, ratingCount } }: { hotel: Hotel }) => {
+interface IStar {
+  roundedRating: number
+  src: string
+}
+
+const HotelCard = ({ hotel: { id, city, payment, price, name, images, class: _class, averageRating, ratingCount }, idx }: { hotel: Hotel } & { idx: number }) => {
   const [imgIndex, setImgIndex] = useState(0);
+  const [stars, setStars] = useState<IStar[]>([]);
   const [loadedImages, setLoadedImages] = useState<string[]>([]);
+  const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     // Preload the first image immediately
@@ -41,18 +48,21 @@ const HotelCard = ({ hotel: { id, city, payment, price, name, images, class: _cl
   };
   // Calculate the number of filled and empty stars
 
-  const roundedRating = Math.round(averageRating || 0);
+  useEffect(() => {
+    const roundedRating = Math.round(averageRating || 0);
+  
+    setStars(
+      Array.from({ length: 5 }, (_, index) => ({
+        roundedRating: index + 1,
+        src: index < roundedRating ? star : emptyStar,
+      }))
+    );
 
-  const totalStars = 5; // Total number of stars to display
-
-  const stars = Array.from({ length: totalStars }, (_, index) => 
-
-    index < roundedRating ? star : emptyStar
-
-  );
+    ref.current?.setAttribute('data-idx', (idx + 1).toString())
+  }, [])
 
   return (
-    <div className="hotel-card" onClick={() => window.open(`/hotel/${id}`, "_blank")}>
+    <div ref={ref} className="hotel-card" onClick={() => window.open(`/hotel/${id}`, "_blank")}>
       <h2 className="hotel-title">{name}</h2>
 
       <div className="thumb-img-container">
@@ -83,7 +93,7 @@ const HotelCard = ({ hotel: { id, city, payment, price, name, images, class: _cl
       <p className="hotel-text">
         <span className="rating-stars">
           {stars.map((star, index) => (
-            <img key={index} src={star} alt={index < roundedRating ? star : emptyStar} />
+            <img key={index} src={star.src} alt={index < star.roundedRating ? star.roundedRating.toString() : emptyStar} />
           ))}
         </span>
         <span style={{ margin: '.2rem'}}>{`(${ratingCount || 0})`}</span>
