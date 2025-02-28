@@ -9,7 +9,8 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 .pnpm-debug.log*
-routeTree.gen.ts
+
+**/routeTree.gen.ts
 
 # Caches
 
