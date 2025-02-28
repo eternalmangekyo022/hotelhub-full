@@ -5,6 +5,8 @@ export default (use: UseFn, app: Express) => {
   const router = Router();
 
   router.get("/", use(controller.getHotels));
-  router.get("/:id", use(controller.getHotelById)); // Add route for hotel details
+  router.get("/id/:id", use(controller.getHotelById));
+  router.get("/unison", use(controller.getHotelsById));
+
   app.use("/hotels", router);
 };

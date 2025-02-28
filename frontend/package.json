@@ -13,13 +13,10 @@
     "@tanstack/react-query": "^5.66.0",
     "@tanstack/react-router": "^1.99.9",
     "axios": "^1.7.9",
+    "jotai": "^2.12.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-<<<<<<< HEAD
-    "react-infinite-scroller": "^1.2.6"
-=======
-    "zod": "^3.25.0-canary.20241210T225910"
->>>>>>> ae382283db14b6603c70a97288b43f2c0783f208
+    "zod": "^3.24.2"
   },
   "devDependencies": {
     "@eslint/js": "^9.20.0",

@@ -1,51 +1,50 @@
+import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
+import { useAtom } from "jotai";
+import { favoritesAtom, selectedHotelAtom } from "../store.ts";
+import "../routes/styles/details.scss";
+import star from "../assets/images/star.png";
+import emptyStar from "../assets/images/empty_star.png";
 
-export const Route = createFileRoute("/hotel/$hotelId")({
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+
+export const Route = createFileRoute("/Hotel/$hotelId")({
   component: HotelDetails,
 });
 
-import { useEffect, useState } from "react";
-import { getHotels } from "../../hooks/useHotels";
-import star from "../../assets/images/star.png";
-import emptyStar from "../../assets/images/empty_star.png";
-import "../styles/details.scss";
-import { useWishlist } from "../../components/WishListContext";
-
 function HotelDetails() {
   const { hotelId } = Route.useParams();
-  const [hotel, setHotel] = useState<Hotel | null>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const { addToWishlist } = useWishlist();
+  const [isFavorite, setIsFavorite] = useState(false);
+  const [favorites, setFavorites] = useAtom(favoritesAtom);
+  const [selectedHotel] = useAtom(selectedHotelAtom);
 
-  useEffect(() => {
-    const fetchHotel = async () => {
-      try {
-        const hotels = await getHotels();
-        const selectedHotel = hotels.find((h) => h.id.toString() === id);
-        setHotel(selectedHotel || null);
-      } catch (error) {
-        console.error("Error fetching hotel details:", error);
-      }
-    };
+  const { data: hotel } = useQuery({
+    queryKey: ["hotel", hotelId],
+    queryFn: async () => {
+      const { data } = await axios.get<Hotel>(`/api/v1/hotels/${hotelId}`);
+      return data;
+    },
+    enabled: !selectedHotel,
+    initialData: selectedHotel,
+  });
 
-    fetchHotel();
-  }, []);
-
-  const handlePrevImage = () => {
+  function handlePrevImage() {
     if (hotel && hotel.images.length > 0) {
       setCurrentImageIndex((prevIndex) =>
         prevIndex === 0 ? hotel.images.length - 1 : prevIndex - 1
       );
     }
-  };
+  }
 
-  const handleNextImage = () => {
+  function handleNextImage() {
     if (hotel && hotel.images.length > 0) {
       setCurrentImageIndex((prevIndex) =>
         prevIndex === hotel.images.length - 1 ? 0 : prevIndex + 1
       );
     }
-  };
+  }
 
   const roundedRating = Math.round(hotel?.averageRating || 0);
   const totalStars = 5;
@@ -60,7 +59,7 @@ function HotelDetails() {
       <h1>{hotel.name}</h1>
       <div className="image-container">
         <img
-          src={"https://www.svgrepo.com/show/440707/action-paging-prev.svg"}
+          src="https://www.svgrepo.com/show/440707/action-paging-prev.svg"
           alt="Previous"
           className="arrow"
           onClick={handlePrevImage}
@@ -104,8 +103,11 @@ function HotelDetails() {
         </span>
         <span style={{ margin: ".2rem" }}>{`(${hotel.ratingCount || 0})`}</span>
       </p>
-      <button className="book-now-btn" onClick={() => addToWishlist(hotel)}>
-        Add to Wishlist
+      <button
+        className="book-now-btn"
+        onClick={() => setFavorites((prev) => [...prev, hotel.id])}
+      >
+        Add to Favorites
       </button>
     </div>
   );

@@ -1,4 +1,4 @@
-import { getHotels, getHotelById } from "../models/hotels.model";
+import { getHotels, getHotelById, getHotelsById } from "../models/hotels.model";
 
 export default {
   getHotels: async ({ query: { offset } }: any, res: any) => {
@@ -11,5 +11,12 @@ export default {
       return res.status(404).json({ error: "Hotel not found" });
     }
     res.json(hotel);
-  }
+  },
+  getHotelsById: async (
+    { query: { ids } }: { query: { ids: `^\d+(,\d+)*$` } },
+    res: any
+  ) => {
+    const hotels = await getHotelsById(ids.split(",").map(Number));
+    res.json(hotels);
+  },
 };

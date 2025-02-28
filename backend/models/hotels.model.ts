@@ -43,3 +43,11 @@ export async function getHotelById(id: string) {
 
   return { ...hotel, images };
 }
+
+export async function getHotelsById(ids: number[]) {
+  const hotels = await db.select<Hotel>(
+    "SELECT * FROM hotels WHERE id in (?)",
+    [ids]
+  );
+  return hotels;
+}
