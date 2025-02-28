@@ -4,11 +4,10 @@ import Filter from "../assets/images/Filter Iconvector.svg";
 import Search from "../assets/images/Search Iconvector.svg";
 import SearchPurple from "../assets/images/Search Iconvector Purple.svg";
 import Location from "../assets/images/Location Iconvector.svg";
-import z from 'zod'
 
 interface FindProps {
   setSearchQuery: (query: string) => void;
-  setSortBy: (sortBy: ISortBy) => void; // Callback to pass sorting criteria to the parent
+  setSortBy: (sortBy: string) => void; // Callback to pass sorting criteria to the parent
 }
 
 export default function Find({ setSearchQuery, setSortBy }: FindProps) {
@@ -25,9 +24,8 @@ export default function Find({ setSearchQuery, setSortBy }: FindProps) {
   };
 
   const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const sortBySchema = z.enum(['name-asc', 'name-desc', 'location-asc', 'location-desc', 'rating-asc', 'rating-desc']);
-    if (!sortBySchema.safeParse(e.target.value).success) return
-    const sortBy = e.target.value as ISortBy;
+
+    const sortBy = e.target.value;
     setSelectedSort(sortBy);
     setSortBy(sortBy); // Pass the selected sorting option to the parent
   };
