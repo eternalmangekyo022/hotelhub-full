@@ -21,7 +21,7 @@ type FormData = {
   message: string
 }
 
-export const Route = createFileRoute('/Contact')({
+export const Route = createFileRoute('/contact')({
   component: Contact,
 })
 
