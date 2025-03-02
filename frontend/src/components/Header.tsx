@@ -45,7 +45,7 @@ export default function Header() {
                   key={link}
                   onClick={() => (document.title = docTitle)}
                   to={link}
-                  className="navlink"
+                  className="navlink underline"
                 >
                   {title}
                 </Link>

@@ -19,9 +19,26 @@ header {
     align-items: center;
   }
   a {
+    position: relative;
     text-decoration: none;
     color: black;
     font-weight: 600;
+
+    &.underline::before {
+      content: "";
+      width: 0;
+      position: absolute;
+      bottom: -10%;
+      height: 1.5px;
+      background: #484848;
+      left: 50%;
+      transform: translateX(-50%);
+      transition: width 0.3s;
+    }
+
+    &:hover::before {
+      width: 80%;
+    }
   }
 
   // Wishlist button styles
