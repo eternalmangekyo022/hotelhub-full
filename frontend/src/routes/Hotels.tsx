@@ -1,9 +1,14 @@
 import { useState, useEffect } from "react";
-import { getHotels } from "../hooks/useHotels.ts";
 import HotelCard from "../components/HotelCard.tsx";
 import Find from "../components/Find.tsx";
+
+import { getHotels } from "../hooks/useHotels.ts";
+
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
+
+import { useAtom } from "jotai";
+import { searchQueryAtom, sortByAtom } from "../store.ts";
 
 import "./styles/hotels.scss";
 
@@ -12,8 +17,8 @@ export const Route = createFileRoute("/hotels")({
 });
 
 function Hotels() {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [sortBy, setSortBy] = useState<ISortBy>("");
+  const [searchQuery] = useAtom(searchQueryAtom);
+  const [sortBy] = useAtom(sortByAtom);
   const [page, setPage] = useState(1);
   const [mutatedHotels, setMutatedHotels] = useState<Hotel[]>([]);
   const { data: hotels } = useQuery({
@@ -93,7 +98,7 @@ function Hotels() {
 
   return (
     <>
-      <Find setSearchQuery={setSearchQuery} setSortBy={setSortBy} />
+      <Find />
       <div className="hotel-list">
         {mutatedHotels.map((hotel, idx) => (
           <HotelCard idx={idx} key={hotel.id} hotel={hotel} />
