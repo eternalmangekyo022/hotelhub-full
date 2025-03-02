@@ -12,12 +12,24 @@
 
 	.login-form-wrapper {
 		display: flex;
-		width: clamp(30rem, 55svw, 65rem);
+		width: clamp(30rem, 80svw, 55rem);
 		height: clamp(30rem, 70svh, 40rem);
 		background-color: #fff;
 		border-radius: 12px;
 		box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 		overflow: hidden;
+
+		&.login {
+			height: clamp(25rem, 55svh, 40rem);
+			.login-form .login-form-inner .actions {
+				height: 20%;
+				transform: translateY(-30%);
+			}
+
+			.login-form .login-form-inner .inputs-wrapper {
+				height: 40%;
+			}
+		}
 
 		.login-form {
 			flex: 1;
@@ -32,69 +44,83 @@
 				display: flex;
 				flex-direction: column;
 				align-items: start;
-				justify-content: space-evenly;
+				justify-content: space-between;
 
-				h1 {
-					font-size: 1.8rem;
-					font-weight: bold;
+				.form-title {
+					height: 15%;
+
+					h1 {
+						font-size: 1.8rem;
+						font-weight: bold;
+					}
+
+					h2 {
+						font-size: 1rem;
+						font-weight: normal;
+						color: #6b6b6b;
+						margin-bottom: 0.8rem;
+					}
 				}
 
-				h2 {
-					font-size: 1rem;
-					font-weight: normal;
-					color: #6b6b6b;
-					margin-bottom: 2rem;
-				}
-
-				.input-wrapper {
-					position: relative;
+				.inputs-wrapper {
 					width: 100%;
-					height: 2.4rem;
-					margin-bottom: 1.5rem;
-					border-radius: 6px;
-					font-size: 1rem;
+					height: 55%;
 
-					* {
-						transition: 0.2s;
-					}
+					.input-wrapper {
+						position: relative;
+						width: 100%;
+						height: 2.4rem;
+						margin-bottom: 1rem;
+						border-radius: 6px;
+						font-size: 1rem;
 
-					display: flex;
-					justify-content: center;
-					align-items: center;
+						* {
+							transition: 0.2s;
+						}
 
-					label {
-						position: absolute;
-						font-size: 0.975rem;
-						color: gray;
-						left: 4%;
-						top: 50%;
-						transform: translateY(-50%);
-						cursor: text;
-					}
-
-					&:focus-within,
-					&.filled {
-						outline: none;
+						display: flex;
+						justify-content: center;
+						align-items: center;
 
 						label {
-							left: 3%;
+							position: absolute;
+							font-size: 0.975rem;
+							color: gray;
+							left: 4%;
+							top: 50%;
+							transform: translateY(-50%);
+							cursor: text;
+						}
 
-							transform: translateY(-150%);
-							padding: 0.2rem;
-							background: #fff;
-							font-size: 0.75rem;
-							border-radius: 0.5rem;
+						&:focus-within,
+						&.filled {
+							outline: none;
+
+							label {
+								left: 3%;
+
+								transform: translateY(-150%);
+								padding: 0.2rem;
+								background: #fff;
+								font-size: 0.75rem;
+								border-radius: 0.5rem;
+							}
+						}
+
+						input {
+							border-radius: 6px;
+							border: 1px solid #ddd;
+							width: 100%;
+							height: 100%;
+							font-size: 1rem;
+							text-indent: 0.8rem;
 						}
 					}
+				}
 
-					input {
-						border-radius: 6px;
-						border: 1px solid #ddd;
-						width: 100%;
-						height: 100%;
-						font-size: 1rem;
-						text-indent: 0.8rem;
-					}
+				.actions {
+					width: 100%;
+					height: 15%;
 				}
 
 				.forgot-password {
@@ -102,6 +128,7 @@
 					justify-content: end;
 					align-items: center;
 					width: 100%;
+					height: 2rem;
 
 					span {
 						font-size: 0.875rem;
@@ -122,7 +149,6 @@
 					border: none;
 					border-radius: 6px;
 					cursor: pointer;
-					margin-bottom: 1.5rem;
 
 					&:hover {
 						background-color: #333;
