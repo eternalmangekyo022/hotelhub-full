@@ -9,7 +9,7 @@ import emptyStar from '../assets/images/empty_star.png'
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 
-export const Route = createFileRoute('/Hotel/$hotelId')({
+export const Route = createFileRoute('/hotel/$hotelId')({
   component: HotelDetails,
 })
 
