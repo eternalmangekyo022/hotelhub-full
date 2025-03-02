@@ -7,6 +7,8 @@ header {
   display: flex;
   align-items: center;
   justify-content: space-between; // Add this to create space between navbar and wishlist button
+  background-color: black;
+  z-index: 11;
 
   .navbar {
     position: relative;
@@ -21,7 +23,7 @@ header {
   a {
     position: relative;
     text-decoration: none;
-    color: black;
+    color: #fff;
     font-weight: 600;
 
     &.underline::before {
@@ -30,7 +32,7 @@ header {
       position: absolute;
       bottom: -10%;
       height: 1.5px;
-      background: #484848;
+      background: #fff;
       left: 50%;
       transform: translateX(-50%);
       transition: width 0.3s;
