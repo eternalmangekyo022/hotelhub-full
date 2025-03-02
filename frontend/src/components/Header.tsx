@@ -31,7 +31,11 @@ export default function Header() {
     <>
       <header>
         <nav className="navbar">
-          <Link to="/" onClick={() => (document.title = "HotelHub™")}>
+          <Link
+            to="/"
+            className="logo"
+            onClick={() => (document.title = "HotelHub™")}
+          >
             <img src={Logo} alt="Logo" />
           </Link>
           {width <= 768 ? (

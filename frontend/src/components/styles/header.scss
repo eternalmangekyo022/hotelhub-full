@@ -10,6 +10,11 @@ header {
   background-color: black;
   z-index: 11;
 
+  .logo {
+    display: grid;
+    place-items: center;
+  }
+
   .navbar {
     position: relative;
     left: 8%;
@@ -67,6 +72,11 @@ header {
   }
 }
 
+.wishlist {
+  font-weight: bold;
+  padding: 0.4rem;
+}
+
 @media (max-width: 768px) {
   header {
     justify-content: center;
@@ -83,8 +93,4 @@ header {
       right: 5%; // Reduce spacing for smaller screens
     }
   }
-}
-
-.wishlist {
-  font-weight: bold;
 }
