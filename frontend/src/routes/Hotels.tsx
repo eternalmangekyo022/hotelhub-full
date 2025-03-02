@@ -74,7 +74,6 @@ function Hotels() {
         }
       })
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchQuery, sortBy]);
 
   useEffect(() => {
@@ -83,7 +82,7 @@ function Hotels() {
     const dividable: number[] = [];
 
     for (let i = 0; i < hotelCards.length; i++)
-      (i + 1) % 20 === 0 && dividable.push(i);
+      if ((i + 1) % 20 === 0) dividable.push(i);
 
     observer.observe(hotelCards[dividable[dividable.length - 1]]);
 

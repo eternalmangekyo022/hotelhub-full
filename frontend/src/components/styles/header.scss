@@ -36,8 +36,9 @@ header {
       transition: width 0.3s;
     }
 
-    &:hover::before {
-      width: 80%;
+    &:hover::before,
+    &.active::before {
+      width: 90%;
     }
   }
 
