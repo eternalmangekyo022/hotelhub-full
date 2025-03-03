@@ -73,6 +73,7 @@ function Hotels() {
   }, [sortBy, searchQuery, hotels]); // React to changes in sortBy, searchQuery, or hotels
 
   const observe: IntersectionObserverCallback = (entries) => {
+    if (!entries) return
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
         setPage((prev) => prev + 1);
@@ -95,7 +96,9 @@ function Hotels() {
     for (let i = 0; i < hotelCards.length; i++)
       if ((i + 1) % 20 === 0) dividable.push(i);
 
-    observer.observe(hotelCards[dividable[dividable.length - 1]]);
+    const toObserve = hotelCards[dividable[dividable.length - 1]];
+    if (!toObserve) return
+    observer.observe(toObserve);
 
     return () => {
       observer.unobserve(hotelCards[dividable[dividable.length - 1]]);
