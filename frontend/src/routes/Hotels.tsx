@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import HotelCard from "../components/HotelCard.tsx";
 import Find from "../components/Find.tsx";
 
@@ -8,7 +8,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 
 import { useAtom } from "jotai";
-import { searchQueryAtom, sortByAtom } from "../store.ts";
+import { searchQueryAtom, sortByAtom, pageAtom, hotelsAtom } from "../store.ts";
 
 import "./styles/hotels.scss";
 
@@ -19,9 +19,9 @@ export const Route = createFileRoute("/Hotels")({
 function Hotels() {
   const [searchQuery] = useAtom(searchQueryAtom);
   const [sortBy] = useAtom(sortByAtom);
-  const [page, setPage] = useState(1);
-  const [mutatedHotels, setMutatedHotels] = useState<Hotel[]>([]);
-  const { data: hotels } = useQuery({
+  const [page, setPage] = useAtom(pageAtom);
+  const [mutatedHotels, setMutatedHotels] = useAtom(hotelsAtom);
+  const { data: hotels, isFetching } = useQuery({
     queryKey: ["hotels", page],
     queryFn: async () => {
       const response = await getHotels(page - 1);
@@ -30,13 +30,12 @@ function Hotels() {
     },
     initialData: [],
     refetchOnWindowFocus: false,
+    refetchOnMount: !mutatedHotels.length,
   });
 
-  // Effect to handle sorting whenever `sortBy` or `searchQuery` changes
   useEffect(() => {
     if (!hotels.length) return;
 
-    // Filter hotels based on search query
     const filtered =
       searchQuery.trim() === ""
         ? hotels
@@ -44,7 +43,6 @@ function Hotels() {
             hotel.name.toLowerCase().includes(searchQuery.toLowerCase())
           );
 
-    // Sort hotels based on the current `sortBy` value
     const sortedHotels = [...filtered].sort((a, b) => {
       switch (sortBy) {
         case "name-asc":
@@ -64,17 +62,16 @@ function Hotels() {
         case "price-desc":
           return b.price - a.price;
         default:
-          return 0; // No sorting
+          return 0;
       }
     });
 
-    // Update the mutatedHotels state with the sorted and filtered hotels
     setMutatedHotels(sortedHotels);
-  }, [sortBy, searchQuery, hotels]); // React to changes in sortBy, searchQuery, or hotels
+  }, [sortBy, searchQuery]);
 
   const observe: IntersectionObserverCallback = (entries) => {
     entries.forEach((entry) => {
-      if (entry.isIntersecting) {
+      if (entry.isIntersecting && !isFetching) {
         setPage((prev) => prev + 1);
         observer.unobserve(entry.target);
       }
