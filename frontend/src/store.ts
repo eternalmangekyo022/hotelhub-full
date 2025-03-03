@@ -10,3 +10,5 @@ export const selectedHotelAtom = atom<Hotel | null>(null);
 
 export const sortByAtom = atom<ISortBy>("");
 export const searchQueryAtom = atom("");
+export const pageAtom = atom<number>(1);
+export const hotelsAtom = atom<Hotel[]>([]);
