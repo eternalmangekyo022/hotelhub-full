@@ -49,39 +49,25 @@
     }
   }
 
-  button {
-    width: 9em;
-    height: 3em;
-    border-radius: 30em;
-    font-size: 15px;
-    font-family: inherit;
-    font-weight: bold;
-    border: none;
-    position: relative;
-    overflow: hidden;
-    z-index: 1;
+  button{
+
+    display: inline-block;
+    outline: 0;
+    border: 0;
     cursor: pointer;
-    box-shadow: 6px 6px 12px #c5c5c5,
-                -6px -6px 12px #ffffff;
-   }
-   
-   button::before {
-    content: '';
-    width: 0;
-    height: 3em;
-    border-radius: 30em;
-    position: absolute;
-    top: 0;
-    left: 0;
-    background-image: linear-gradient(to right, #0fd850 0%, #f9f047 100%);
-    transition: .5s ease;
-    display: block;
-    z-index: -1;
-   }
-   
-   button:hover::before {
-    width: 9em;
-   }
+    background: #000000;
+    color: #FFFFFF;
+    border-radius: 8px;
+    padding: 14px 24px 16px;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1;
+    transition: transform 200ms,background 200ms;
+    :hover{
+        transform: translateY(-2px);
+    }
+    
+  }
    .arrow{
     width: 60px;
     cursor: pointer;
@@ -116,7 +102,7 @@
   list-style: none;
   width: 900px;
   justify-content: center;
-  padding-bottom: 50px;
+  padding-bottom: 35px;
 }
 
 .amenities-list li {
