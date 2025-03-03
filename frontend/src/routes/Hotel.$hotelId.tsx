@@ -13,10 +13,10 @@ export const Route = createFileRoute("/Hotel/$hotelId")({
   component: HotelDetails,
 });
 
-
-function HotelDetails() {
+export default function HotelDetails() {
   const { hotelId } = Route.useParams();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
   const [favorites, setFavorites] = useAtom(favoritesAtom);
   const [selectedHotel] = useAtom(selectedHotelAtom);
   const config = {
@@ -153,5 +153,8 @@ function HotelDetails() {
     </div>
   );
 }
+<<<<<<< HEAD
 
 export default HotelDetails;
+=======
+>>>>>>> 30a540c3329c50102743d8f9656d840e74f4b00f

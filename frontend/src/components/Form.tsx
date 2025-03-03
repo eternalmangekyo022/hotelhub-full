@@ -42,7 +42,7 @@ export default function Login({ register }: IProps) {
         throw new Error(data.message || "Something went wrong");
       if (!register) localStorage.setItem("token", data.token);
 
-      navigate({ to: register ? "/login" : "/register" }); // Redirect on success
+      navigate({ to: register ? ("/login" as string) : "/register" }); // Redirect on success
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       setError(err.message);
@@ -121,7 +121,9 @@ export default function Login({ register }: IProps) {
                 {register
                   ? "Already have an account?"
                   : "Don't have an account?"}
-                <Link to={`/${register ? "Login" : "register"}`}>
+                <Link
+                  to={register ? ("/login" as string) : ("/register" as string)}
+                >
                   {register ? "Login" : "Sign up"}
                 </Link>
               </span>

@@ -41,7 +41,6 @@ export default function Find() {
     if (!sortBySchema.safeParse(e.target.value).success) return;
     const toSortBy = e.target.value as ISortBy;
     setSortBy(toSortBy);
-    console.log(toSortBy);
   };
 
   return (

@@ -111,7 +111,7 @@ $hover-detail: #0056b3; // For button hover effect
 		padding: 16px;
 		width: 280px;
 		box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.1);
-		transition: transform 0.2s ease-in-out;
+		transition: 0.2s ease-in-out;
 		text-align: center;
 		cursor: pointer;
 
@@ -122,8 +122,8 @@ $hover-detail: #0056b3; // For button hover effect
 		}
 
 		&:hover {
-			transform: scale(1.02);
-			box-shadow: 4px 8px 20px rgba(0, 0, 0, 0.3);
+			transform: scale(1.01);
+			box-shadow: 4px 8px 20px rgba(0, 0, 0, 0.2);
 		}
 
 		.hotel-title {
