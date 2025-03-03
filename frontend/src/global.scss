@@ -1,6 +1,10 @@
 $main: (
 	"light": #f0ecfc,
 	"dark": #600dc6,
-	"header-h": 8svh,
-	"footer-h": 25svh
+	"header-h": 14svh,
+	"footer-h": 23svh
 ) !default;
+
+main {
+	min-height: calc(100vh - map-get($main, "header-h") - map-get($main, "footer-h"));
+}

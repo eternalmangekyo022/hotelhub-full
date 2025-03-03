@@ -7,3 +7,6 @@ export const favoritesAtom = atom<number[]>(
 );
 
 export const selectedHotelAtom = atom<Hotel | null>(null);
+
+export const sortByAtom = atom<ISortBy>("");
+export const searchQueryAtom = atom("");

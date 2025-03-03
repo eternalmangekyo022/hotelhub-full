@@ -11,7 +11,7 @@ interface IStar {
   src: string;
 }
 
-const HotelCard = ({
+export default function HotelCard({
   hotel: {
     id,
     description,
@@ -25,7 +25,7 @@ const HotelCard = ({
     ratingCount,
   },
   idx,
-}: { hotel: Hotel } & { idx: number }) => {
+}: { hotel: Hotel } & { idx: number }) {
   const [imgIndex, setImgIndex] = useState(0);
   const [stars, setStars] = useState<IStar[]>([]);
   const [loadedImages, setLoadedImages] = useState<string[]>([]);
@@ -79,8 +79,8 @@ const HotelCard = ({
       payment,
       price,
       ratingCount,
-    });
-    navigate({ to: `/Hotel/${id}` });
+    } as Hotel);
+    navigate({ to: `/hotel/${id}` });
   }
 
   useEffect(() => {
@@ -157,6 +157,4 @@ const HotelCard = ({
       </p>
     </div>
   );
-};
-
-export default HotelCard;
+}

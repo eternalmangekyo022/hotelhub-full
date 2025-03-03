@@ -2,6 +2,7 @@ import { Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import LoginFormInput from "../LoginFormInput";
 import axios from "axios";
+import React from "react";
 
 interface IFormData {
   firstname?: string;
@@ -50,73 +51,81 @@ export default function Login({ register }: IProps) {
 
   return (
     <div className={`login-wrapper${register ? " register" : ""}`}>
-      <div className="login-form-wrapper">
+      <div className={`login-form-wrapper ${register ? "register" : "login"}`}>
         <form className="login-form" onSubmit={(e) => handleSubmit(e)}>
           <div className="login-form-inner">
-            <h1>{register ? "Register" : "Welcome back"}</h1>
-            <h2>
-              {register
-                ? "Create a HotelHub account"
-                : "Sign in to your HotelHub account"}
-            </h2>
-            {register && (
-              <>
-                <LoginFormInput
-                  uid="login-firstname"
-                  value={formData.firstname!}
-                  setValue={(val) =>
-                    setFormData({ ...formData, firstname: val })
-                  }
-                >
-                  First Name
-                </LoginFormInput>
-                <LoginFormInput
-                  uid="login-lastname"
-                  value={formData.lastname!}
-                  setValue={(val) =>
-                    setFormData({ ...formData, lastname: val })
-                  }
-                >
-                  Last Name
-                </LoginFormInput>
-                <LoginFormInput
-                  uid="login-phone"
-                  value={formData.phone!}
-                  setValue={(val) => setFormData({ ...formData, phone: val })}
-                >
-                  Phone
-                </LoginFormInput>
-              </>
-            )}
-            <LoginFormInput
-              uid="login-email"
-              value={formData.email}
-              setValue={(val) => setFormData({ ...formData, email: val })}
-            >
-              Email
-            </LoginFormInput>
-            <LoginFormInput
-              uid="login-password"
-              value={formData.password}
-              setValue={(val) => setFormData({ ...formData, password: val })}
-            >
-              Password
-            </LoginFormInput>
-            {!register && (
-              <div className="forgot-password">
-                <span className="no-select">Forgot your password?</span>
-              </div>
-            )}
-            {error && <p className="error">{error}</p>}
-            <button className="no-select" type="button">
-              {register ? "Register" : "Login"}
-            </button>
-            <span>
-              {register ? "Already have an account?" : "Don't have an account?"}
-              <Link to={`/${register ? "Login" : "register"}`}>
-                {register ? "Login" : "Sign up"}
-              </Link>
-            </span>
+            <div className="form-title">
+              <h1>{register ? "Register" : "Welcome back"}</h1>
+              <h2>
+                {register
+                  ? "Create a HotelHub account"
+                  : "Sign in to your HotelHub account"}
+              </h2>
+            </div>
+            <div className="inputs-wrapper">
+              {register && (
+                <>
+                  <LoginFormInput
+                    uid="login-firstname"
+                    value={formData.firstname!}
+                    setValue={(val) =>
+                      setFormData({ ...formData, firstname: val })
+                    }
+                  >
+                    First Name
+                  </LoginFormInput>
+                  <LoginFormInput
+                    uid="login-lastname"
+                    value={formData.lastname!}
+                    setValue={(val) =>
+                      setFormData({ ...formData, lastname: val })
+                    }
+                  >
+                    Last Name
+                  </LoginFormInput>
+                  <LoginFormInput
+                    uid="login-phone"
+                    value={formData.phone!}
+                    setValue={(val) => setFormData({ ...formData, phone: val })}
+                  >
+                    Phone
+                  </LoginFormInput>
+                </>
+              )}
+              <LoginFormInput
+                uid="login-email"
+                value={formData.email}
+                setValue={(val) => setFormData({ ...formData, email: val })}
+              >
+                Email
+              </LoginFormInput>
+              <LoginFormInput
+                uid="login-password"
+                value={formData.password}
+                setValue={(val) => setFormData({ ...formData, password: val })}
+              >
+                Password
+              </LoginFormInput>
+            </div>
+            <div className="actions">
+              {!register && (
+                <div className="forgot-password">
+                  <span className="no-select">Forgot your password?</span>
+                </div>
+              )}
+              {error && <p className="error">{error}</p>}
+              <button className="no-select" type="button">
+                {register ? "Register" : "Login"}
+              </button>
+              <span>
+                {register
+                  ? "Already have an account?"
+                  : "Don't have an account?"}
+                <Link to={`/${register ? "Login" : "register"}`}>
+                  {register ? "Login" : "Sign up"}
+                </Link>
+              </span>
+            </div>
           </div>
         </form>
         <div className="login-image" />
