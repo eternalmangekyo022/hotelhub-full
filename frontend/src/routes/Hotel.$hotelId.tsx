@@ -128,7 +128,8 @@ function HotelDetails() {
         <span style={{ margin: ".2rem" }}>{`(${hotel.ratingCount || 0})`}</span>
       </p>
       <div>
-  <strong>Amenities:</strong>
+        <p><strong>Amenities:</strong></p>
+  
   {isAmenitiesLoading ? (
     <p>Loading amenities...</p>
   ) : hotelAmenities.length > 0 ? (
