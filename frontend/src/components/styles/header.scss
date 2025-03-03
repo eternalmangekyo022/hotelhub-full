@@ -25,6 +25,7 @@ header {
     justify-content: space-evenly;
     align-items: center;
   }
+
   a {
     position: relative;
     text-decoration: none;
@@ -90,7 +91,7 @@ header {
 
     // Adjust wishlist button for mobile
     .wishlist-button {
-      right: 5%; // Reduce spacing for smaller screens
+      right: 5%;
     }
   }
 }

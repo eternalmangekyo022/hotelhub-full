@@ -38,8 +38,8 @@ function Hotels() {
 
     const filtered =
       searchQuery.trim() === ""
-        ? hotels
-        : hotels.filter((hotel) =>
+        ? mutatedHotels
+        : mutatedHotels.filter((hotel) =>
             hotel.name.toLowerCase().includes(searchQuery.toLowerCase())
           );
 
@@ -67,7 +67,7 @@ function Hotels() {
     });
 
     setMutatedHotels(sortedHotels);
-  }, [sortBy, searchQuery]);
+  }, [sortBy, searchQuery, hotels]);
 
   const observe: IntersectionObserverCallback = (entries) => {
     entries.forEach((entry) => {

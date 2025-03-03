@@ -13,10 +13,10 @@ export const Route = createFileRoute("/Hotel/$hotelId")({
   component: HotelDetails,
 });
 
-function HotelDetails() {
+export default function HotelDetails() {
   const { hotelId } = Route.useParams();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [isFavorite, setIsFavorite] = useState(false);
+
   const [favorites, setFavorites] = useAtom(favoritesAtom);
   const [selectedHotel] = useAtom(selectedHotelAtom);
 
@@ -114,5 +114,3 @@ function HotelDetails() {
     </div>
   );
 }
-
-export default HotelDetails;

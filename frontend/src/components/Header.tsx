@@ -1,5 +1,5 @@
 import useScreen from "../hooks/useScreen.ts";
-import { Link } from "@tanstack/react-router";
+import { Link, useLocation } from "@tanstack/react-router";
 import Logo from "../assets/images/Logo.png";
 import Menu from "../assets/images/Menu Icon.png";
 import "./styles/header.scss";
@@ -26,6 +26,7 @@ const links: IHeaderLink[] = [
 
 export default function Header() {
   const [width] = useScreen();
+  const location = useLocation();
 
   return (
     <>
@@ -48,7 +49,15 @@ export default function Header() {
                 <Link
                   key={link}
                   onClick={() => (document.title = docTitle)}
-                  to={link}
+                  to={
+                    ["/register", "/login"].includes(
+                      location.pathname.toLowerCase()
+                    ) &&
+                    (link === "/register" ||
+                      (link.toLowerCase() as string) === "/login")
+                      ? location.pathname.toLowerCase()
+                      : (link.toLowerCase() as string)
+                  }
                   className="navlink underline"
                 >
                   {title}
