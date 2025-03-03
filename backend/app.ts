@@ -11,6 +11,7 @@ import hotels from "./routes/hotels.routes";
 import images from "./routes/images.routes";
 import bookings from "./routes/bookings.routes";
 import ratings from "./routes/ratings.routes";
+import amenities from "./routes/amenities.routes";
 
 dotenv.config({ path: "./.env" });
 
@@ -71,6 +72,7 @@ hotels(use, app);
 images(use, app);
 bookings(use, app);
 ratings(use, app);
+amenities(use, app);
 
 api.use("/api/v1", app);
 
