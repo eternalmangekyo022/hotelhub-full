@@ -12,7 +12,7 @@ import { searchQueryAtom, sortByAtom } from "../store.ts";
 
 import "./styles/hotels.scss";
 
-export const Route = createFileRoute("/hotels")({
+export const Route = createFileRoute("/Hotels")({
   component: Hotels,
 });
 
@@ -59,9 +59,9 @@ function Hotels() {
       filtered.sort((a, b) => {
         switch (sortBy) {
           case "name-asc":
-            return a.name.localeCompare(b.name);
-          case "name-desc":
             return b.name.localeCompare(a.name);
+          case "name-desc":
+            return a.name.localeCompare(b.name);
           case "rating-asc":
             return a.averageRating - b.averageRating;
           case "rating-desc":
@@ -79,6 +79,7 @@ function Hotels() {
         }
       })
     );
+    console.log(sortBy);
   }, [searchQuery, sortBy]);
 
   useEffect(() => {

@@ -13,6 +13,7 @@ $hover-detail: #0056b3; // For button hover effect
 	width: 50%;
 	padding: 10px;
 }
+
 .loading:before {
 	content: "Loading...";
 }
@@ -129,7 +130,13 @@ $hover-detail: #0056b3; // For button hover effect
 			font-size: 1.4rem;
 			color: #333;
 			margin-bottom: 8px;
+			margin-inline: auto;
+			text-wrap-mode: nowrap;
+			text-align: center;
+			width: 95%;
+			overflow-x: hidden;
 		}
+
 		.hotel-price {
 			font-size: 24px;
 			font-weight: bold;
@@ -144,6 +151,6 @@ $hover-detail: #0056b3; // For button hover effect
 	}
 }
 
-.location-pin{
+.location-pin {
 	width: 12px;
 }
