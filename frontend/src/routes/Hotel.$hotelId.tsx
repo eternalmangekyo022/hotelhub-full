@@ -13,13 +13,17 @@ export const Route = createFileRoute("/Hotel/$hotelId")({
   component: HotelDetails,
 });
 
+
 function HotelDetails() {
   const { hotelId } = Route.useParams();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [isFavorite, setIsFavorite] = useState(false);
   const [favorites, setFavorites] = useAtom(favoritesAtom);
   const [selectedHotel] = useAtom(selectedHotelAtom);
+  const config = {
+    headers: { Authorization: `Bearer pankix` }
+};
 
+  // Fetch hotel details
   const { data: hotel } = useQuery({
     queryKey: ["hotel", hotelId],
     queryFn: async () => {
@@ -31,6 +35,24 @@ function HotelDetails() {
     enabled: !selectedHotel,
     initialData: selectedHotel,
   });
+
+  // Fetch amenities
+  const { data: amenities, isLoading: isAmenitiesLoading } = useQuery({
+    queryKey: ["amenities"],
+    queryFn: async () => {
+      const { data } = await axios.get(
+        "http://localhost:3000/api/v1/amenities",
+        config
+      );
+      return data;
+    },
+  });
+
+  // Filter amenities for the current hotel
+  const hotelAmenities = amenities
+    ? amenities.filter((amenity) => amenity.hotel === parseInt(hotelId))
+    : [];
+
 
   function handlePrevImage() {
     if (hotel && hotel.images.length > 0) {
@@ -54,7 +76,7 @@ function HotelDetails() {
     index < roundedRating ? star : emptyStar
   );
 
-  if (!hotel) return <div className="loading"></div>;
+  if (!hotel) return <div className="loading">Loading hotel details...</div>;
 
   return (
     <div className="hotel-details">
@@ -105,6 +127,20 @@ function HotelDetails() {
         </span>
         <span style={{ margin: ".2rem" }}>{`(${hotel.ratingCount || 0})`}</span>
       </p>
+      <div>
+        <strong>Amenities:</strong>
+        {isAmenitiesLoading ? (
+          <p>Loading amenities...</p>
+        ) : hotelAmenities.length > 0 ? (
+          <ul>
+            {hotelAmenities.map((amenity, index) => (
+              <li key={index}>{amenity.amenity}</li>
+            ))}
+          </ul>
+        ) : (
+          <p>No amenities available for this hotel.</p>
+        )}
+      </div>
       <button
         className="book-now-btn"
         onClick={() => setFavorites((prev) => [...prev, hotel.id])}
