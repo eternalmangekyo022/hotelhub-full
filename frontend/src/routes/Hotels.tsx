@@ -32,6 +32,46 @@ function Hotels() {
     refetchOnWindowFocus: false,
   });
 
+  // Effect to handle sorting whenever `sortBy` or `searchQuery` changes
+  useEffect(() => {
+    if (!hotels.length) return;
+
+    // Filter hotels based on search query
+    const filtered =
+      searchQuery.trim() === ""
+        ? hotels
+        : hotels.filter((hotel) =>
+            hotel.name.toLowerCase().includes(searchQuery.toLowerCase())
+          );
+
+    // Sort hotels based on the current `sortBy` value
+    const sortedHotels = [...filtered].sort((a, b) => {
+      switch (sortBy) {
+        case "name-asc":
+          return a.name.localeCompare(b.name);
+        case "name-desc":
+          return b.name.localeCompare(a.name);
+        case "rating-asc":
+          return a.averageRating - b.averageRating;
+        case "rating-desc":
+          return b.averageRating - a.averageRating;
+        case "ratingtotal-asc":
+          return a.ratingCount - b.ratingCount;
+        case "ratingtotal-desc":
+          return b.ratingCount - a.ratingCount;
+        case "price-asc":
+          return a.price - b.price;
+        case "price-desc":
+          return b.price - a.price;
+        default:
+          return 0; // No sorting
+      }
+    });
+
+    // Update the mutatedHotels state with the sorted and filtered hotels
+    setMutatedHotels(sortedHotels);
+  }, [sortBy, searchQuery, hotels]); // React to changes in sortBy, searchQuery, or hotels
+
   const observe: IntersectionObserverCallback = (entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
@@ -46,41 +86,6 @@ function Hotels() {
     rootMargin: "0px",
     threshold: 1,
   });
-
-  useEffect(() => {
-    if (!hotels.length) return;
-    const filtered =
-      searchQuery.trim() === ""
-        ? hotels
-        : hotels.filter((hotel) =>
-            hotel.name.toLowerCase().includes(searchQuery.toLowerCase())
-          );
-    setMutatedHotels(
-      filtered.sort((a, b) => {
-        switch (sortBy) {
-          case "name-asc":
-            return b.name.localeCompare(a.name);
-          case "name-desc":
-            return a.name.localeCompare(b.name);
-          case "rating-asc":
-            return a.averageRating - b.averageRating;
-          case "rating-desc":
-            return b.averageRating - a.averageRating;
-          case "ratingtotal-asc":
-            return a.ratingCount - b.ratingCount;
-          case "ratingtotal-desc":
-            return b.ratingCount - a.ratingCount;
-          case "price-asc":
-            return a.price - b.price;
-          case "price-desc":
-            return b.price - a.price;
-          default:
-            return 0; // No sorting
-        }
-      })
-    );
-    console.log(sortBy);
-  }, [searchQuery, sortBy]);
 
   useEffect(() => {
     if (!mutatedHotels.length) return;

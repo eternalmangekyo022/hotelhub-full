@@ -4,18 +4,10 @@ import Filter from "../assets/images/Filter Iconvector.svg";
 import Search from "../assets/images/Search Iconvector.svg";
 import SearchPurple from "../assets/images/Search Iconvector Purple.svg";
 import Location from "../assets/images/Location Iconvector.svg";
-<<<<<<< HEAD
-
-interface FindProps {
-  setSearchQuery: (query: string) => void;
-  setSortBy: (sortBy: string) => void; // Callback to pass sorting criteria to the parent
-}
-=======
 import z from "zod";
 
 import { useAtom } from "jotai";
 import { sortByAtom, searchQueryAtom } from "../store";
->>>>>>> 75acb2af046e58e10914d24b191c3d82ffc61b58
 
 export default function Find() {
   const [input, setInput] = useState("");
@@ -49,6 +41,7 @@ export default function Find() {
     if (!sortBySchema.safeParse(e.target.value).success) return;
     const toSortBy = e.target.value as ISortBy;
     setSortBy(toSortBy);
+    console.log(toSortBy);
   };
 
   return (
