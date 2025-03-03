@@ -128,19 +128,21 @@ function HotelDetails() {
         <span style={{ margin: ".2rem" }}>{`(${hotel.ratingCount || 0})`}</span>
       </p>
       <div>
-        <strong>Amenities:</strong>
-        {isAmenitiesLoading ? (
-          <p>Loading amenities...</p>
-        ) : hotelAmenities.length > 0 ? (
-          <ul>
-            {hotelAmenities.map((amenity, index) => (
-              <li key={index}>{amenity.amenity}</li>
-            ))}
-          </ul>
-        ) : (
-          <p>No amenities available for this hotel.</p>
-        )}
-      </div>
+  <strong>Amenities:</strong>
+  {isAmenitiesLoading ? (
+    <p>Loading amenities...</p>
+  ) : hotelAmenities.length > 0 ? (
+    <div className="amenities-container">
+      <ul className="amenities-list">
+        {hotelAmenities.map((amenity, index) => (
+          <li key={index}>{amenity.amenity}</li>
+        ))}
+      </ul>
+    </div>
+  ) : (
+    <p>No amenities available for this hotel.</p>
+  )}
+</div>
       <button
         className="book-now-btn"
         onClick={() => setFavorites((prev) => [...prev, hotel.id])}

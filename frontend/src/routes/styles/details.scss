@@ -107,3 +107,45 @@
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
 }
 }
+.amenities-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 10px;
+  margin: 0;
+  list-style: none;
+  width: 900px;
+  justify-content: center;
+}
+
+.amenities-list li {
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 14px;
+  color: #333;
+  transition: background-color 0.3s ease;
+}
+
+.amenities-list li:hover {
+  background-color: #e0e0e0;
+  cursor: pointer;
+}
+
+.amenities-container {
+  max-width: 100%;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+  .amenities-list {
+    gap: 8px;
+  }
+
+  .amenities-list li {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+}
