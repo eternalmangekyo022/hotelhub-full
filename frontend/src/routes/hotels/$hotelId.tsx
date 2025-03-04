@@ -64,7 +64,6 @@ export default function HotelDetails() {
   async function importImage(url: string) {
     try {
       const fullPath = `../../assets/vectors/${url}`;
-      console.log(fullPath);
       const response = await import(fullPath);
       return response.default;
     } catch (e) {
