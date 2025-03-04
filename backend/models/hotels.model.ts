@@ -51,3 +51,53 @@ export async function getHotelsById(ids: number[]) {
   );
   return hotels;
 }
+
+export async function getHotelsFiltered(
+  query: Partial<
+    Omit<Hotel, "id" | "price" | "images" | "description"> & {
+      minPrice: string;
+      maxPrice: string;
+      limit: string;
+      offset: string;
+    }
+  >
+) {
+  const numbers = "id,minPrice,maxPrice,owner_id,x,y,class,capacity".split(",");
+  const toSearch = Object.entries(query)
+    .filter(([k]) => !["maxPrice", "minPrice", "limit", "offset"].includes(k))
+    .map(([k, v]) => `${k} = ${numbers.includes(k) ? v : `'${v}'`}`)
+    .join(" and ");
+
+  let priceFilter = "";
+
+  if (query.maxPrice || query.minPrice) {
+    let {
+      minPrice: minimum,
+      maxPrice: maximum,
+    }: { minPrice?: string | number; maxPrice?: string | number } = query;
+    [minimum, maximum] = [minimum, maximum].map((p) =>
+      p === undefined ? undefined : Number(p)
+    );
+    if (minimum !== undefined && maximum !== undefined) {
+      priceFilter = `${
+        priceFilter || toSearch ? " and " : ""
+      }price between ${Math.min(minimum, maximum)} and ${Math.max(
+        minimum,
+        maximum
+      )}`;
+    } else if (minimum !== undefined) {
+      priceFilter = `${
+        priceFilter || toSearch ? " and " : ""
+      }price >= ${minimum}`;
+    } else if (maximum !== undefined) {
+      priceFilter = `${
+        priceFilter || toSearch ? " and " : ""
+      }price <= ${maximum}`;
+    }
+  }
+  const searchQuery = `SELECT * FROM hotels where ${toSearch}${priceFilter} limit ${
+    Number(query.limit) || 30
+  } offset ${Number(query.offset) || 0}`;
+
+  return await db.select<Hotel>(searchQuery);
+}

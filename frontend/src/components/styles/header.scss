@@ -29,24 +29,27 @@ header {
   a {
     position: relative;
     text-decoration: none;
-    color: #fff;
+    color: transparent;
     font-weight: 600;
+    user-select: none;
+    background: linear-gradient(to top, white 50%, rgb(124, 124, 124) 50%);
+    background-clip: text;
+    background-size: 100% 200%;
+    background-position: -100% -100%;
+    transition: 0.15s ease-in-out;
+    z-index: 1;
 
-    &.underline::before {
-      content: "";
-      width: 0;
-      position: absolute;
-      bottom: -10%;
-      height: 1.5px;
-      background: #fff;
-      left: 50%;
-      transform: translateX(-50%);
-      transition: width 0.3s;
+    &.underline:hover {
+      background-position: -100% 0;
+      transform: translateY(-10%);
     }
 
-    &:hover::before,
-    &.active::before {
-      width: 90%;
+    &.active {
+      outline: #803cec;
+    }
+
+    &.underline:hover::before {
+      display: block;
     }
   }
 

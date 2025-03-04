@@ -29,6 +29,7 @@ export default function LoginFormInput({
         {children}
       </label>
       <input
+        autoComplete="off"
         onKeyDown={(e) => e.key === "Escape" && inputRef.current?.blur()}
         type={uid === "login-password" ? "password" : "text"}
         name={uid}

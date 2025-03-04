@@ -47,6 +47,7 @@ export default function Header() {
             <>
               {links.map(({ link, title, docTitle }) => (
                 <Link
+                  draggable={false}
                   key={link}
                   onClick={() => (document.title = docTitle)}
                   to={

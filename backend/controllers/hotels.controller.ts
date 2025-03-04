@@ -1,4 +1,9 @@
-import { getHotels, getHotelById, getHotelsById } from "../models/hotels.model";
+import {
+  getHotels,
+  getHotelById,
+  getHotelsById,
+  getHotelsFiltered,
+} from "../models/hotels.model";
 
 export default {
   getHotels: async ({ query: { offset } }: any, res: any) => {
@@ -17,6 +22,10 @@ export default {
     res: any
   ) => {
     const hotels = await getHotelsById(ids.split(",").map(Number));
+    res.json(hotels);
+  },
+  getHotelsFiltered: async ({ query }: any, res: any) => {
+    const hotels = await getHotelsFiltered(query);
     res.json(hotels);
   },
 };

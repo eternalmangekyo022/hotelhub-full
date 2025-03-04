@@ -71,3 +71,7 @@ Authorization: Bearer pankix
 	"permissionId": 1,
 	"lastname": "Bene"
 }
+
+###
+GET {{base}}/hotels/filtered?minPrice=1000&limit=10
+Content-Type: application/json

@@ -7,6 +7,7 @@ export default (use: UseFn, app: Express) => {
   router.get("/", use(controller.getHotels));
   router.get("/id/:id", use(controller.getHotelById));
   router.get("/unison", use(controller.getHotelsById));
+  router.get("/filtered", use(controller.getHotelsFiltered));
 
   app.use("/hotels", router);
 };
