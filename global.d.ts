@@ -72,7 +72,8 @@ declare global {
 
   type Amenity = {
     id: number;
-    name: string;
+    amenity: string;
+    img: string;
   };
 
   type Hotel = {

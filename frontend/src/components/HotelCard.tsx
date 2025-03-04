@@ -80,7 +80,7 @@ export default function HotelCard({
       price,
       ratingCount,
     } as Hotel);
-    navigate({ to: `/hotel/${id}` });
+    navigate({ to: `/hotels/${id}` });
   }
 
   useEffect(() => {

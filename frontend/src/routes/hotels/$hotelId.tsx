@@ -1,15 +1,15 @@
 import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { useAtom } from "jotai";
-import { favoritesAtom, selectedHotelAtom } from "../store.ts";
-import "../routes/styles/details.scss";
-import star from "../assets/images/star.png";
-import emptyStar from "../assets/images/empty_star.png";
+import { favoritesAtom, selectedHotelAtom } from "../../store.ts";
+import "../styles/details.scss";
+import star from "../../assets/images/star.png";
+import emptyStar from "../../assets/images/empty_star.png";
 
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
-export const Route = createFileRoute("/Hotel/$hotelId")({
+export const Route = createFileRoute("/hotels/$hotelId")({
   component: HotelDetails,
 });
 
@@ -19,9 +19,6 @@ export default function HotelDetails() {
 
   const [favorites, setFavorites] = useAtom(favoritesAtom);
   const [selectedHotel] = useAtom(selectedHotelAtom);
-  const config = {
-    headers: { Authorization: `Bearer pankix` },
-  };
 
   const { data: hotel } = useQuery({
     queryKey: ["hotel", hotelId],
@@ -29,7 +26,6 @@ export default function HotelDetails() {
       const { data } = await axios.get<Hotel>(
         `http://localhost:3000/api/v1/hotels/id/${hotelId}`
       );
-      console.log(data);
       return data;
     },
     enabled: !selectedHotel,
@@ -40,11 +36,9 @@ export default function HotelDetails() {
   const { data: amenities, isLoading: isAmenitiesLoading } = useQuery({
     queryKey: ["amenities", hotelId],
     queryFn: async () => {
-      const { data } = await axios.get<{ amenity: string }[]>(
-        `http://localhost:3000/api/v1/amenities/${hotelId}`,
-        config
+      const { data } = await axios.get<Amenity[]>(
+        `http://localhost:3000/api/v1/amenities/${hotelId}`
       );
-      console.log(data);
       return data;
     },
     initialData: [],
@@ -64,6 +58,17 @@ export default function HotelDetails() {
       setCurrentImageIndex((prevIndex) =>
         prevIndex === hotel.images.length - 1 ? 0 : prevIndex + 1
       );
+    }
+  }
+
+  async function importImage(url: string) {
+    try {
+      const fullPath = `../../assets/vectors/${url}`;
+      console.log(fullPath);
+      const response = await import(fullPath);
+      return response.default;
+    } catch (e) {
+      console.error(e);
     }
   }
 
@@ -134,9 +139,20 @@ export default function HotelDetails() {
         ) : amenities.length > 0 ? (
           <div className="amenities-container">
             <ul className="amenities-list">
-              {amenities.map((amenity, index: number) => (
-                <li key={index}>{amenity.amenity}</li>
-              ))}
+              {amenities.map(async (amenity, index: number) => {
+                return (
+                  <li key={index}>
+                    <span>
+                      <img
+                        src={await importImage(amenity.img)}
+                        width="20"
+                        alt={amenity.img}
+                      />
+                    </span>
+                    {amenity.amenity}
+                  </li>
+                );
+              })}
             </ul>
           </div>
         ) : (

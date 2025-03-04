@@ -5,8 +5,10 @@ import e, {
   type Request as Req,
 } from "express";
 import dotenv from "dotenv";
-import users from "./routes/users.routes";
 import jwt from "jsonwebtoken";
+import rateLimit from "express-rate-limit";
+
+import users from "./routes/users.routes";
 import hotels from "./routes/hotels.routes";
 import images from "./routes/images.routes";
 import bookings from "./routes/bookings.routes";
@@ -29,10 +31,10 @@ api.use(
 );
 api.use(e.json());
 
-const excludeToken = ["register", "login", "refresh", "hotels"];
+const excludeToken = ["register", "login", "refresh", "hotels", "amenities"];
 
 const reg = `^(?!.*(${excludeToken.join("|")})).*`;
-// ^(?!.*(${excludeList.join("|")})).*
+
 const excludedTokenPath = new RegExp(reg);
 app.use(
   excludedTokenPath,
@@ -41,6 +43,7 @@ app.use(
     res: any,
     next: NextFunction
   ) => {
+    console.log("need auth", req.path);
     const {
       headers: { authorization },
     } = req;
@@ -75,8 +78,6 @@ ratings(use, app);
 amenities(use, app);
 
 api.use("/api/v1", app);
-
-const rateLimit = require("express-rate-limit");
 
 const limiter = rateLimit({
   windowMs: 60 * 1000, // 1 minute
