@@ -19,7 +19,11 @@ export default function HotelDetails() {
 
   const [favorites, setFavorites] = useAtom(favoritesAtom);
   const [selectedHotel] = useAtom(selectedHotelAtom);
+  const config = {
+    headers: { Authorization: `Bearer pankix` }
+};
 
+  // Fetch hotel details
   const { data: hotel } = useQuery({
     queryKey: ["hotel", hotelId],
     queryFn: async () => {
@@ -31,6 +35,24 @@ export default function HotelDetails() {
     enabled: !selectedHotel,
     initialData: selectedHotel,
   });
+
+  // Fetch amenities
+  const { data: amenities, isLoading: isAmenitiesLoading } = useQuery({
+    queryKey: ["amenities"],
+    queryFn: async () => {
+      const { data } = await axios.get(
+        "http://localhost:3000/api/v1/amenities",
+        config
+      );
+      return data;
+    },
+  });
+
+  // Filter amenities for the current hotel
+  const hotelAmenities = amenities
+    ? amenities.filter((amenity) => amenity.hotel === parseInt(hotelId))
+    : [];
+
 
   function handlePrevImage() {
     if (hotel && hotel.images.length > 0) {
@@ -54,7 +76,7 @@ export default function HotelDetails() {
     index < roundedRating ? star : emptyStar
   );
 
-  if (!hotel) return <div className="loading"></div>;
+  if (!hotel) return <div className="loading">Loading hotel details...</div>;
 
   return (
     <div className="hotel-details">
@@ -105,6 +127,23 @@ export default function HotelDetails() {
         </span>
         <span style={{ margin: ".2rem" }}>{`(${hotel.ratingCount || 0})`}</span>
       </p>
+      <div>
+        <p><strong>Amenities:</strong></p>
+  
+  {isAmenitiesLoading ? (
+    <p>Loading amenities...</p>
+  ) : hotelAmenities.length > 0 ? (
+    <div className="amenities-container">
+      <ul className="amenities-list">
+        {hotelAmenities.map((amenity, index) => (
+          <li key={index}>{amenity.amenity}</li>
+        ))}
+      </ul>
+    </div>
+  ) : (
+    <p>No amenities available for this hotel.</p>
+  )}
+</div>
       <button
         className="book-now-btn"
         onClick={() => setFavorites((prev) => [...prev, hotel.id])}
@@ -114,3 +153,8 @@ export default function HotelDetails() {
     </div>
   );
 }
+<<<<<<< HEAD
+
+export default HotelDetails;
+=======
+>>>>>>> 30a540c3329c50102743d8f9656d840e74f4b00f

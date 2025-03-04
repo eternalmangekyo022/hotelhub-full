@@ -27,7 +27,7 @@ export default function About() {
     },
     {
       name: 'Bene Zoltán',
-      position: 'Chief Culinary Curator',
+      position: 'Super CEO',
       img: Person2,
     },
     {
