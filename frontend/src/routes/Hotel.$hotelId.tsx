@@ -20,39 +20,36 @@ export default function HotelDetails() {
   const [favorites, setFavorites] = useAtom(favoritesAtom);
   const [selectedHotel] = useAtom(selectedHotelAtom);
   const config = {
-    headers: { Authorization: `Bearer pankix` }
-};
+    headers: { Authorization: `Bearer pankix` },
+  };
 
-  // Fetch hotel details
   const { data: hotel } = useQuery({
     queryKey: ["hotel", hotelId],
     queryFn: async () => {
       const { data } = await axios.get<Hotel>(
         `http://localhost:3000/api/v1/hotels/id/${hotelId}`
       );
+      console.log(data);
       return data;
     },
     enabled: !selectedHotel,
     initialData: selectedHotel,
+    refetchOnWindowFocus: false,
   });
 
-  // Fetch amenities
   const { data: amenities, isLoading: isAmenitiesLoading } = useQuery({
-    queryKey: ["amenities"],
+    queryKey: ["amenities", hotelId],
     queryFn: async () => {
-      const { data } = await axios.get(
-        "http://localhost:3000/api/v1/amenities",
+      const { data } = await axios.get<{ amenity: string }[]>(
+        `http://localhost:3000/api/v1/amenities/${hotelId}`,
         config
       );
+      console.log(data);
       return data;
     },
+    initialData: [],
+    refetchOnWindowFocus: false,
   });
-
-  // Filter amenities for the current hotel
-  const hotelAmenities = amenities
-    ? amenities.filter((amenity) => amenity.hotel === parseInt(hotelId))
-    : [];
-
 
   function handlePrevImage() {
     if (hotel && hotel.images.length > 0) {
@@ -128,22 +125,24 @@ export default function HotelDetails() {
         <span style={{ margin: ".2rem" }}>{`(${hotel.ratingCount || 0})`}</span>
       </p>
       <div>
-        <p><strong>Amenities:</strong></p>
-  
-  {isAmenitiesLoading ? (
-    <p>Loading amenities...</p>
-  ) : hotelAmenities.length > 0 ? (
-    <div className="amenities-container">
-      <ul className="amenities-list">
-        {hotelAmenities.map((amenity, index) => (
-          <li key={index}>{amenity.amenity}</li>
-        ))}
-      </ul>
-    </div>
-  ) : (
-    <p>No amenities available for this hotel.</p>
-  )}
-</div>
+        <p>
+          <strong>Amenities:</strong>
+        </p>
+
+        {isAmenitiesLoading ? (
+          <p>Loading amenities...</p>
+        ) : amenities.length > 0 ? (
+          <div className="amenities-container">
+            <ul className="amenities-list">
+              {amenities.map((amenity, index: number) => (
+                <li key={index}>{amenity.amenity}</li>
+              ))}
+            </ul>
+          </div>
+        ) : (
+          <p>No amenities available for this hotel.</p>
+        )}
+      </div>
       <button
         className="book-now-btn"
         onClick={() => setFavorites((prev) => [...prev, hotel.id])}
@@ -153,8 +152,3 @@ export default function HotelDetails() {
     </div>
   );
 }
-<<<<<<< HEAD
-
-export default HotelDetails;
-=======
->>>>>>> 30a540c3329c50102743d8f9656d840e74f4b00f

@@ -70,6 +70,11 @@ declare global {
 
   type Image = { thumb: string; full: string };
 
+  type Amenity = {
+    id: number;
+    name: string;
+  };
+
   type Hotel = {
     id: number;
     name: string;
