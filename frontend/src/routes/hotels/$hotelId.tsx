@@ -7,8 +7,6 @@ import star from "../../assets/images/star.png";
 import emptyStar from "../../assets/images/empty_star.png";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { toast } from 'react-toastify';
-import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export const Route = createFileRoute("/hotels/$hotelId")({
