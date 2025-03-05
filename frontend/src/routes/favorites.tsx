@@ -51,7 +51,7 @@ export default function Favorites() {
               <div className="item-details">
                 <h2>{item.name}</h2>
                 <p>{item.city}</p>
-                <p>${item.price} per night</p>
+                <p><span className="price">${item.price}</span> / night</p>
                 <button
                   className="remove-button"
                   onClick={() =>
