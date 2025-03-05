@@ -5,9 +5,11 @@ import { favoritesAtom, selectedHotelAtom } from "../../store.ts";
 import "../styles/details.scss";
 import star from "../../assets/images/star.png";
 import emptyStar from "../../assets/images/empty_star.png";
-
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import { toast } from 'react-toastify';
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export const Route = createFileRoute("/hotels/$hotelId")({
   component: HotelDetails,
@@ -16,7 +18,6 @@ export const Route = createFileRoute("/hotels/$hotelId")({
 export default function HotelDetails() {
   const { hotelId } = Route.useParams();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-
   const [favorites, setFavorites] = useAtom(favoritesAtom);
   const [selectedHotel] = useAtom(selectedHotelAtom);
 
@@ -159,11 +160,20 @@ export default function HotelDetails() {
         )}
       </div>
       <button
-        className="book-now-btn"
-        onClick={() => setFavorites((prev) => [...prev, hotel.id])}
-      >
-        Add to Favorites
-      </button>
+  className="book-now-btn"
+  onClick={() => {
+    console.log("Button clicked");
+    if (!favorites.includes(hotel.id)) {
+      setFavorites((prev) => [...prev, hotel.id]);
+      alert("Added to favorites!"); // Shows a browser alert
+    } else {
+      alert("Already in favorites!");
+    }
+  }}
+>
+  Add to Favorites
+</button>
+
     </div>
   );
 }

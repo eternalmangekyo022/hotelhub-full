@@ -1,39 +1,49 @@
 import { Link } from "@tanstack/react-router";
-import "./styles/wishlist.scss";
+import "./styles/favorites.scss";
 import { useAtom } from "jotai";
 import { favoritesAtom } from "../store.ts";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import { toast } from "react-toastify";
 
-const Wishlist = () => {
+const Favorites = () => {
   const [favorites, setFavorites] = useAtom(favoritesAtom);
 
-  const { data: loaded } = useQuery<unknown, unknown, Hotel[]>({
-    queryKey: ["favorites", favorites.join(",")],
+  const { data: loaded = [], isFetching } = useQuery<Hotel[]>({
+    queryKey: ["favorites", favorites], // Use array instead of joined string
     refetchOnWindowFocus: false,
     queryFn: async () => {
-      return await axios.get(
-        `/api/v1/hotels/unison?ids=${favorites.join(",")}`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      if (!favorites.length) return [];
+      try {
+        const hotelRequests = favorites.map((id) =>
+          axios.get<Hotel>(`http://localhost:3000/api/v1/hotels/id/${id}`, {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer pankix",
+            },
+          })
+        );
+        const responses = await Promise.all(hotelRequests);
+        return responses.map((res) => res.data);
+      } catch (error) {
+        console.error("Error fetching favorite hotels:", error);
+        return [];
+      }
     },
-    enabled: !!favorites.length,
-    initialData: [],
+    enabled: favorites.length > 0,
   });
 
   return (
-    <div className="wishlist-page">
-      <h1>Your Wishlist</h1>
-      <div className="wishlist-items">
-        {loaded.length > 0 ? (
+    <div className="favorites-page">
+      <h1>Your Favorites</h1>
+      <div className="favorites-items">
+        {isFetching ? (
+          <p>Loading favorites...</p>
+        ) : loaded.length > 0 ? (
           loaded.map((item) => (
-            <div key={item.id} className="wishlist-item">
+            <div key={item.id} className="favorites-item">
               <img
-                src={item.images[0]?.full}
+                src={item.images[0]?.full || "/placeholder.jpg"} // Add a fallback image
                 alt={item.name}
                 className="item-image"
               />
@@ -43,9 +53,10 @@ const Wishlist = () => {
                 <p>${item.price} per night</p>
                 <button
                   className="remove-button"
-                  onClick={() =>
-                    setFavorites((prev) => prev.filter((id) => id !== item.id))
-                  }
+                  onClick={() => {
+                    setFavorites((prev) => prev.filter((id) => id !== item.id));
+                    toast.success("Removed from favorites!");
+                  }}
                 >
                   Remove
                 </button>
@@ -54,8 +65,8 @@ const Wishlist = () => {
           ))
         ) : (
           <p>
-            Your wishlist is empty. <Link to="/Hotels">Explore hotels</Link> to
-            add items to your wishlist.
+            Your favorites is empty. <Link to="/Hotels">Explore hotels</Link> to
+            add items to your favorites.
           </p>
         )}
       </div>
@@ -63,4 +74,4 @@ const Wishlist = () => {
   );
 };
 
-export default Wishlist;
+export default Favorites;

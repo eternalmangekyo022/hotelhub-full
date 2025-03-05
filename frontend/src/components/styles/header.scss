@@ -6,7 +6,7 @@ header {
   height: map-get(global.$main, "header-h");
   display: flex;
   align-items: center;
-  justify-content: space-between; // Add this to create space between navbar and wishlist button
+  justify-content: space-between; // Add this to create space between navbar and favorites button
   background-color: black;
   z-index: 11;
 
@@ -53,8 +53,8 @@ header {
     }
   }
 
-  // Wishlist button styles
-  .wishlist-button {
+  // favorites button styles
+  .favorites-button {
     position: absolute; // Position it absolutely within the header
     right: 8%; // Align to the right with the same spacing as the navbar
     top: 50%; // Center vertically
@@ -76,7 +76,7 @@ header {
   }
 }
 
-.wishlist {
+.favorites {
   font-weight: bold;
   padding: 0.4rem;
 }
@@ -92,8 +92,8 @@ header {
       left: 0 !important;
     }
 
-    // Adjust wishlist button for mobile
-    .wishlist-button {
+    // Adjust favorites button for mobile
+    .favorites-button {
       right: 5%;
     }
   }

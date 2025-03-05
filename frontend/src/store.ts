@@ -1,10 +1,9 @@
 import { atom } from "jotai";
+import { atomWithStorage } from 'jotai/utils';
 
 const savedFavorites = localStorage.getItem("hotelhub-fav");
 
-export const favoritesAtom = atom<number[]>(
-  savedFavorites ? savedFavorites.split(",").map(Number) : []
-);
+export const favoritesAtom = atomWithStorage<number[]>('favorites', []);
 
 export const selectedHotelAtom = atom<Hotel | null>(null);
 

@@ -67,8 +67,8 @@ export default function Header() {
             </>
           )}
         </nav>
-        <Link to="/favorites" className="wishlist-button navlink">
-          <p className="wishlist">Favorites</p>
+        <Link to="/favorites" className="favorites-button navlink">
+          <p className="favorites">Favorites</p>
         </Link>
       </header>
     </>
