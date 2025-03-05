@@ -20,8 +20,8 @@ export default function Hero() {
         <h1>HotelHub: Explore, Reserve, Relax.</h1>
         <p>
           Dive into wonders with HotelHub. We curate top-rated hotels, each with
-          distinct flavors and ambiance. From hotels to bnbs', find your perfect
-          spot with HotelHub.
+          distinct flavors and ambiance. From hotels to bnbs&apos;, find your
+          perfect spot with HotelHub.
         </p>
         <button type="button" onClick={() => navigate({ to: "/Hotels" })}>
           <img width="13%" src={Search} alt="Search" />

@@ -1,10 +1,24 @@
 import db from "./db";
 
 export async function getHotels(offset: string) {
-  let hotels = await db.select<Hotel>(
-    "SELECT * FROM hotels limit 30 offset ?",
-    parseInt(offset)
-  );
+  let hotels = (
+    await db.select<Hotel>(
+      "SELECT * FROM hotels limit 30 offset ?",
+      parseInt(offset)
+    )
+  ).map((h) => ({ ...h, images: [] as Image[] }));
+
+  const mixedRatings = (
+    await db.select(
+      `select * from ratings where hotel_id in (${hotels
+        .map((hotel) => hotel.id)
+        .join(",")})`
+    )
+  ).reduce((a, b) => {
+    if (a[b.hotel_id]) a[b.hotel_id].push(b.rating);
+    else a[b.hotel_id] = [b.rating];
+    return a;
+  }, {} as { [key: number]: number[] });
 
   const ids = hotels.map((hotel) => hotel.id).join(",");
   const images = await db.select<{
@@ -14,8 +28,6 @@ export async function getHotels(offset: string) {
     full: string;
   }>(`select * from images where hotel_id in (${ids})`);
 
-  hotels = hotels.map((h) => ({ ...h, images: [] }));
-
   for (let i = 0; i < hotels.length; i++) {
     for (let j = 0; j < images.length; j++) {
       if (hotels[i].id === images[j].hotel_id) {
@@ -24,8 +36,16 @@ export async function getHotels(offset: string) {
     }
   }
 
-  return hotels;
+  return hotels.map((hotel) => {
+    console.log();
+    return {
+      ...hotel,
+      ratingCount: mixedRatings[hotel.id.toString()].length,
+    };
+  });
 }
+
+console.log(await getHotels("0"));
 
 export async function getHotelById(id: string) {
   const hotel = await db.selectOne<Hotel>("SELECT * FROM hotels WHERE id = ?", [
