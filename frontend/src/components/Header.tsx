@@ -3,8 +3,12 @@ import { Link, useLocation } from "@tanstack/react-router";
 import Logo from "../assets/images/Logo.png";
 import Menu from "../assets/images/Menu Icon.png";
 import "./styles/header.scss";
+import { favoritesAtom } from "../store.ts";
+import { useAtom } from "jotai";
 
 type IPages = "" | "about" | "contact" | "hotels" | "register";
+
+
 
 type IHeaderLink = {
   docTitle: string;
@@ -27,7 +31,7 @@ const links: IHeaderLink[] = [
 export default function Header() {
   const [width] = useScreen();
   const location = useLocation();
-
+  const [favorites] = useAtom(favoritesAtom);
   return (
     <>
       <header>
@@ -69,6 +73,8 @@ export default function Header() {
         </nav>
         <Link to="/favorites" className="favorites-button navlink">
           <p className="favorites">Favorites</p>
+          <p className="favorites-count">{favorites.length}</p>
+
         </Link>
       </header>
     </>
