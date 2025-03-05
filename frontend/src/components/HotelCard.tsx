@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import star from "../assets/images/star.png";
 import emptyStar from "../assets/images/empty_star.png";
 import locationpin from "../assets/images/location-pin.png";
-import { useNavigate } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { useAtom } from "jotai";
 import { selectedHotelAtom } from "../store.ts";
 
@@ -155,6 +155,9 @@ export default function HotelCard({
         </span>
         <span style={{ margin: ".2rem" }}>{`(${ratingCount || 0})`}</span>
       </p>
+      <Link to={`/Booking`}>
+      <button className="book-btn">Book Now</button>
+      </Link>
     </div>
   );
 }

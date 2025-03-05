@@ -53,6 +53,17 @@ export default function Favorites() {
                 <h2>{item.name}</h2>
                 <p>{item.city}</p>
                 <p><span className="price">${item.price}</span> / night</p>
+                <Link to={`/Booking`}><button
+                  className="book-button">
+                  
+                  Book Now
+                </button></Link>
+                
+                <Link to={`/Hotels/${item.id}`}>
+                <button className="view-button"> 
+                  View Details
+                </button></Link>
+                
                 <button
                   className="remove-button"
                   onClick={() =>
@@ -61,6 +72,8 @@ export default function Favorites() {
                 >
                   Remove
                 </button>
+                
+                
               </div>
             </div>
           ))
