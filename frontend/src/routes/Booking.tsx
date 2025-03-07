@@ -126,6 +126,7 @@ const HotelBooking = () => {
     <div className="field">
       <label className="label">Leaving Date</label>
       <DatePicker
+      popperPlacement='top'
         selected={leavingDate}
         onChange={(date) => setLeavingDate(date)}
         className="input"
