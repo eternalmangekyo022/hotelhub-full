@@ -131,5 +131,23 @@
     color: black;
     font-size: 1.1rem;
   }
+  .remove-all {
+    margin-top: 0.75rem;
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    background: linear-gradient(135deg, #ff4d4d, #ff1a1a);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.1s ease;
+    margin: 10px auto;
+    display: block;
+
+    &:hover {
+      background: linear-gradient(135deg, #ff1a1a, #cc0000);
+      transform: scale(1.05);
+    }
+  }
 
 }

@@ -39,7 +39,6 @@ export default function Favorites() {
   return (
     <div className="favorites-page">
       <h1>Your Favorites</h1>
-      <p onClick={() => setFavorites([])}>remove all</p>
       <div className="favorites-items">
         {loaded.length > 0 ? (
           loaded.map((item) => (
@@ -84,6 +83,8 @@ export default function Favorites() {
           </p>
         )}
       </div>
+      <button className="remove-all" onClick={() => setFavorites([])}>Remove all</button>
+
     </div>
   );
 }
