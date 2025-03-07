@@ -103,6 +103,7 @@ const HotelBooking = () => {
           <input
             type="number"
             className="input"
+            min={100}
             max={999}
             {...register('ccCvv', { required: true })}
           />
