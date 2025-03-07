@@ -116,6 +116,7 @@ const HotelBooking = () => {
     <div className="field">
       <label className="label">Arrival Date</label>
       <DatePicker
+      popperPlacement='top'
         selected={arrivalDate}
         onChange={(date) => setArrivalDate(date)}
         className="input"
