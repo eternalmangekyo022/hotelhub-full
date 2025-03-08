@@ -15,15 +15,14 @@ type IHeaderLink = {
 };
 
 const links: IHeaderLink[] = [
-  { docTitle: "HotelHub™", link: "/", title: "Home" },
   { docTitle: "HotelHub™ - About", link: "/about", title: "About Us" },
-  { docTitle: "HotelHub™ - Contact", link: "/contact", title: "Contact" },
   { docTitle: "HotelHub™ - Hotels", link: "/hotels", title: "Hotels" },
   {
     docTitle: "HotelHub™ - Register",
     link: "/register",
     title: "Register/Login",
   },
+  { docTitle: "HotelHub™ - Contact", link: "/contact", title: "Contact" },
 ];
 
 export default function Header() {

@@ -179,13 +179,123 @@
 			}
 		}
 
-		.login-image {
+		.login-sidebar {
+			$radius: 60%;
 			flex: 1;
 			background-color: #c3c3c3;
+			position: relative;
+			border-top-left-radius: $radius;
+			border-bottom-left-radius: $radius;
 			display: flex;
 			justify-content: center;
 			align-items: center;
-			position: relative;
+
+			&.login {
+				$radius: 8rem;
+				border-top-left-radius: $radius;
+				border-bottom-left-radius: $radius;
+			}
+
+			.content {
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+				gap: 0.7rem;
+				margin-bottom: 15%;
+
+				> * {
+					color: white;
+				}
+
+				h2 {
+					font-size: 1.2rem;
+					font-weight: 400;
+				}
+
+				a {
+					text-decoration: none;
+					display: grid;
+					place-items: center;
+					position: relative;
+					$size: 2.8rem;
+					background: none;
+					border: 3px solid white;
+					border-radius: 6px;
+					width: $size * 2.9;
+					height: $size;
+					font-size: 1.2rem;
+					font-weight: 650;
+					cursor: pointer;
+					overflow: hidden;
+
+					&:hover {
+						color: #c3c3c3;
+						&::before {
+							content: "Login";
+							animation: btn-hover 0.4s ease-in-out forwards;
+						}
+					}
+
+					&.login {
+						$size: 3rem;
+						&:hover::after {
+							content: "Sign up";
+							width: 100%;
+							text-align: center;
+						}
+					}
+
+					&.register {
+						&:hover::after {
+							content: "Login";
+						}
+					}
+
+					&:hover::after {
+						font-size: inherit;
+						font-weight: inherit;
+						color: #c3c3c3;
+						z-index: 4;
+						position: absolute;
+						left: 50%;
+						top: 50%;
+						transform: translate(-50%, -50%);
+					}
+
+					&::before {
+						content: "";
+						transition: 0.4s;
+						background: white;
+						border-radius: 100%;
+						width: 200%;
+						aspect-ratio: 1/1;
+						position: absolute;
+						left: 50%;
+						top: 50%;
+						transform: translate(-50%, -50%);
+						z-index: 1;
+						animation: btn-leave 0.1s ease-in-out forwards;
+					}
+
+					@keyframes btn-hover {
+						0% {
+							opacity: 0;
+							width: 0;
+						}
+						100% {
+							opacity: 1;
+							width: 200%;
+						}
+					}
+
+					@keyframes btn-leave {
+						to {
+							opacity: 0;
+						}
+					}
+				}
+			}
 
 			@media (max-width: 480px) {
 				flex: 0;

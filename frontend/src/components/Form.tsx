@@ -117,20 +117,21 @@ export default function Login({ register }: IProps) {
               <button className="no-select" type="button">
                 {register ? "Register" : "Login"}
               </button>
-              <span>
-                {register
-                  ? "Already have an account?"
-                  : "Don't have an account?"}
-                <Link
-                  to={register ? ("/login" as string) : ("/register" as string)}
-                >
-                  {register ? "Login" : "Sign up"}
-                </Link>
-              </span>
             </div>
           </div>
         </form>
-        <div className="login-image" />
+        <div className={`login-sidebar ${register ? "register" : "login"}`}>
+          <div className="content">
+            <h1>{register ? "Hello, Welcome!" : "Welcome back!"}</h1>
+            <h2>{register ? "Already have an account?" : "Not registered?"}</h2>
+            <Link
+              to={register ? ("/login" as string) : ("/register" as string)}
+              className={register ? "register" : "login"}
+            >
+              {register ? "Login" : "Sign up"}
+            </Link>
+          </div>
+        </div>
       </div>
     </div>
   );
