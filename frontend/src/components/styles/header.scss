@@ -81,6 +81,12 @@ header {
   padding: 0.4rem;
 }
 
+.favorites-count {
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 10px;
+}
+
 @media (max-width: 768px) {
   header {
     justify-content: center;
@@ -92,7 +98,6 @@ header {
       left: 0 !important;
     }
 
-    // Adjust favorites button for mobile
     .favorites-button {
       right: 5%;
     }

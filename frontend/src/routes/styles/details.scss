@@ -49,49 +49,48 @@
     }
   }
 
-  button{
-
+  button {
     display: inline-block;
     outline: 0;
     border: 0;
     cursor: pointer;
     background: #000000;
-    color: #FFFFFF;
+    color: #ffffff;
     border-radius: 8px;
     padding: 14px 24px 16px;
     font-size: 18px;
     font-weight: 700;
     line-height: 1;
-    transition: transform 200ms,background 200ms;
-    :hover{
-        transform: translateY(-2px);
+    transition:
+      transform 200ms,
+      background 200ms;
+    :hover {
+      transform: translateY(-2px);
     }
-    
   }
-   .arrow{
+  .arrow {
     width: 60px;
     cursor: pointer;
     padding-bottom: 160px;
     padding-top: 150px;
     border-radius: 10px;
-
-   }
-   .other-arrow{
+  }
+  .other-arrow {
     transform: scaleX(-1);
     width: 60px;
     cursor: pointer;
     padding-bottom: 160px;
     padding-top: 150px;
     border-radius: 10px;
-   }
-   .hotel-image{
+  }
+  .hotel-image {
     width: 500px;
     max-height: 500px;
-   }
-   .arrow:hover,
+  }
+  .arrow:hover,
   .other-arrow:hover {
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
-}
+  }
 }
 .amenities-list {
   display: flex;

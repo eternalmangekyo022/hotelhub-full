@@ -8,7 +8,7 @@ export async function getHotels(offset: string) {
     )
   ).map((h) => ({ ...h, images: [] as Image[] }));
 
-  const mixedRatings = (
+  const mixedRatings: { [key: number]: number[] } = (
     await db.select(
       `select * from ratings where hotel_id in (${hotels
         .map((hotel) => hotel.id)
@@ -40,7 +40,8 @@ export async function getHotels(offset: string) {
     console.log();
     return {
       ...hotel,
-      ratingCount: mixedRatings[hotel.id.toString()].length,
+      ratingCount: mixedRatings[hotel.id].length,
+      averageRating: mixedRatings[hotel.id].reduce((a, b) => a + b),
     };
   });
 }

@@ -8,8 +8,6 @@ import { useAtom } from "jotai";
 
 type IPages = "" | "about" | "contact" | "hotels" | "register";
 
-
-
 type IHeaderLink = {
   docTitle: string;
   link: `/${IPages}`;
@@ -74,7 +72,6 @@ export default function Header() {
         <Link to="/favorites" className="favorites-button navlink">
           <p className="favorites">Favorites</p>
           <p className="favorites-count">{favorites.length}</p>
-
         </Link>
       </header>
     </>

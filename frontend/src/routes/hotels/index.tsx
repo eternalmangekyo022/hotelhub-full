@@ -1,18 +1,23 @@
 import { useEffect } from "react";
-import HotelCard from "../components/HotelCard.tsx";
-import Find from "../components/Find.tsx";
+import HotelCard from "../../components/HotelCard.tsx";
+import Find from "../../components/Find.tsx";
 
-import { getHotels } from "../hooks/useHotels.ts";
+import { getHotels } from "../../hooks/useHotels.ts";
 
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 
 import { useAtom } from "jotai";
-import { searchQueryAtom, sortByAtom, pageAtom, hotelsAtom } from "../store.ts";
+import {
+  searchQueryAtom,
+  sortByAtom,
+  pageAtom,
+  hotelsAtom,
+} from "../../store.ts";
 
-import "./styles/hotels.scss";
+import "../styles/hotels.scss";
 
-export const Route = createFileRoute("/Hotels")({
+export const Route = createFileRoute("/hotels/")({
   component: Hotels,
 });
 
@@ -70,7 +75,7 @@ function Hotels() {
   }, [sortBy, searchQuery, hotels]);
 
   const observe: IntersectionObserverCallback = (entries) => {
-    if (!entries) return
+    if (!entries) return;
     entries.forEach((entry) => {
       if (entry.isIntersecting && !isFetching) {
         setPage((prev) => prev + 1);
@@ -94,7 +99,7 @@ function Hotels() {
       if ((i + 1) % 20 === 0) dividable.push(i);
 
     const toObserve = hotelCards[dividable[dividable.length - 1]];
-    if (!toObserve) return
+    if (!toObserve) return;
     observer.observe(toObserve);
 
     return () => {

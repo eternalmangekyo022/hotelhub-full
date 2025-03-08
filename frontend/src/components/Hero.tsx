@@ -17,7 +17,7 @@ export default function Hero() {
   return (
     <section className="hero">
       <section className="hero-text">
-        <h1>HotelHub: Explore, Reserve, Relax.</h1>
+        <h1>HotelHub moto: Explore, Reserve, Relax.</h1>
         <p>
           Dive into wonders with HotelHub. We curate top-rated hotels, each with
           distinct flavors and ambiance. From hotels to bnbs&apos;, find your

@@ -37,9 +37,9 @@ export default function HotelCard({
     // Preload the first image immediately
     if (images.length > 0) {
       const img = new Image();
-      img.src = images[0].thumb;
+      img.src = `/images/thumb/${images[0].thumb}`;
       img.onload = () => {
-        setLoadedImages([images[0].thumb]);
+        setLoadedImages([`/images/thumb/${images[0].thumb}`]);
       };
     }
 
@@ -48,9 +48,12 @@ export default function HotelCard({
       for (let i = 1; i < images.length; i++) {
         await new Promise((resolve) => setTimeout(resolve, 1000)); // 1 second delay
         const img = new Image();
-        img.src = images[i].thumb;
+        img.src = `/images/thumb/${images[0].thumb}`;
         img.onload = () => {
-          setLoadedImages((prev) => [...prev, images[i].thumb]);
+          setLoadedImages((prev) => [
+            ...prev,
+            `/images/thumb/${images[0].thumb}`,
+          ]);
         };
       }
     };
@@ -156,7 +159,7 @@ export default function HotelCard({
         <span style={{ margin: ".2rem" }}>{`(${ratingCount || 0})`}</span>
       </p>
       <Link to={`/Booking`}>
-      <button className="book-btn">Book Now</button>
+        <button className="book-btn">Book Now</button>
       </Link>
     </div>
   );
