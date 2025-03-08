@@ -1,10 +1,11 @@
 import mysql from "mysql2";
 
 const conn = mysql.createPool({
-  host: "localhost",
-  user: "root",
-  password: "root",
+  host: "mysql-2632cb1f-tibcso0322-7da0.c.aivencloud.com",
+  user: "avnadmin",
+  password: "AVNS_JsONj4Ni1IT9ObgF_z4",
   database: "hotels",
+  port: 27087,
 });
 
 /**

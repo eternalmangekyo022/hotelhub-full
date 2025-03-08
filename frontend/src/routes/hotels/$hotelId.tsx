@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { useEffect, useState } from "react";
+=======
+import { useState, useEffect } from "react";
+>>>>>>> 9173f169eeae5c7e3dec6c9b3de2317ab8019111
 import { createFileRoute } from "@tanstack/react-router";
 import { useAtom } from "jotai";
 import { favoritesAtom, selectedHotelAtom } from "../../store.ts";
@@ -19,6 +23,7 @@ export default function HotelDetails() {
   const [stars, setStars] = useState<string[]>([]);
   const [favorites, setFavorites] = useAtom(favoritesAtom);
   const [selectedHotel] = useAtom(selectedHotelAtom);
+  const [amenityIcons, setAmenityIcons] = useState<{ [key: string]: string }>({});
 
   const { data: hotel } = useQuery({
     queryKey: ["hotel", hotelId],
@@ -46,6 +51,22 @@ export default function HotelDetails() {
     refetchOnWindowFocus: false,
   });
 
+  useEffect(() => {
+    const loadImages = async () => {
+      const icons: { [key: string]: string } = {};
+      for (const amenity of amenities) {
+        try {
+          const img = await importImage(amenity.img);
+          icons[amenity.img] = img;
+        } catch (error) {
+          console.error("Error loading amenity image:", error);
+        }
+      }
+      setAmenityIcons(icons);
+    };
+  
+    loadImages();
+  }, [amenities]);
   function handlePrevImage() {
     if (hotel && hotel.images.length > 0) {
       setCurrentImageIndex((prevIndex) =>
