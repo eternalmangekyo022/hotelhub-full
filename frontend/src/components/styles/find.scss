@@ -1,6 +1,6 @@
 // I was too afraid to implement this XD
-.change-this-to-h1-if-you-want-to-see-magic {
-	background: linear-gradient(90deg, #803cec 0%, #c863b6 100%);
+h1.gradient {
+	background: linear-gradient(90deg, #803cec 0%, #dc48c1 100%);
 	background-clip: text;
 	-webkit-text-fill-color: transparent;
 }
@@ -10,26 +10,26 @@
 	display: flex;
 	align-items: center;
 	gap: 10px;
-  
+
 	label {
-	  font-size: 16px;
-	  color: #333;
+		font-size: 16px;
+		color: #333;
 	}
-  
+
 	select {
-	  padding: 8px 12px;
-	  border: 1px solid #ccc;
-	  border-radius: 4px;
-	  font-size: 14px;
-	  background-color: #fff;
-	  cursor: pointer;
-  
-	  &:focus {
-		outline: none;
-		border-color: #6c5ce7;
-	  }
+		padding: 8px 12px;
+		border: 1px solid #ccc;
+		border-radius: 4px;
+		font-size: 14px;
+		background-color: #fff;
+		cursor: pointer;
+
+		&:focus {
+			outline: none;
+			border-color: #6c5ce7;
+		}
 	}
-  }
+}
 
 $main: (
 	"light": #f0ecfc,
