@@ -7,6 +7,7 @@ import star from "../../assets/images/star.png";
 import emptyStar from "../../assets/images/empty_star.png";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import Amenity from "../../components/Amenity.tsx";
 
 export const Route = createFileRoute("/hotels/$hotelId")({
   component: HotelDetails,
@@ -136,20 +137,9 @@ export default function HotelDetails() {
         ) : amenities.length > 0 ? (
           <div className="amenities-container">
             <ul className="amenities-list">
-              {amenities.map((amenity, index: number) => {
-                return (
-                  <li key={index}>
-                    <span>
-                      <img
-                        src={`/vectors/${amenity.img}`}
-                        width="20"
-                        alt={amenity.img}
-                      />
-                    </span>
-                    {amenity.amenity}
-                  </li>
-                );
-              })}
+              {amenities.map((amenity, idx: number) => (
+                <Amenity key={idx} amenity={amenity} idx={idx} />
+              ))}
             </ul>
           </div>
         ) : (

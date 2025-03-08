@@ -37,7 +37,7 @@
 			align-items: center;
 
 			.login-form-inner {
-				$form-base: #efefef;
+				$form-base: #ffffff;
 				width: 90%;
 				height: 90%;
 				padding: 2rem;
@@ -65,13 +65,13 @@
 
 				.inputs-wrapper {
 					width: 100%;
-					height: 55%;
+					height: 60%;
 
 					.input-wrapper {
 						position: relative;
 						width: 100%;
 						height: 2.4rem;
-						margin-bottom: 1rem;
+						margin-bottom: 6%;
 						border-radius: 6px;
 						font-size: 1rem;
 
@@ -99,17 +99,11 @@
 							label {
 								left: 3%;
 
-								transform: translateY(-150%);
+								transform: translateY(-160%);
 								padding: 0.15rem;
 								background: $form-base;
 								font-size: 0.75rem;
-								border-radius: 0.5rem;
-							}
-						}
-
-						&:focus-within {
-							input {
-								background: $form-base;
+								border-radius: 1rem;
 							}
 						}
 
