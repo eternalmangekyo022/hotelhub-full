@@ -34,7 +34,6 @@ export default function HotelCard({
   const [, setSelectedHotel] = useAtom(selectedHotelAtom);
 
   useEffect(() => {
-    // Preload the first image immediately
     if (images.length > 0) {
       const img = new Image();
       img.src = `/images/thumb/${images[0].thumb}`;
@@ -43,7 +42,6 @@ export default function HotelCard({
       };
     }
 
-    // Lazy load the rest of the images with a delay
     const loadImages = async () => {
       for (let i = 1; i < images.length; i++) {
         await new Promise((resolve) => setTimeout(resolve, 1000)); // 1 second delay
@@ -141,7 +139,6 @@ export default function HotelCard({
       <p className="hotel-price">
         <strong></strong> ${price} <span>per night</span>
       </p>
-      {/* Display average rating and total count */}
       <p className="hotel-text">
         <span className="rating-stars">
           {stars.map((star, index) => (

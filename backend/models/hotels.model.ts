@@ -37,7 +37,6 @@ export async function getHotels(offset: string) {
   }
 
   return hotels.map((hotel) => {
-    console.log();
     return {
       ...hotel,
       ratingCount: mixedRatings[hotel.id].length,
@@ -45,8 +44,6 @@ export async function getHotels(offset: string) {
     };
   });
 }
-
-console.log(await getHotels("0"));
 
 export async function getHotelById(id: string) {
   const hotel = await db.selectOne<Hotel>("SELECT * FROM hotels WHERE id = ?", [
