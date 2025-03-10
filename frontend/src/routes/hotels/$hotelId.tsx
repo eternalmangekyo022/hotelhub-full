@@ -16,7 +16,6 @@ export const Route = createFileRoute("/hotels/$hotelId")({
 export default function HotelDetails() {
   const { hotelId } = Route.useParams();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [roundedRating, setRoundedRating] = useState(0);
   const [stars, setStars] = useState<string[]>([]);
   const [added, setAdded] = useState(false);
   const [favorites, setFavorites] = useAtom(favoritesAtom);
@@ -82,7 +81,6 @@ export default function HotelDetails() {
           index < roundedRating ? star : emptyStar
         )
       );
-      setRoundedRating(roundedRating);
     }
   }, [hotel]);
 
@@ -131,7 +129,7 @@ export default function HotelDetails() {
             <img
               key={index}
               src={star}
-              alt={index < roundedRating ? "star" : "empty star"}
+              alt={index < hotel.rating.avg ? "star" : "empty star"}
             />
           ))}
         </span>
