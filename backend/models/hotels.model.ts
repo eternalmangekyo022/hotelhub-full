@@ -8,18 +8,6 @@ export async function getHotels(offset: string) {
     )
   ).map((h) => ({ ...h, images: [] as Image[] }));
 
-  const mixedRatings: { [key: number]: number[] } = (
-    await db.select(
-      `select * from ratings where hotel_id in (${hotels
-        .map((hotel) => hotel.id)
-        .join(",")})`
-    )
-  ).reduce((a, b) => {
-    if (a[b.hotel_id]) a[b.hotel_id].push(b.rating);
-    else a[b.hotel_id] = [b.rating];
-    return a;
-  }, {} as { [key: number]: number[] });
-
   const ids = hotels.map((hotel) => hotel.id).join(",");
   const images = await db.select<{
     id: number;
@@ -36,13 +24,15 @@ export async function getHotels(offset: string) {
     }
   }
 
-  return hotels.map((hotel) => {
-    return {
-      ...hotel,
-      ratingCount: mixedRatings[hotel.id].length,
-      averageRating: mixedRatings[hotel.id].reduce((a, b) => a + b),
-    };
-  });
+  return await Promise.all(
+    hotels.map(async (hotel) => {
+      const { avg, count } = await db.selectOne<{ avg: string; count: number }>(
+        "select count(*) as 'count', avg(rating) as 'avg' from ratings where hotel_id = ?",
+        [hotel.id]
+      );
+      return { ...hotel, rating: { avg: parseFloat(avg), count } };
+    })
+  );
 }
 
 export async function getHotelById(id: string) {
@@ -59,9 +49,16 @@ export async function getHotelById(id: string) {
     full: string;
   }>("SELECT * FROM images WHERE hotel_id = ?", [id]);
 
-  const { avg, count } = await db.selectOne<{ avg: string, count: number }>("select avg(rating) as 'avg', count(*) as 'count' from ratings where hotel_id = ?", [id]);
+  const { avg, count } = await db.selectOne<{ avg: string; count: number }>(
+    "select avg(rating) as 'avg', count(*) as 'count' from ratings where hotel_id = ?",
+    [id]
+  );
 
-  return { ...hotel, images, rating: { avg: parseFloat(avg), count } };
+  return {
+    ...hotel,
+    images,
+    rating: { avg: parseFloat(avg), count },
+  } satisfies Hotel;
 }
 
 export async function getHotelsById(ids: number[]) {

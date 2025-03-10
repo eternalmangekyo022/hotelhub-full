@@ -77,11 +77,12 @@ export default function HotelDetails() {
     if (hotel) {
       const roundedRating = hotel.rating.avg;
       const totalStars = 5;
-      console.log(roundedRating)
+      console.log(roundedRating);
       setStars(
         Array.from({ length: totalStars }, (_, index) =>
           index < roundedRating ? star : emptyStar
-      ));
+        )
+      );
       setRoundedRating(roundedRating);
     }
   }, [hotel]);
@@ -135,7 +136,9 @@ export default function HotelDetails() {
             />
           ))}
         </span>
-        <span style={{ margin: ".2rem" }}>{`(${hotel.ratingCount || 0})`}</span>
+        <span
+          style={{ margin: ".2rem" }}
+        >{`(${hotel.rating.count || 0})`}</span>
       </p>
       <div>
         <p>

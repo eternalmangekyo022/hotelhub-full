@@ -55,13 +55,13 @@ function Hotels() {
         case "name-desc":
           return b.name.localeCompare(a.name);
         case "rating-asc":
-          return a.averageRating - b.averageRating;
+          return a.rating.avg - b.rating.avg;
         case "rating-desc":
-          return b.averageRating - a.averageRating;
+          return b.rating.avg - a.rating.avg;
         case "ratingtotal-asc":
-          return a.ratingCount - b.ratingCount;
+          return a.rating.count - b.rating.count;
         case "ratingtotal-desc":
-          return b.ratingCount - a.ratingCount;
+          return b.rating.count - a.rating.count;
         case "price-asc":
           return a.price - b.price;
         case "price-desc":

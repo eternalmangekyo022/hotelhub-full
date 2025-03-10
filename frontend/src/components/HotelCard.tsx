@@ -22,8 +22,7 @@ export default function HotelCard({
     name,
     images,
     class: _class,
-    averageRating,
-    ratingCount,
+    rating: { avg, count },
   },
   idx,
 }: { hotel: Hotel } & { idx: number }) {
@@ -71,7 +70,6 @@ export default function HotelCard({
 
   function handleClick() {
     setSelectedHotel({
-      averageRating,
       city,
       class: _class,
       description,
@@ -80,13 +78,13 @@ export default function HotelCard({
       name,
       payment,
       price,
-      ratingCount,
+      rating: { avg, count },
     } as Hotel);
     navigate({ to: `/hotels/${id}` });
   }
 
   useEffect(() => {
-    const roundedRating = Math.round(averageRating || 0);
+    const roundedRating = Math.round(avg || 0);
 
     setStars(
       Array.from({ length: 5 }, (_, index) => ({
@@ -157,7 +155,7 @@ export default function HotelCard({
             />
           ))}
         </span>
-        <span style={{ margin: ".2rem" }}>{`(${ratingCount || 0})`}</span>
+        <span style={{ margin: ".2rem" }}>{`(${count || 0})`}</span>
       </p>
       <Link to={`/Booking`}>
         <button className="book-btn">Book Now</button>

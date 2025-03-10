@@ -32,8 +32,10 @@ declare global {
     coords: { x: number; y: number };
     class: number;
     description: string;
-    averageRating: number;
-    ratingCount: number;
+    rating: {
+      avg: number;
+      count: number;
+    };
     images: Image[];
   };
   interface User {
