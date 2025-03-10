@@ -18,6 +18,7 @@ export default function HotelDetails() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [roundedRating, setRoundedRating] = useState(0);
   const [stars, setStars] = useState<string[]>([]);
+  const [added, setAdded] = useState(false);
   const [favorites, setFavorites] = useAtom(favoritesAtom);
   const [selectedHotel] = useAtom(selectedHotelAtom);
 
@@ -62,6 +63,16 @@ export default function HotelDetails() {
     }
   }
 
+  function addFav() {
+    setFavorites((prev) => [...prev, Number(hotelId)]);
+    setAdded(true);
+  }
+
+  function removeFav() {
+    setFavorites((prev) => prev.filter((id) => id !== Number(hotelId)));
+    setAdded(false);
+  }
+
   useEffect(() => {
     if (hotel) {
       const roundedRating = hotel.rating.avg;
@@ -79,7 +90,7 @@ export default function HotelDetails() {
 
   return (
     <div className="hotel-details">
-      <h1>{hotel?.name}</h1>
+      <h1>{hotel.name}</h1>
       <div className="image-container">
         <img
           src="https://www.svgrepo.com/show/440707/action-paging-prev.svg"
@@ -88,8 +99,8 @@ export default function HotelDetails() {
           onClick={handlePrevImage}
         />
         <img
-          src={`/images/full/${hotel?.images[currentImageIndex].full}`}
-          alt={hotel?.name}
+          src={`/images/full/${hotel.images[currentImageIndex].full}`}
+          alt={hotel.name}
           className="hotel-image"
         />
         <img
@@ -100,19 +111,19 @@ export default function HotelDetails() {
         />
       </div>
       <p>
-        <strong>City:</strong> {hotel?.city}
+        <strong>City:</strong> {hotel.city}
       </p>
       <p>
-        <strong>Price:</strong> ${hotel?.price} per night
+        <strong>Price:</strong> ${hotel.price} per night
       </p>
       <p>
-        <strong>Payment:</strong> {hotel?.payment}
+        <strong>Payment:</strong> {hotel.payment}
       </p>
       <p>
-        <strong>Class:</strong> {hotel?.class} stars
+        <strong>Class:</strong> {hotel.class} stars
       </p>
       <p>
-        <strong>Description:</strong> {hotel?.description}
+        <strong>Description:</strong> {hotel.description}
       </p>
       <p>
         <span className="rating-stars">
@@ -124,9 +135,7 @@ export default function HotelDetails() {
             />
           ))}
         </span>
-        <span
-          style={{ margin: ".2rem" }}
-        >{`(${hotel?.rating.count || 0})`}</span>
+        <span style={{ margin: ".2rem" }}>{`(${hotel.ratingCount || 0})`}</span>
       </p>
       <div>
         <p>
@@ -148,15 +157,10 @@ export default function HotelDetails() {
         )}
       </div>
       <button
-        className="book-now-btn"
+        className={`book-now-btn${favorites.some((i) => i === Number(hotelId)) ? " active" : ""}`}
         onClick={() => {
-          console.log("Button clicked");
-          if (!favorites.includes(hotel!.id)) {
-            setFavorites((prev) => [...prev, hotel!.id]);
-            alert("Added to favorites!"); // Shows a browser alert
-          } else {
-            alert("Already in favorites!");
-          }
+          if (!added) addFav();
+          else removeFav();
         }}
       >
         Add to Favorites
