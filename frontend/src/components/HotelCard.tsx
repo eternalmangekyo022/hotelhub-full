@@ -129,7 +129,9 @@ export default function HotelCard({
         {loadedImages[imgIndex] ? (
           <img src={loadedImages[imgIndex]} alt={name} className="thumb-img" />
         ) : (
-          <div className="image-placeholder">Loading...</div>
+          <div className="thumb-img skeleton">
+            <div className="skeleton-bar"></div>
+          </div>
         )}
       </div>
       <p className="hotel-text">
