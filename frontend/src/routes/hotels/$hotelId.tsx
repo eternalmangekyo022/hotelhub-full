@@ -75,9 +75,8 @@ export default function HotelDetails() {
 
   useEffect(() => {
     if (hotel) {
-      const roundedRating = hotel.rating.avg;
+      const roundedRating = Math.round(hotel.rating.avg);
       const totalStars = 5;
-      console.log(roundedRating);
       setStars(
         Array.from({ length: totalStars }, (_, index) =>
           index < roundedRating ? star : emptyStar
