@@ -103,6 +103,7 @@ const HotelBooking = () => {
           <input
             type="number"
             className="input"
+            min={100}
             max={999}
             {...register('ccCvv', { required: true })}
           />
@@ -116,6 +117,7 @@ const HotelBooking = () => {
     <div className="field">
       <label className="label">Arrival Date</label>
       <DatePicker
+      popperPlacement='top'
         selected={arrivalDate}
         onChange={(date) => setArrivalDate(date)}
         className="input"
@@ -125,6 +127,7 @@ const HotelBooking = () => {
     <div className="field">
       <label className="label">Leaving Date</label>
       <DatePicker
+      popperPlacement='top'
         selected={leavingDate}
         onChange={(date) => setLeavingDate(date)}
         className="input"
