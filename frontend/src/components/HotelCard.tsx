@@ -1,10 +1,11 @@
 import { useState, useEffect, useRef } from "react";
-import star from "../assets/images/star.png";
-import emptyStar from "../assets/images/empty_star.png";
-import locationpin from "../assets/images/location-pin.png";
+import Star from "../assets/images/star.png";
+import EmptyStart from "../assets/images/empty_star.png";
+import LocationPin from "../assets/images/location-pin.png";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { useAtom } from "jotai";
 import { selectedHotelAtom } from "../store.ts";
+import HouseSvg from "./HouseSvg";
 
 interface IStar {
   roundedRating: number;
@@ -90,7 +91,7 @@ export default function HotelCard({
     setStars(
       Array.from({ length: 5 }, (_, index) => ({
         roundedRating: index + 1,
-        src: index < roundedRating ? star : emptyStar,
+        src: index < roundedRating ? Star : EmptyStart,
       }))
     );
 
@@ -131,11 +132,12 @@ export default function HotelCard({
         ) : (
           <div className="thumb-img skeleton">
             <div className="skeleton-bar"></div>
+            <HouseSvg />
           </div>
         )}
       </div>
       <p className="hotel-text">
-        <img src={locationpin} alt="" className="location-pin" />
+        <img src={LocationPin} alt="" className="location-pin" />
         {city}
       </p>
       <p className="hotel-price">
@@ -150,7 +152,7 @@ export default function HotelCard({
               alt={
                 index < star.roundedRating
                   ? star.roundedRating.toString()
-                  : emptyStar
+                  : EmptyStart
               }
             />
           ))}
