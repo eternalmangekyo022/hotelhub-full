@@ -59,7 +59,9 @@ export async function getHotelById(id: string) {
     full: string;
   }>("SELECT * FROM images WHERE hotel_id = ?", [id]);
 
-  return { ...hotel, images };
+  const { avg, count } = await db.selectOne<{ avg: string, count: number }>("select avg(rating) as 'avg', count(*) as 'count' from ratings where hotel_id = ?", [id]);
+
+  return { ...hotel, images, rating: { avg: parseFloat(avg), count } };
 }
 
 export async function getHotelsById(ids: number[]) {

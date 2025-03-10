@@ -41,11 +41,11 @@ export default {
     return await query<T[]>(q, val);
   },
 
-  selectOne: async <T = any>(q: string, val?: any): Promise<T | null> => {
+  selectOne: async <T = any>(q: string, val?: any): Promise<T> => {
     if (!q.toLowerCase().includes("select"))
       throw { message: 'Query did not include keyword "select".' };
     const result = await query<T[]>(q, val);
-    return result.length ? result[0] : null;
+    return result[0];
   },
 
   delete: async <T = any>(q: string, val?: any): Promise<T> => {

@@ -27,7 +27,6 @@ export default function HotelDetails() {
       const { data } = await axios.get<Hotel>(
         `http://localhost:3000/api/v1/hotels/id/${hotelId}`
       );
-      console.log("ran");
       return data;
     },
     enabled: !selectedHotel,
@@ -64,15 +63,17 @@ export default function HotelDetails() {
   }
 
   useEffect(() => {
-    const roundedRating = Math.round(hotel?.averageRating || 0);
-    const totalStars = 5;
-    setStars(
-      Array.from({ length: totalStars }, (_, index) =>
-        index < roundedRating ? star : emptyStar
-      )
-    );
-    setRoundedRating(roundedRating);
-  }, []);
+    if (hotel) {
+      const roundedRating = hotel.rating.avg;
+      const totalStars = 5;
+      console.log(roundedRating)
+      setStars(
+        Array.from({ length: totalStars }, (_, index) =>
+          index < roundedRating ? star : emptyStar
+      ));
+      setRoundedRating(roundedRating);
+    }
+  }, [hotel]);
 
   if (!hotel) return <div className="loading">Loading hotel details...</div>;
 
@@ -125,7 +126,7 @@ export default function HotelDetails() {
         </span>
         <span
           style={{ margin: ".2rem" }}
-        >{`(${hotel?.ratingCount || 0})`}</span>
+        >{`(${hotel?.rating.count || 0})`}</span>
       </p>
       <div>
         <p>
