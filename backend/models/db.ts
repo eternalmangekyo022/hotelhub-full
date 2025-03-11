@@ -1,11 +1,13 @@
 import mysql from "mysql2";
+import dotenv from "dotenv";
 
+dotenv.config({ path: "./.env" });
 const conn = mysql.createPool({
-  host: "mysql-2632cb1f-tibcso0322-7da0.c.aivencloud.com",
-  user: "avnadmin",
-  password: "AVNS_JsONj4Ni1IT9ObgF_z4",
-  database: "hotels",
-  port: 27087,
+  host: process.env.HOST,
+  user: process.env.USER,
+  password: process.env.PASSWORD,
+  database: process.env.DATABASE,
+  port: Number(process.env.PORT),
 });
 
 /**
