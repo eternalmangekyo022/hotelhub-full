@@ -6,6 +6,7 @@ import { Link, useNavigate } from "@tanstack/react-router";
 import { useAtom } from "jotai";
 import { selectedHotelAtom } from "../store.ts";
 import HouseSvg from "./HouseSvg";
+import ApartmentSvg from "./ApartmentSvg";
 
 interface IStar {
   roundedRating: number;
@@ -131,6 +132,7 @@ export default function HotelCard({
           <div className="thumb-img skeleton">
             <div className="skeleton-bar"></div>
             <HouseSvg />
+            <ApartmentSvg />
           </div>
         )}
       </div>
