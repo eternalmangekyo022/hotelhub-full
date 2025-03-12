@@ -7,44 +7,31 @@ import { favoritesAtom } from "../store.ts";
 import { useAtom } from "jotai";
 import FavoriteHeart from "./FavoriteHeart.tsx";
 import Navlink from "./Navlink";
-import About from "/images/about.png";
-import HotelSign from "/vectors/hotel-sign.svg";
-import Contact from "/vectors/contact.svg";
 
-type IPages = "" | "about" | "contact" | "hotels" | "register";
-
-type IHeaderLink = {
-  docTitle: string;
-  link: `/${IPages}`;
-  title: string;
-  img: string;
-};
-
-const links: IHeaderLink[] = [
-  {
-    docTitle: "HotelHub™ - About",
-    link: "/about",
-    title: "About Us",
-    img: About,
-  },
-  {
-    docTitle: "HotelHub™ - Hotels",
-    link: "/hotels",
-    title: "Hotels",
-    img: HotelSign,
-  },
-  {
-    docTitle: "HotelHub™ - Contact",
-    link: "/contact",
-    title: "Contact",
-    img: Contact,
-  },
-];
+import { useEffect, useRef, useState } from "react";
+import links from "./header/links";
 
 export default function Header() {
   const [width] = useScreen();
   const location = useLocation();
   const [favorites] = useAtom(favoritesAtom);
+  const listRef = useRef<HTMLUListElement>(null);
+  const [selectedNav, setSelectedNav] = useState<[number, number]>([-1, -1]);
+  const [navVisible, setNavVisible] = useState<boolean>(false);
+  const [distance, setDistance] = useState(0);
+
+  function calcDistance() {
+    if (!listRef.current) return 0;
+    const { clientWidth: w } = listRef.current;
+    return (w / 5) * selectedNav[selectedNav[1] === -1 ? 0 : 1] + w / 2;
+  }
+
+  useEffect(() => {
+    if (selectedNav.some((i) => i > -1)) {
+      setDistance(calcDistance());
+    }
+  }, [selectedNav]);
+
   return (
     <>
       <header>
@@ -54,15 +41,33 @@ export default function Header() {
               <img src={Menu} alt="Menu" className="menu-icon" />
             </>
           ) : (
-            <ul className="menu menu-horizontal w-96 h-[80%] bg-base-200 rounded-box mt-6 grid grid-cols-5 items-center">
-              <Link to="/" className="col-span-2 w-full">
+            <ul
+              ref={listRef}
+              className="menu menu-horizontal w-full h-[70%] bg-base-200 rounded-box mt-6 grid grid-cols-5 items-center relative hover-link"
+            >
+              <div
+                className="circle -translate-y-1/2 transition-[.3s]"
+                style={{
+                  transform: `translate(calc(${distance}px - 50%), ${navVisible ? "0" : "40%"})`,
+                  opacity: selectedNav[1] === -1 ? 0 : navVisible ? 1 : 0,
+                }}
+              ></div>
+              <Link
+                to="/"
+                className="col-span-2 w-full"
+                onClick={() => {
+                  if (selectedNav[1] === -1) return;
+                  setSelectedNav((prev) => [prev[1], -1]);
+                  setNavVisible(false);
+                }}
+              >
                 <img
                   src={Logo}
                   alt="HotelHub logo"
                   className="cursor-pointer px-2"
                 />
               </Link>
-              {links.map(({ link, title, docTitle, img }) => (
+              {links.map(({ link, title, docTitle, img }, idx) => (
                 <Navlink
                   to={
                     ["/register", "/login"].includes(
@@ -74,7 +79,16 @@ export default function Header() {
                       : (link.toLowerCase() as string)
                   }
                   key={link}
-                  onClick={() => (document.title = docTitle)}
+                  onMouseOver={() => {
+                    if (navVisible) return;
+                    setSelectedNav((prev) => [prev[1], idx]);
+                  }}
+                  onClick={() => {
+                    document.title = docTitle;
+                    setNavVisible(true);
+                    if (selectedNav[1] === idx) return;
+                    setSelectedNav((prev) => [prev[1], idx]);
+                  }}
                   src={img}
                 >
                   {title}
