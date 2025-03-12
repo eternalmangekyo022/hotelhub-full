@@ -6,6 +6,7 @@ header {
   height: map-get(global.$main, "header-h");
   display: flex;
   align-items: center;
+  justify-content: center;
   background-color: black;
   z-index: 11;
 
@@ -16,22 +17,21 @@ header {
 
   .navbar {
     position: relative;
-    width: 25%;
+    width: 20%;
     height: 100%;
     max-width: 40rem;
     display: flex;
-    justify-content: space-evenly;
     align-items: center;
     margin-left: 0.5rem;
 
-    .circle {
+    .circle-backdrop {
       $size: 2.5rem;
       position: absolute;
       content: "";
       width: $size;
       height: $size;
-      background-color: #454e59;
-      border-radius: 100%;
+      background-color: #2c3137;
+      border-radius: 20%;
       z-index: 1;
       top: 50%;
     }

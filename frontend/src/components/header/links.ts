@@ -1,6 +1,7 @@
 import About from "/images/about.png";
 import Search from "/vectors/search.svg";
 import Contact from "/vectors/contact.svg";
+import House from "/vectors/house.svg";
 
 type IPages = "" | "about" | "contact" | "hotels" | "register";
 
@@ -12,6 +13,12 @@ type IHeaderLink = {
 };
 
 export default [
+  {
+    docTitle: "HotelHub™ - Home",
+    link: "/",
+    title: "Home",
+    img: House,
+  },
   {
     docTitle: "HotelHub™ - About",
     link: "/about",
