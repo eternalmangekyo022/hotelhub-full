@@ -31,7 +31,6 @@ export default function HotelDetails() {
     },
     enabled: !selectedHotel,
     initialData: selectedHotel,
-    refetchOnWindowFocus: false,
   });
 
   const { data: amenities, isLoading: isAmenitiesLoading } = useQuery({
@@ -43,7 +42,6 @@ export default function HotelDetails() {
       return data;
     },
     initialData: [],
-    refetchOnWindowFocus: false,
   });
 
   function handlePrevImage() {

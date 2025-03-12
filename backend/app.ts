@@ -6,13 +6,11 @@ import e, {
 } from "express";
 import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
-import rateLimit from "express-rate-limit";
 
 import users from "./routes/users.routes";
 import hotels from "./routes/hotels.routes";
 import images from "./routes/images.routes";
 import bookings from "./routes/bookings.routes";
-import ratings from "./routes/ratings.routes";
 import amenities from "./routes/amenities.routes";
 
 dotenv.config({ path: "./.env" });
@@ -74,17 +72,9 @@ users(use, app);
 hotels(use, app);
 images(use, app);
 bookings(use, app);
-ratings(use, app);
 amenities(use, app);
 
 api.use("/api/v1", app);
-
-const limiter = rateLimit({
-  windowMs: 60 * 1000, // 1 minute
-  max: 10000, // Limit each IP to 100 requests per windowMs
-});
-
-app.use("/images", limiter);
 
 api.use((error: Err | null, _req: Req, res: Res, _next: NextFunction) => {
   console.log("error", error);

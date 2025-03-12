@@ -12,6 +12,7 @@ export const favoritesAtom = atomWithStorage<number[]>(
 );
 
 export const selectedHotelAtom = atom<Hotel | null>(null);
+export const geoAtom = atom<{ lat: number; lon: number }>({ lat: 0, lon: 0 });
 
 export const sortByAtom = atom<ISortBy>("");
 export const searchQueryAtom = atom("");

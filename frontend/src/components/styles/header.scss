@@ -64,9 +64,10 @@ header {
     justify-content: center;
     cursor: pointer;
 
-    img {
-      width: 24px;
-      height: 24px;
+    .heart-svg {
+      $size: 2.2rem;
+      width: $size;
+      height: $size;
       transition: transform 0.2s ease-in-out;
 
       &:hover {
@@ -74,11 +75,6 @@ header {
       }
     }
   }
-}
-
-.favorites {
-  font-weight: bold;
-  padding: 0.4rem;
 }
 
 .favorites-count {
@@ -100,6 +96,9 @@ header {
 
     .favorites-button {
       right: 5%;
+
+      display: grid;
+      place-items: center;
     }
   }
 }
