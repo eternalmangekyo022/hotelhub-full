@@ -23,13 +23,9 @@ export async function getHotels(offset: string) {
       }
     }
   }
-
-  const ratings = await db.select<{ avg: string; count: number }>(
-    `select hotel_id, avg(rating) AS "avg", count(rating) as "count" from bookings group BY hotel_id where hotel_id in ? ${hotels
-      .map((i) => i.id)
-      .join(",")}`,
-    []
-  );
+  const toGet = hotels.map((i) => i.id).join(",");
+  const q = `select hotel_id, avg(rating) AS "avg", count(rating) as "count" from bookings where hotel_id in (${toGet}) group BY hotel_id`;
+  const ratings = await db.select<{ avg: string; count: number }>(q);
 
   let final: Hotel[] = [];
 
