@@ -1,10 +1,11 @@
-import { useState, useEffect, useRef, type JSX } from "react";
+import { useState, useEffect, useRef } from "react";
 import Star from "../assets/images/star.png";
 import EmptyStar from "../assets/images/empty_star.png";
 import LocationPin from "../assets/images/location-pin.png";
 import { useNavigate } from "@tanstack/react-router";
 import { useAtom } from "jotai";
 import { selectedHotelAtom } from "../store.ts";
+import Arrow from "/vectors/arrow-up-right.svg";
 
 interface IStar {
   roundedRating: number;
@@ -24,8 +25,7 @@ export default function HotelCard({
     rating: { avg, count },
   },
   idx,
-  Loader,
-}: { hotel: Hotel } & { idx: number; Loader: () => JSX.Element }) {
+}: { hotel: Hotel } & { idx: number }) {
   const [stars, setStars] = useState<IStar[]>([]);
   const ref = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
@@ -63,22 +63,22 @@ export default function HotelCard({
   return (
     <div
       ref={ref}
-      className="du-card-md] bg-base-100 w-96 shadow-xl rounded-md overflow-hidden"
+      className="hotel-card h-80 du-card-sm bg-base-100 w-96 shadow-xl rounded-md overflow-hidden"
     >
-      <figure className="h-[60%] object-contain">
+      <figure className="h-[55%] object-contain">
+        {!imageLoaded && (
+          <div className="flex w-full h-full flex-col">
+            <div className="du-skeleton h-full w-full rounded-none"></div>
+          </div>
+        )}
         <img
           src={`/images/thumb/${images[0].thumb}`}
           alt={name}
           className={`w-full h-full object-cover${imageLoaded ? "" : " hidden"}`}
           onLoad={() => setImageLoaded(true)}
         />
-        {!imageLoaded && (
-          <div className="w-full h-48 flex items-cover justify-center bg-gray-200">
-            <Loader />
-          </div>
-        )}
       </figure>
-      <div className="du-card-body bg-[#242a34] h-[40%]">
+      <div className="du-card-body bg-[#242a34] h-[45%]">
         <div className="flex justify-between items-center">
           <h2 className="du-card-title text-clip text-nowrap">{name}</h2>
           <p className="flex items-center">
@@ -89,7 +89,7 @@ export default function HotelCard({
         <p className="text-lg font-semibold">
           ${price} <span className="text-sm text-gray-500">per night</span>
         </p>
-        <div className="du-card-actions justify-between items-center h-12">
+        <div className="du-card-actions justify-between items-center h-16">
           <div className="rating-stars flex items-center w-1/3">
             {stars.map((star, index) => (
               <img
@@ -103,6 +103,7 @@ export default function HotelCard({
           </div>
           <button onClick={handleClick} className="du-btn du-btn-info">
             View Details
+            <img src={Arrow} alt="" className="inline w-6" />
           </button>
         </div>
       </div>

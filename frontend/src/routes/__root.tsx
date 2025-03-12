@@ -24,7 +24,6 @@ function RootComponent() {
         "http://ip-api.com/json/"
       );
       const formatted = { lat, lon };
-      console.log(formatted);
       setLocation(formatted);
       return formatted;
     },

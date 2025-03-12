@@ -1,5 +1,5 @@
 import useScreen from "../hooks/useScreen.ts";
-import { Link, useLocation } from "@tanstack/react-router";
+import { Link, useRouter } from "@tanstack/react-router";
 //import Logo from "../assets/images/Logo.png";
 import Menu from "../assets/images/Menu Icon.png";
 import "./styles/header.scss";
@@ -13,12 +13,12 @@ import links from "./header/links";
 
 export default function Header() {
   const [width] = useScreen();
-  const location = useLocation();
   const [favorites] = useAtom(favoritesAtom);
   const listRef = useRef<HTMLUListElement>(null);
   const [selectedNav, setSelectedNav] = useState<[number, number]>([0, 0]);
   const [navVisible, setNavVisible] = useState(false);
   const [distance, setDistance] = useState(0);
+  const router = useRouter();
   const COLS = 4;
 
   function calcDistance(specific?: number) {
@@ -34,11 +34,16 @@ export default function Header() {
   }, [selectedNav]);
 
   useEffect(() => {
-    if (location.pathname !== "/") {
-      for (let i = 0; i < links.length; i++) {
-        if (location.pathname === links[i].link) setSelectedNav([0, i]);
-      }
+    for (let i = 0; i < links.length; i++) {
+      if (router.history.location.pathname === links[i].link)
+        setSelectedNav([0, i]);
     }
+
+    router.history.subscribe((e) => {
+      for (let i = 0; i < links.length; i++) {
+        if (e.location.pathname === links[i].link) setSelectedNav([0, i]);
+      }
+    });
   }, []);
 
   return (
