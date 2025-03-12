@@ -1,5 +1,5 @@
 import About from "/images/about.png";
-import HotelSign from "/vectors/hotel-sign.svg";
+import Search from "/vectors/search.svg";
 import Contact from "/vectors/contact.svg";
 
 type IPages = "" | "about" | "contact" | "hotels" | "register";
@@ -22,7 +22,7 @@ export default [
     docTitle: "HotelHub™ - Hotels",
     link: "/hotels",
     title: "Hotels",
-    img: HotelSign,
+    img: Search,
   },
   {
     docTitle: "HotelHub™ - Contact",

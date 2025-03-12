@@ -55,10 +55,6 @@ header {
       transform: translateY(-10%);
     }
 
-    &.active {
-      outline: #803cec;
-    }
-
     &.underline:hover::before {
       display: block;
     }

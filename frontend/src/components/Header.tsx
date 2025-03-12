@@ -32,6 +32,15 @@ export default function Header() {
     }
   }, [selectedNav]);
 
+  useEffect(() => {
+    if (location.pathname !== "/") {
+      setNavVisible(true);
+      for (let i = 0; i < links.length; i++) {
+        if (location.pathname === links[i].link) setSelectedNav([-1, i]);
+      }
+    }
+  }, []);
+
   return (
     <>
       <header>
@@ -43,12 +52,12 @@ export default function Header() {
           ) : (
             <ul
               ref={listRef}
-              className="menu menu-horizontal w-full h-[70%] bg-base-200 rounded-box mt-6 grid grid-cols-5 items-center relative hover-link"
+              className="du-menu p-0 w-full h-[70%] bg-base-200 rounded-box mt-6 grid grid-cols-5 items-center relative hover-link"
             >
               <div
                 className="circle -translate-y-1/2 transition-[.3s]"
                 style={{
-                  transform: `translate(calc(${distance}px - 50%), ${navVisible ? "0" : "40%"})`,
+                  transform: `translateX(calc(${distance}px - 50%))`,
                   opacity: selectedNav[1] === -1 ? 0 : navVisible ? 1 : 0,
                 }}
               ></div>
