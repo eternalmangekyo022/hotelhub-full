@@ -104,7 +104,7 @@ $main: (
 			&:before {
 				content: attr(data-date);
 				color: map-get($main, "dark");
-				font-weight: 700;
+				font-weight: 600;
 				font-size: 1.2rem;
 				@include center-abs;
 				top: 2.2rem;

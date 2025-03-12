@@ -23,16 +23,22 @@ export async function getHotels(offset: string) {
       }
     }
   }
+  const toGet = hotels.map((i) => i.id).join(",");
+  const q = `select hotel_id, avg(rating) AS "avg", count(rating) as "count" from bookings where hotel_id in (${toGet}) group BY hotel_id`;
+  const ratings = await db.select<{ avg: string; count: number }>(q);
 
-  return await Promise.all(
-    hotels.map(async (hotel) => {
-      const { avg, count } = await db.selectOne<{ avg: string; count: number }>(
-        "select count(*) as 'count', avg(rating) as 'avg' from ratings where hotel_id = ?",
-        [hotel.id]
-      );
-      return { ...hotel, rating: { avg: parseFloat(avg), count } };
-    })
-  );
+  let final: Hotel[] = [];
+
+  for (let i = 0; i < ratings.length; i++) {
+    final = [
+      ...final,
+      {
+        ...hotels[i],
+        rating: { avg: parseFloat(ratings[i].avg), count: ratings[i].count },
+      },
+    ];
+  }
+  return final;
 }
 
 export async function getHotelById(id: string) {
@@ -50,7 +56,7 @@ export async function getHotelById(id: string) {
   }>("SELECT * FROM images WHERE hotel_id = ?", [id]);
 
   const { avg, count } = await db.selectOne<{ avg: string; count: number }>(
-    "select avg(rating) as 'avg', count(*) as 'count' from ratings where hotel_id = ?",
+    "select avg(rating) as 'avg', count(*) as 'count' from bookings group by hotel_id where hotel_id = ?",
     [id]
   );
 
@@ -117,4 +123,10 @@ export async function getHotelsFiltered(
   } offset ${Number(query.offset) || 0}`;
 
   return await db.select<Hotel>(searchQuery);
+}
+
+//https://api.geoapify.com/v1/geocode/search?text=Barcelona%20Spain&format=json&apiKey=1679f7cee64a411a929232a6cf0e4987
+
+export async function getClosestHotels(location: string) {
+  const [lat, lon] = location.split(",").map((i) => parseFloat(i));
 }

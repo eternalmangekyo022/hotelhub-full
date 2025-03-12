@@ -3,13 +3,12 @@ import dotenv from "dotenv";
 
 dotenv.config({ path: __dirname + "./.env" });
 
-
 const conn = mysql.createPool({
-  host: process.env.dbHost,
-  user: process.env.dbUser,
-  password: process.env.dbPass,
-  database: process.env.dbDb,
-  port: Number(process.env.dbPort),
+  host: process.env.HOST,
+  user: process.env.USER,
+  password: process.env.PASSWORD,
+  database: process.env.DATABASE,
+  port: Number(process.env.PORT),
 });
 
 /**

@@ -12,9 +12,8 @@ export const Route = createFileRoute("/favorites")({
 export default function Favorites() {
   const [favorites, setFavorites] = useAtom(favoritesAtom);
 
-  const { data: loaded = [], isFetching } = useQuery<Hotel[]>({
+  const { data: loaded } = useQuery<Hotel[]>({
     queryKey: ["favorites", favorites], // Use array instead of joined string
-    refetchOnWindowFocus: false,
     queryFn: async () => {
       if (!favorites.length) return [];
       try {
@@ -33,6 +32,7 @@ export default function Favorites() {
         return [];
       }
     },
+    initialData: [],
     enabled: favorites.length > 0,
   });
 
@@ -44,25 +44,24 @@ export default function Favorites() {
           loaded.map((item) => (
             <div key={item.id} className="favorites-item">
               <img
-                src={item.images[0]?.full}
+                src={`/images/full/${item.images[0].full}`}
                 alt={item.name}
                 className="item-image"
               />
               <div className="item-details">
                 <h2>{item.name}</h2>
                 <p>{item.city}</p>
-                <p><span className="price">${item.price}</span> / night</p>
-                <Link to={`/Booking`}><button
-                  className="book-button">
-                  
-                  Book Now
-                </button></Link>
-                
-                <Link to={`/Hotels/${item.id}`}>
-                <button className="view-button"> 
-                  View Details
-                </button></Link>
-                
+                <p>
+                  <span className="price">${item.price}</span> / night
+                </p>
+                <Link to={`/Booking`}>
+                  <button className="book-button">Book Now</button>
+                </Link>
+
+                <Link to={`/hotels/${item.id}`}>
+                  <button className="view-button">View Details</button>
+                </Link>
+
                 <button
                   className="remove-button"
                   onClick={() =>
@@ -71,20 +70,21 @@ export default function Favorites() {
                 >
                   Remove
                 </button>
-                
-                
               </div>
             </div>
           ))
         ) : (
           <p>
-            Your list is empty. <Link to="/Hotels">Explore hotels</Link> to add
+            Your list is empty. <Link to="/hotels">Explore hotels</Link> to add
             items to your favorites.
           </p>
         )}
       </div>
-      <button className="remove-all" onClick={() => setFavorites([])}>Remove all</button>
-
+      {favorites.length > 2 && (
+        <button className="remove-all" onClick={() => setFavorites([])}>
+          Remove all
+        </button>
+      )}
     </div>
   );
 }
