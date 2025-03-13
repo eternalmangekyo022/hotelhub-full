@@ -6,6 +6,7 @@
 import * as model from "../models/users.model";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+import { tokenToString } from "typescript";
 
 dotenv.config({ path: "./.env" });
 console.log("JWT_ACCESS_SECRET:", process.env.JWT_ACCESS_SECRET);
@@ -50,7 +51,7 @@ export async function login(
     maxAge: 24 * 60 * 60 * 1000, // 1 week
   });
 
-  res.json({ user });
+  res.json({ user, accessToken });
 }
 
 /**
