@@ -4,7 +4,7 @@ import Footer from "../components/Footer.tsx";
 import "../global.scss";
 import "../components/styles/index.css";
 import { useAtom } from "jotai";
-import { geoAtom } from "../store.ts";
+import { geoAtom } from "@store";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 

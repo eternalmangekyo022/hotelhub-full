@@ -14,7 +14,7 @@ export default function FavoriteCard({
   const setFavorites = useSetAtom(favoritesAtom);
   const [loaded, setLoaded] = useState(false);
   return (
-    <div className="du-card h-96 bg-base-100 w-96 shadow-sm rounded-md">
+    <div className="du-card h-96 bg-base-200 w-96 shadow-sm rounded-md">
       <figure className="h-[55%]">
         <img
           src={`/images/full/${images[0].full}`}
@@ -28,7 +28,7 @@ export default function FavoriteCard({
           </div>
         )}
       </figure>
-      <div className="du-card-body h-[45%]">
+      <div className="du-card-body p-4 h-[45%]">
         <h2 className="du-card-title">{name}</h2>
         <p style={{ lineHeight: "1.3rem" }}>{description}</p>
         <div className="du-card-actions justify-between">

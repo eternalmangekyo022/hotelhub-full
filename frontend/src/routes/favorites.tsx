@@ -39,7 +39,7 @@ export default function Favorites() {
 
   return (
     <div className="favorites-page">
-      <h1 className="text-white">Your Favorites</h1>
+      <h1 className="dark:text-white">Your Favorites</h1>
       <div className="favorites-items">
         {loaded.length > 0 ? (
           loaded.map((hotel) => <FavoriteCard hotel={hotel} key={hotel.id} />)

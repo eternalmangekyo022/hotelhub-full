@@ -56,7 +56,7 @@ export async function getHotelById(id: string) {
   }>("SELECT * FROM images WHERE hotel_id = ?", [id]);
 
   const { avg, count } = await db.selectOne<{ avg: string; count: number }>(
-    "select avg(rating) as 'avg', count(*) as 'count' from bookings group by hotel_id where hotel_id = ?",
+    "select avg(rating) as 'avg', count(*) as 'count' from bookings where hotel_id = ? group by hotel_id",
     [id]
   );
 

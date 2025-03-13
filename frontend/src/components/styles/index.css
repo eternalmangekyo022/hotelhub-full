@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
 @plugin "daisyui" {
-	prefix: "du-"
+	prefix: "du-";
+	root: ":root";
+	themes: all
 }
+
+@custom-variant dark (&:where(.dark, .dark *));

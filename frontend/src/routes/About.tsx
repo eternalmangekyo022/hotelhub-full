@@ -74,7 +74,7 @@ export default function About() {
           ))}
         </div>
       </div>
-      <div className="purple">
+      <div className="purple not-dark:bg-blue-400">
         <div>
           <h1>Connect with HotelHub</h1>
           <p>

@@ -1,6 +1,6 @@
 export default function Footer() {
   return (
-    <footer className="du-footer du-footer-horizontal du-footer-center bg-base-100 text-primary-content p-10">
+    <footer className="du-footer du-footer-horizontal du-footer-center bg-base-100 text-primary-content p-10 not-dark:bg-blue-900 dark:bg-indigo-900">
       <aside>
         <svg
           width="50"
