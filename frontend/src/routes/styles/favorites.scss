@@ -8,7 +8,6 @@
     font-weight: 600;
     margin-bottom: 2rem;
     text-align: center;
-    color: #333;
   }
 
   .favorites-items {
@@ -24,7 +23,9 @@
       border-radius: 12px;
       background: #fff;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
 
       &:hover {
         transform: translateY(-3px);
@@ -65,14 +66,17 @@
           border: none;
           border-radius: 6px;
           cursor: pointer;
-          transition: background 0.2s ease, transform 0.1s ease;
+          transition:
+            background 0.2s ease,
+            transform 0.1s ease;
 
           &:hover {
             background: linear-gradient(135deg, #ff1a1a, #cc0000);
             transform: scale(1.05);
           }
         }
-        .view-button, .book-button {
+        .view-button,
+        .book-button {
           margin-top: 0.75rem;
           padding: 0.5rem 1rem;
           width: 100%;
@@ -81,14 +85,16 @@
           border: none;
           border-radius: 6px;
           cursor: pointer;
-          transition: background 0.3s ease, transform 0.2s ease;
-        
+          transition:
+            background 0.3s ease,
+            transform 0.2s ease;
+
           &:hover {
             transform: translateY(-2px);
             transform: scale(1.05);
           }
         }
-        
+
         .view-button {
           background-color: black;
           color: white;
@@ -96,7 +102,7 @@
             background-color: #2b2b2b;
           }
         }
-        
+
         .book-button {
           background-color: black;
           color: white;
@@ -104,7 +110,6 @@
             background-color: #2b2b2b;
           }
         }
-        
       }
     }
   }
@@ -126,7 +131,7 @@
       }
     }
   }
-  .price{
+  .price {
     font-weight: 600;
     color: black;
     font-size: 1.1rem;
@@ -140,7 +145,9 @@
     border: none;
     border-radius: 6px;
     cursor: pointer;
-    transition: background 0.2s ease, transform 0.1s ease;
+    transition:
+      background 0.2s ease,
+      transform 0.1s ease;
     margin: 10px auto;
     display: block;
 
@@ -149,5 +156,4 @@
       transform: scale(1.05);
     }
   }
-
 }

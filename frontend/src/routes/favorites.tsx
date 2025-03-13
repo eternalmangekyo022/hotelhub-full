@@ -4,6 +4,7 @@ import { useAtom } from "jotai";
 import { favoritesAtom } from "../store.ts";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import FavoriteCard from "../components/FavoriteCard.tsx";
 
 export const Route = createFileRoute("/favorites")({
   component: Favorites,
@@ -38,41 +39,10 @@ export default function Favorites() {
 
   return (
     <div className="favorites-page">
-      <h1>Your Favorites</h1>
+      <h1 className="text-white">Your Favorites</h1>
       <div className="favorites-items">
         {loaded.length > 0 ? (
-          loaded.map((item) => (
-            <div key={item.id} className="favorites-item">
-              <img
-                src={`/images/full/${item.images[0].full}`}
-                alt={item.name}
-                className="item-image"
-              />
-              <div className="item-details">
-                <h2>{item.name}</h2>
-                <p>{item.city}</p>
-                <p>
-                  <span className="price">${item.price}</span> / night
-                </p>
-                <Link to={`/Booking`}>
-                  <button className="book-button">Book Now</button>
-                </Link>
-
-                <Link to={`/hotels/${item.id}`}>
-                  <button className="view-button">View Details</button>
-                </Link>
-
-                <button
-                  className="remove-button"
-                  onClick={() =>
-                    setFavorites((prev) => prev.filter((id) => id !== item.id))
-                  }
-                >
-                  Remove
-                </button>
-              </div>
-            </div>
-          ))
+          loaded.map((hotel) => <FavoriteCard hotel={hotel} key={hotel.id} />)
         ) : (
           <p>
             Your list is empty. <Link to="/hotels">Explore hotels</Link> to add

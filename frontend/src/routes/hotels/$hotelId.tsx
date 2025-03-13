@@ -155,13 +155,13 @@ export default function HotelDetails() {
         )}
       </div>
       <button
-        className={`book-now-btn${favorites.some((i) => i === Number(hotelId)) ? " active" : ""}`}
+        className={`du-btn-accent ${added ? " active" : ""}`}
         onClick={() => {
           if (!added) addFav();
           else removeFav();
         }}
       >
-        Add to Favorites
+        {added ? "Remove from favorites" : "Add to favorites"}
       </button>
     </div>
   );
