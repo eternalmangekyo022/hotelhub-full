@@ -1,51 +1,52 @@
 //hooks
-import { useState, useEffect } from 'react'
-import { createFileRoute } from '@tanstack/react-router'
+import { useState, useEffect } from "react";
+import { createFileRoute } from "@tanstack/react-router";
+import ContactInput from "../components/ContactInput.tsx";
 
 //styles
-import './styles/contact.scss'
+import "./styles/contact.scss";
 
 //assets
-import Facebook from '../assets/images/Facebook Iconvector.svg'
-import Instagram from '../assets/images/Instagram Iconvector.svg'
-import Twitter from '../assets/images/Twitter Iconvector.svg'
-import Tel from '../assets/images/phone.svg'
-import Location from '../assets/images/location-filled.svg'
-import Mail from '../assets/images/email.svg'
+import Facebook from "../assets/images/Facebook Iconvector.svg";
+import Instagram from "../assets/images/Instagram Iconvector.svg";
+import Twitter from "../assets/images/Twitter Iconvector.svg";
+import Tel from "../assets/images/phone.svg";
+import Location from "../assets/images/location-filled.svg";
+import Mail from "../assets/images/email.svg";
 
 type FormData = {
-  firstName: string
-  lastName: string
-  email: string
-  phone: string
-  message: string
-}
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  message: string;
+};
 
-export const Route = createFileRoute('/Contact')({
+export const Route = createFileRoute("/Contact")({
   component: Contact,
-})
+});
 
 function Contact() {
-  const tel = '+36 30 123 4567'
-  const mail = 'support@hotelhub.com'
-  const contactLocation = 'Herman Kiefer, Detroit, Michigan, Egyesült Államok'
+  const tel = "+36 30 123 4567";
+  const mail = "support@hotelhub.com";
+  const contactLocation = "Herman Kiefer, Detroit, Michigan, Egyesült Államok";
   const initial = {
-    firstName: '',
-    lastName: '',
-    email: '',
-    phone: '',
-    message: '',
-  }
-  const [formData, setFormData] = useState<FormData>({ ...initial })
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    message: "",
+  };
+  const [formData, setFormData] = useState<FormData>({ ...initial });
 
   const onSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
-    e.preventDefault()
-    setFormData({ ...initial })
-  }
+    e.preventDefault();
+    setFormData({ ...initial });
+  };
 
   useEffect(() => {
-    document.title = 'HotelHub™ - Contact Us'
-  }, [])
+    document.title = "HotelHub™ - Contact Us";
+  }, []);
 
   return (
     <>
@@ -77,21 +78,29 @@ function Contact() {
               </div>
             </section>
             <section className="socials">
-              <a href="https://www.facebook.com/" target="_blank">
+              <a
+                href="https://www.facebook.com/"
+                rel="noreferrer"
+                target="_blank"
+              >
                 <img
                   src={Facebook}
                   alt="Follow us on Facebook"
                   title="Follow us on Facebook"
                 />
               </a>
-              <a href="https://www.instagram.com/" target="_blank">
+              <a
+                href="https://www.instagram.com/"
+                rel="noreferrer"
+                target="_blank"
+              >
                 <img
                   src={Instagram}
                   alt="Follow us on Instagram"
                   title="Follow us on Instagram"
                 />
               </a>
-              <a href="https://www.x.com/" target="_blank">
+              <a href="https://www.x.com/" rel="noreferrer" target="_blank">
                 <img
                   src={Twitter}
                   alt="Follow us on Twitter"
@@ -104,14 +113,8 @@ function Contact() {
             <h1>Contact Us</h1>
             <h2>Have an inquery? Fill out the form to contact our team.</h2>
             <form onSubmit={onSubmit}>
-              <input
-                onChange={(e) =>
-                  setFormData((p) => ({ ...p, firstName: e.target.value }))
-                }
-                value={formData.firstName}
-                type="text"
-                placeholder="First Name"
-              />
+              <ContactInput placeholder="First Name" />
+              <ContactInput placeholder="Last Name" />
               <input
                 onChange={(e) =>
                   setFormData((p) => ({ ...p, lastName: e.target.value }))
@@ -145,11 +148,10 @@ function Contact() {
                 type="text"
                 placeholder="Message"
               />
-              <button type="submit">Send Message</button>
             </form>
           </section>
         </div>
       </div>
     </>
-  )
+  );
 }

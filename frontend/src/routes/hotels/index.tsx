@@ -16,6 +16,14 @@ import {
 } from "../../store.ts";
 
 import "../styles/hotels.scss";
+/* import HouseSvg from "../../components/HouseSvg.tsx";
+import HotelSignSvg from "../../components/HotelSignSvg.tsx";
+import HotelHangingSignSvg from "../../components/HotelHangingSignSvg.tsx";
+import FourStarsSvg from "../../components/FourStars.tsx";
+import BellSvg from "../../components/BellSvg.tsx";
+import BedSvg from "../../components/BedSvg.tsx";
+import HousesSvg from "../../components/HousesSvg.tsx";
+import Dog from "../../components/Dog.tsx"; */
 
 export const Route = createFileRoute("/hotels/")({
   component: Hotels,
@@ -34,7 +42,6 @@ function Hotels() {
       return response;
     },
     initialData: [],
-    refetchOnWindowFocus: false,
     refetchOnMount: !mutatedHotels.length,
   });
 

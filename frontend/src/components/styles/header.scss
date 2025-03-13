@@ -6,7 +6,7 @@ header {
   height: map-get(global.$main, "header-h");
   display: flex;
   align-items: center;
-  justify-content: space-between; // Add this to create space between navbar and favorites button
+  justify-content: center;
   background-color: black;
   z-index: 11;
 
@@ -17,13 +17,24 @@ header {
 
   .navbar {
     position: relative;
-    left: 8%;
-    width: 100%;
+    width: 20%;
     height: 100%;
     max-width: 40rem;
     display: flex;
-    justify-content: space-evenly;
     align-items: center;
+    margin-left: 0.5rem;
+
+    .circle-backdrop {
+      $size: 2.5rem;
+      position: absolute;
+      content: "";
+      width: $size;
+      height: $size;
+      background-color: #2c3137;
+      border-radius: 20%;
+      z-index: 1;
+      top: 50%;
+    }
   }
 
   a {
@@ -44,10 +55,6 @@ header {
       transform: translateY(-10%);
     }
 
-    &.active {
-      outline: #803cec;
-    }
-
     &.underline:hover::before {
       display: block;
     }
@@ -64,9 +71,10 @@ header {
     justify-content: center;
     cursor: pointer;
 
-    img {
-      width: 24px;
-      height: 24px;
+    .heart-svg {
+      $size: 2.2rem;
+      width: $size;
+      height: $size;
       transition: transform 0.2s ease-in-out;
 
       &:hover {
@@ -74,11 +82,6 @@ header {
       }
     }
   }
-}
-
-.favorites {
-  font-weight: bold;
-  padding: 0.4rem;
 }
 
 .favorites-count {
@@ -100,6 +103,9 @@ header {
 
     .favorites-button {
       right: 5%;
+
+      display: grid;
+      place-items: center;
     }
   }
 }

@@ -14,7 +14,7 @@ export async function getHotels(offset: number = 0): Promise<Hotel[]> {
 
     return hotels;
   } catch (error) {
-    console.error("Error fetching hotels, images, or ratings:", error);
+    console.error("Error fetching hotels, images, or bookings:", error);
     return [];
   }
 }
