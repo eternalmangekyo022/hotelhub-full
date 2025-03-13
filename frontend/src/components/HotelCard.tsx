@@ -78,7 +78,7 @@ export default function HotelCard({
           onLoad={() => setImageLoaded(true)}
         />
       </figure>
-      <div className="du-card-body not-dark:bg-blue-200 dark:bg-[#ff2a34] text-white h-[45%]">
+      <div className="du-card-body not-dark:bg-blue-200 dark:bg-[#242a34] text-white h-[45%]">
         <div className="flex justify-between items-center">
           <h2 className="du-card-title text-clip text-nowrap">{name}</h2>
           <p className="flex items-center">

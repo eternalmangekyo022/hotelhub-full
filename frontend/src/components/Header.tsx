@@ -143,7 +143,11 @@ export default function Header() {
               onChange={(e) => {
                 const html = document.querySelector("html");
                 const isDark = e.target.checked;
-                html?.setAttribute("data-theme", isDark ? "dark" : "light");
+
+                if (html?.hasAttribute("data-theme") && !isDark)
+                  html.removeAttribute("data-theme");
+                else html?.setAttribute("data-theme", "dark");
+
                 html?.classList.toggle("dark", isDark);
                 dispatchIsDark({ type: "toggle" });
               }}

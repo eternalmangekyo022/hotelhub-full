@@ -1,13 +1,9 @@
-import { createFileRoute, useLocation } from '@tanstack/react-router'
+import { createFileRoute } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/NotFoundRoute')({
-  notFoundComponent() {
-    return () => <NotFound />
-  },
+  component: RouteComponent,
 })
 
-function NotFound() {
-  const location = useLocation()
-
-  return <div>`{location.pathname}` not found</div>
+function RouteComponent() {
+  return <div>Hello "/NotFoundRoute"!</div>
 }
