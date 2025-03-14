@@ -1,5 +1,4 @@
-import crypto from "crypto"; // Reverting back to MD5 for password hashing
-
+import crypto from "crypto";
 import db from "./db";
 import jwt from "jsonwebtoken";
 
@@ -12,11 +11,14 @@ export async function login(email: string, password: string) {
     const hashedPassword = crypto
       .createHash("md5")
       .update(password)
-      .digest("hex"); // Reverting back to MD5 for password comparison
+      .digest("hex");
+
     if (user.password === hashedPassword) return user;
     else throw { message: "Invalid password", code: 401 };
   } else throw { message: "User not found", code: 404 };
 }
+
+// |><|
 
 export async function register(user: UserRegister) {
   console.log(user);
@@ -28,18 +30,9 @@ export async function register(user: UserRegister) {
   const hashedPassword = crypto
     .createHash("md5")
     .update(user.password)
-    .digest("hex"); // Reverting back to MD5 for password hashing
-
+    .digest("hex");
   user.password = hashedPassword;
-  const defaultPermissionId = 1; // Ensure this ID exists in the `permissions` table
-
-const newUser = {
-  ...user,
-  permissionId: user.permissionId ?? defaultPermissionId, // Use provided ID or default
-};
-
-const { insertId } = await db.insert("INSERT INTO users SET ?", newUser);
-
+  const { insertId } = await db.insert("INSERT INTO users SET ?", user);
   return await db.selectOne("select * from users where id = ?", insertId);
 }
 

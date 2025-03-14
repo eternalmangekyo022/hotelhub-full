@@ -31,8 +31,6 @@ export default function Login({ register }: IProps) {
     e.preventDefault();
     setError(null);
     const url = register ? "api/v1/register" : "api/v1/login";
-    console.log("Form Data:", formData); // Log form data before submission
-
     try {
       const { data, status } = await axios.post(
         `http://localhost:3000/${url}`,
@@ -40,18 +38,12 @@ export default function Login({ register }: IProps) {
         { headers: { "Content-Type": "application/json" } }
       );
 
-      if (status !== 200){
-
-        console.log("Error response:", data); // Log error response
-
+      if (status !== 200)
         throw new Error(data.message || "Something went wrong");
-      }
-      if (!register) localStorage.setItem("token", data.token)
+      if (!register) localStorage.setItem("token", data.token);
 
-      localStorage.setItem("userEmail", formData.email); // Store user email
-      navigate({ to: "/" }); // Redirect to home on success
-
-
+      navigate({ to: register ? ("/login" as string) : "/register" }); // Redirect on success
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       setError(err.message);
     }
@@ -122,8 +114,7 @@ export default function Login({ register }: IProps) {
                 </div>
               )}
               {error && <p className="error">{error}</p>}
-              <button className="no-select" type="submit">
-
+              <button className="no-select" type="button">
                 {register ? "Register" : "Login"}
               </button>
             </div>

@@ -16,14 +16,14 @@ import {
 } from "../../store.ts";
 
 import "../styles/hotels.scss";
-import HouseSvg from "../../components/HouseSvg.tsx";
+/* import HouseSvg from "../../components/HouseSvg.tsx";
 import HotelSignSvg from "../../components/HotelSignSvg.tsx";
 import HotelHangingSignSvg from "../../components/HotelHangingSignSvg.tsx";
 import FourStarsSvg from "../../components/FourStars.tsx";
 import BellSvg from "../../components/BellSvg.tsx";
 import BedSvg from "../../components/BedSvg.tsx";
 import HousesSvg from "../../components/HousesSvg.tsx";
-import Dog from "../../components/Dog.tsx";
+import Dog from "../../components/Dog.tsx"; */
 
 export const Route = createFileRoute("/hotels/")({
   component: Hotels,
@@ -44,16 +44,6 @@ function Hotels() {
     initialData: [],
     refetchOnMount: !mutatedHotels.length,
   });
-  const loaders = [
-    HouseSvg,
-    HotelSignSvg,
-    HotelHangingSignSvg,
-    FourStarsSvg,
-    BellSvg,
-    BedSvg,
-    HousesSvg,
-    Dog,
-  ];
 
   useEffect(() => {
     if (!hotels.length) return;
@@ -128,12 +118,9 @@ function Hotels() {
     <>
       <Find />
       <div className="hotel-list">
-        {mutatedHotels.map((hotel, idx) => {
-          const Loader = loaders[Math.floor(loaders.length * Math.random())];
-          return (
-            <HotelCard idx={idx} key={hotel.id} hotel={hotel} Loader={Loader} />
-          );
-        })}
+        {mutatedHotels.map((hotel, idx) => (
+          <HotelCard idx={idx} key={hotel.id} hotel={hotel} />
+        ))}
       </div>
     </>
   );

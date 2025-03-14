@@ -8,8 +8,6 @@ import dotenv from "dotenv";
 import jwt from "jsonwebtoken";
 
 import users from "./routes/users.routes";
-import type { Request, Response } from "express";
-
 import hotels from "./routes/hotels.routes";
 import images from "./routes/images.routes";
 import bookings from "./routes/bookings.routes";
@@ -30,7 +28,7 @@ api.use(
   })
 );
 api.use(e.json());
-app.use(e.urlencoded({ extended: true }));
+
 const excludeToken = ["register", "login", "refresh", "hotels", "amenities"];
 
 const reg = `^(?!.*(${excludeToken.join("|")})).*`;
@@ -70,8 +68,7 @@ app.use(
   }
 );
 
-users(use, app); // Integrate user routes
-
+users(use, app);
 hotels(use, app);
 images(use, app);
 bookings(use, app);

@@ -52,7 +52,7 @@ function Contact() {
     <>
       <div /**100vw */ className="wrapper">
         <div /* 90% */ className="wrapper-inner">
-          <section /* 40%, flex-col */ className="contact-card">
+          <section /* 40%, flex-col */ className="contact-card bg-blue-800">
             <section className="contact-title">
               <h1>Contact Information</h1>
               <h2>Have an inquery? Fill out the form to contact our team.</h2>

@@ -153,25 +153,10 @@ $hover-detail: #0056b3; // For button hover effect
 	padding: 20px;
 
 	.hotel-card {
-		background: #fff;
-		border: 1px solid #ddd;
-		border-radius: 10px;
-		padding: 16px;
-		width: 280px;
-		box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.1);
-		transition: 0.2s ease-in-out;
-		text-align: center;
-		cursor: pointer;
-
 		p.hotel-text {
 			margin: 6px 0;
 			font-size: 1rem;
 			color: #666;
-		}
-
-		&:hover {
-			transform: scale(1.01);
-			box-shadow: 4px 8px 20px rgba(0, 0, 0, 0.2);
 		}
 
 		.hotel-title {

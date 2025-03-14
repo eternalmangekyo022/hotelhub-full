@@ -9,15 +9,8 @@ declare module "express" {
 }
 
 // Define Req as an alias for Request
-type Req<T = any> = Request<T> & { body?: T };
-
-type Res = Response & {
-    cookie: (name: string, value: string, options?: any) => this;
-    json: (body: any) => this;
-    send: (body?: any) => this;
-    status: (code: number) => this;
-};
-
+type Req<T = any> = Request<T>;
+type Res = Response;
 type NextFunction = NextFunction;
 
 type UseFn = (

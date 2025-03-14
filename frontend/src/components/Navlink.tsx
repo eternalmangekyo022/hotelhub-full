@@ -11,15 +11,15 @@ export default function Navlink({ children, to, onClick, src }: Props) {
   return (
     <li
       onClick={onClick}
-      className="w-full h-8 flex justify-center items-center"
+      className="w-full flex justify-center items-center transition-[.2s] z-10 hover:border-0"
     >
       <Link
-        className="tooltip w-full h-full flex justify-center items-center"
+        className="tooltip w-full h-full flex justify-center items-center shadow-none not-[.active]:hover:opacity-[.4]"
         data-tip={children}
         to={to}
       >
         {to === "/hotels" ? (
-          <img src={src} alt={children?.toString()} className="w-9" />
+          <img src={src} alt={children?.toString()} className="w-6" />
         ) : (
           <img src={src} alt={children?.toString()} className="w-6" />
         )}

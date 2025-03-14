@@ -4,7 +4,7 @@ import Footer from "../components/Footer.tsx";
 import "../global.scss";
 import "../components/styles/index.css";
 import { useAtom } from "jotai";
-import { geoAtom } from "../store.ts";
+import { geoAtom } from "@store";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
@@ -24,7 +24,6 @@ function RootComponent() {
         "http://ip-api.com/json/"
       );
       const formatted = { lat, lon };
-      console.log(formatted);
       setLocation(formatted);
       return formatted;
     },
@@ -34,7 +33,7 @@ function RootComponent() {
   return (
     <>
       <Header />
-      <main>
+      <main className="dark:bg-base-100 dark:text-white not-dark:bg-rose-100 text-black">
         <Outlet />
       </main>
       <Footer />

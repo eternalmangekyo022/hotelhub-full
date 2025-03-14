@@ -8,9 +8,6 @@ import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 
 dotenv.config({ path: "./.env" });
-console.log("JWT_ACCESS_SECRET:", process.env.JWT_ACCESS_SECRET);
-console.log("JWT_REFRESH_SECRET:", process.env.JWT_REFRESH_SECRET);
-
 
 /**
  * @function login
