@@ -1,13 +1,32 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import DatePicker from 'react-datepicker'
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, useParams } from '@tanstack/react-router'
 import 'react-datepicker/dist/react-datepicker.css'
 import "./styles/booking.scss"
 
-
-
 const HotelBooking = () => {
+  const { id } = useParams({ strict: false })
+  const [hotel, setHotel] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
+
+  useEffect(() => {
+    const fetchHotel = async () => {
+      try {
+        const response = await fetch(`http://localhost:3000/api/v1/hotels/id/${id}`)
+        if (!response.ok) throw new Error('Hotel not found')
+        const data = await response.json()
+        setHotel(data)
+      } catch (err) {
+        setError(err.message)
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchHotel()
+  }, [id])
+
   const {
     register,
     handleSubmit,
@@ -17,15 +36,33 @@ const HotelBooking = () => {
   const [leavingDate, setLeavingDate] = useState(null)
 
   const onSubmit = (data) => {
-    console.log({ ...data, arrivalDate, leavingDate })
+    const bookingData = {
+      ...data,
+      arrivalDate,
+      leavingDate,
+      hotelId: id,
+      hotelName: hotel?.name,
+      price: hotel?.price
+    }
+    console.log(bookingData)
     alert('Booking submitted!')
   }
 
+  if (loading) return <div className="container">Loading...</div>
+  if (error) return <div className="container">Error: {error}</div>
+
   return (
     <div className="container">
-  <h2 className="title">Hotel Booking</h2>
-  <form onSubmit={handleSubmit(onSubmit)} className="form">
-    <div className="form-grid">
+      <h2 className="title">Hotel Booking</h2>
+      {hotel && (
+        <div className="hotel-info">
+          <h3>{hotel.name}</h3>
+          <p>Price per night: ${hotel.price}</p>
+        </div>
+      )}
+      
+      <form onSubmit={handleSubmit(onSubmit)} className="form">
+      <div className="form-grid">
       <div className="left-column">
         <div className="field">
           <label className="label">First Name</label>
@@ -140,13 +177,13 @@ const HotelBooking = () => {
     >
       Submit Booking
     </button>
-  </form>
-</div>
+      </form>
+    </div>
   )
 }
 
 export const Route = createFileRoute('/Booking')({
   component: HotelBooking,
 })
-export default HotelBooking
 
+export default HotelBooking
