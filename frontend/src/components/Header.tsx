@@ -1,6 +1,5 @@
 import useScreen from "../hooks/useScreen.ts";
 import { Link, useRouter } from "@tanstack/react-router";
-//import Logo from "../assets/images/Logo.png";
 import Menu from "../assets/images/Menu Icon.png";
 import "./styles/header.scss";
 import { useAtom } from "jotai";
@@ -9,9 +8,11 @@ import FavoriteHeart from "./FavoriteHeart.tsx";
 import Navlink from "./Navlink";
 
 import { useEffect, useRef, useState, useReducer } from "react";
+import z from "zod";
 import links from "./header/links";
 
 export default function Header() {
+  const LS_KEY = "hotelhub-theme";
   const [width] = useScreen();
   const [favorites] = useAtom(favoritesAtom);
   const listRef = useRef<HTMLUListElement>(null);
@@ -26,15 +27,22 @@ export default function Header() {
     state: boolean,
     action: { type: "on" | "off" | "toggle" }
   ) {
+    localStorage.setItem(
+      LS_KEY,
+      { on: "dark", off: "light", toggle: state ? "light" : "dark" }[
+        action.type
+      ]
+    );
     switch (action.type) {
       case "on":
+        toggleHtmlData(true);
         return true;
       case "off":
+        toggleHtmlData(false);
         return false;
       case "toggle":
+        toggleHtmlData(!state);
         return !state;
-      default:
-        return false;
     }
   }
 
@@ -43,6 +51,11 @@ export default function Header() {
     const { clientWidth: w } = listRef.current;
     const fr = w / COLS;
     return fr * selectedNav + fr / 2;
+  }
+
+  function toggleHtmlData(isDark: boolean) {
+    const html = document.querySelector("html");
+    html?.setAttribute("data-theme", isDark ? "dark" : "light");
   }
 
   useEffect(() => {
@@ -70,8 +83,21 @@ export default function Header() {
 
     window.addEventListener("resize", onResize);
 
-    if (document.querySelector("html")?.getAttribute("data-theme") === "dark") {
-      dispatchIsDark({ type: "on" });
+    const saved = localStorage.getItem(LS_KEY);
+
+    if (saved) {
+      const savedSchema = z.string().regex(/^(light|dark)$/);
+      const { success } = savedSchema.safeParse(saved);
+      if (success) {
+        switch (saved as "light" | "dark") {
+          case "dark":
+            dispatchIsDark({ type: "on" });
+            break;
+          case "light":
+            dispatchIsDark({ type: "off" });
+            break;
+        }
+      }
     }
 
     return () => {
@@ -139,22 +165,14 @@ export default function Header() {
               type="checkbox"
               className="du-theme-controller"
               value="dark"
-              checked={!isDark}
-              onChange={(e) => {
-                const html = document.querySelector("html");
-                const isDark = e.target.checked;
-
-                if (html?.hasAttribute("data-theme") && !isDark)
-                  html.removeAttribute("data-theme");
-                else html?.setAttribute("data-theme", "dark");
-
-                html?.classList.toggle("dark", isDark);
+              checked={isDark}
+              onChange={() => {
                 dispatchIsDark({ type: "toggle" });
               }}
             />
 
             <svg
-              className="du-swap-off h-10 w-10 fill-current"
+              className="du-swap-off w-8 fill-current"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
             >
@@ -162,7 +180,7 @@ export default function Header() {
             </svg>
 
             <svg
-              className="du-swap-on h-10 w-10 fill-current"
+              className="du-swap-on w-8 fill-current"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
             >

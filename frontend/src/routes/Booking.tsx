@@ -145,7 +145,7 @@ const HotelBooking = () => {
   )
 }
 
-export const Route = createFileRoute('/Booking')({
+export const Route = createFileRoute('/booking')({
   component: HotelBooking,
 })
 export default HotelBooking

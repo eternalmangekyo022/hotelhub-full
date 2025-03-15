@@ -28,8 +28,8 @@ export default function FavoriteCard({
           </div>
         )}
       </figure>
-      <div className="du-card-body p-4 h-[45%]">
-        <h2 className="du-card-title">{name}</h2>
+      <div className="du-card-body p-4 h-[45%] not-dark:">
+        <h2 className="du-card-title not-dark:text-white">{name}</h2>
         <p style={{ lineHeight: "1.3rem" }}>{description}</p>
         <div className="du-card-actions justify-between">
           <button

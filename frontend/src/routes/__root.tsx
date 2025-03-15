@@ -33,7 +33,7 @@ function RootComponent() {
   return (
     <>
       <Header />
-      <main className="dark:bg-base-100 dark:text-white not-dark:bg-rose-100 text-black">
+      <main className="dark:bg-base-100 dark:text-white not-dark:bg-white text-black">
         <Outlet />
       </main>
       <Footer />

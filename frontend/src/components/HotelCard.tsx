@@ -44,7 +44,12 @@ export default function HotelCard({
       price,
       rating: { avg, count },
     } as Hotel);
-    navigate({ to: `/hotels/${id}` });
+    navigate({
+      to: "/hotels/$hotelId",
+      params: {
+        hotelId: String(id),
+      },
+    });
   }
 
   useEffect(() => {

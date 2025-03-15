@@ -12,7 +12,7 @@ import Person4 from "../assets/images/Person4.png";
 import Person5 from "../assets/images/Person5.png";
 
 //components
-export const Route = createFileRoute("/About")({
+export const Route = createFileRoute("/about")({
   component: About,
 });
 
@@ -60,7 +60,10 @@ export default function About() {
         </div>
 
         <TimeLine />
-
+        <div
+          className="dark:du-divider not-dark:du-divider-neutral w-3/4 max-w-[45rem] min-w-[25rem]"
+          style={{ marginInline: "auto" }}
+        ></div>
         <h1>Meet our Team</h1>
         <h2>The Visionaries Behind HotelHub</h2>
 
@@ -74,7 +77,7 @@ export default function About() {
           ))}
         </div>
       </div>
-      <div className="purple not-dark:bg-blue-400">
+      <div className="purple not-dark:bg-blue-400 dark:bg-base-200">
         <div>
           <h1>Connect with HotelHub</h1>
           <p>
