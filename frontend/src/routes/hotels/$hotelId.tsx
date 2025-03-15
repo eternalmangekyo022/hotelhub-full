@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useAtom } from "jotai";
 import { favoritesAtom, selectedHotelAtom } from "../../store.ts";
 import "../styles/details.scss";
@@ -161,6 +161,15 @@ export default function HotelDetails() {
       >
         {added ? "Remove from favorites" : "Add to favorites"}
       </button>
+      <Link to={`/booking/${hotel.id}`}>
+      <button
+        className="du-btn-primary"
+      >
+        Book now
+      </button>
+      </Link>
+      
+      
     </div>
   );
 }
