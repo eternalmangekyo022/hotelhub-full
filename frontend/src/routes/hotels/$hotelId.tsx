@@ -60,9 +60,23 @@ export default function HotelDetails() {
     }
   }
 
+  useEffect(() => {
+    if (favorites.includes(Number(hotelId))) {
+      setAdded(true);
+      }
+      else {
+        setAdded(false);
+      }
+    });
+
   function addFav() {
-    setFavorites((prev) => [...prev, Number(hotelId)]);
-    setAdded(true);
+    setFavorites((prev) => {
+      if (!prev.includes(Number(hotelId))) {
+        setAdded(true);
+        return [...prev, Number(hotelId)];
+      }
+      return prev;
+    });
   }
 
   function removeFav() {
