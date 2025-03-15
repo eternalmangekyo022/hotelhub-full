@@ -3,6 +3,7 @@ import Trash from "/vectors/trash.svg";
 import { useState } from "react";
 import { favoritesAtom } from "@store";
 import { useSetAtom } from "jotai";
+import { Link } from "@tanstack/react-router";
 
 interface Props {
   hotel: Hotel;
@@ -38,10 +39,10 @@ export default function FavoriteCard({
           >
             <img src={Trash} alt="trash" className="w-6" />
           </button>
-          <button className="du-btn du-btn-info">
+          <Link to={`/hotels/${id}` as string} className="du-btn du-btn-info">
             View Details
-            <img src={Arrow} alt="" className="inline w-6" />
-          </button>
+            <img src={Arrow} alt="->" className="inline w-6" />
+          </Link>
         </div>
       </div>
     </div>
