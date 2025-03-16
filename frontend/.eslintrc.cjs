@@ -17,5 +17,7 @@ export default {
     ],
     "react/react-in-jsx-scope": 'warn',
     "react/jsx-uses-react": 0,
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": "warn"
   },
 }

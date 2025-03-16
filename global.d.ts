@@ -1,10 +1,17 @@
-import { Request, Response, NextFunction, Express as Exp } from "express";
+import {
+  type Request,
+  type Response,
+  NextFunction,
+  Express as Exp,
+} from "express";
 
 declare global {
-  interface Req<T = any> extends Request<any, any, T> {
+  interface Req<T = any, P = any> extends Request<any, any, T> {
     user?: TokenVerified;
+    body: T;
+    params: P;
   }
-  interface Res extends Response {}
+  type Res = Response;
   interface Next extends NextFunction {}
   type UserUpdated = Omit<User, "registered" | "email" | "permission"> & {
     newPassword: string;
