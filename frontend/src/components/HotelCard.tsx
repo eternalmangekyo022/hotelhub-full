@@ -68,7 +68,7 @@ export default function HotelCard({
   return (
     <div
       ref={ref}
-      className="hotel-card h-80 du-card-sm bg-base-100 w-96 shadow-xl rounded-md overflow-hidden"
+      className="hotel-card h-96 du-card-sm bg-base-100 w-96 shadow-xl rounded-md overflow-hidden"
     >
       <figure className="h-[55%] object-contain">
         {!imageLoaded && (
@@ -85,13 +85,15 @@ export default function HotelCard({
       </figure>
       <div className="du-card-body not-dark:bg-blue-200 dark:bg-[#242a34] text-white h-[45%]">
         <div className="flex justify-between items-center">
-          <h2 className="du-card-title text-clip text-nowrap">{name}</h2>
-          <p className="flex items-center">
-            <img src={LocationPin} alt="pin" className="w-4 h-4 mr-2" />
-            {city}
-          </p>
+          <h2 className="du-card-title text-clip text-nowrap not-dark:text-black">
+            {name}
+          </h2>
         </div>
-        <p className="text-lg font-semibold">
+        <p className="flex items-center not-dark:text-black">
+          <img src={LocationPin} alt="pin" className="w-4 h-4 mr-2" />
+          {city}
+        </p>
+        <p className="text-lg font-semibold not-dark:text-black">
           ${price} <span className="text-sm text-gray-500">per night</span>
         </p>
         <div className="du-card-actions justify-between items-center h-16">

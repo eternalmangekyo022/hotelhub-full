@@ -4,9 +4,9 @@ import { useLocation } from "@tanstack/react-router";
 export default function Footer() {
   const location = useLocation();
   return (
-    z
+    !z
       .string()
-      .regex(/^(login|register)$/)
+      .regex(/^\/(login|register)$/)
       .safeParse(location.pathname).success && (
       <footer className="du-footer du-footer-horizontal du-footer-center bg-base-100 text-primary-content p-10 not-dark:bg-blue-900 dark:bg-indigo-900">
         <aside>

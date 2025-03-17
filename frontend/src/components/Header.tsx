@@ -3,19 +3,27 @@ import { Link, useRouter, useLocation } from "@tanstack/react-router";
 import Menu from "../assets/images/Menu Icon.png";
 import "./styles/header.scss";
 import { useAtom } from "jotai";
-import { favoritesAtom } from "@store";
+import { favoritesAtom, userAtom } from "@store";
 import FavoriteHeart from "./FavoriteHeart.tsx";
 import Navlink from "./Navlink";
 
-import { useEffect, useRef, useState, useReducer } from "react";
 import z from "zod";
+import { useEffect, useRef, useState, useReducer } from "react";
 import links from "./header/links";
+import UserSvg from "./svg/UserSvg.tsx";
+
+import SettingSvg from "./svg/SettingSvg.tsx";
+import ProfileSvg from "./svg/ProfileSvg.tsx";
+import LogoutSvg from "./svg/LogoutSvg";
 
 export default function Header() {
-  const location = useLocation();
   const LS_KEY = "hotelhub-theme";
+  const location = useLocation();
   const [width] = useScreen();
+
   const [favorites] = useAtom(favoritesAtom);
+  const [user, setUser] = useAtom(userAtom);
+
   const listRef = useRef<HTMLUListElement>(null);
   const [selectedNav, setSelectedNav] = useState<number>(0);
   const [navVisible, setNavVisible] = useState(false);
@@ -59,6 +67,10 @@ export default function Header() {
     html?.setAttribute("data-theme", isDark ? "dark" : "light");
   }
 
+  function handleLogout() {
+    setUser(null);
+  }
+
   useEffect(() => {
     setDistance(calcDistance());
     setNavVisible(true);
@@ -70,10 +82,14 @@ export default function Header() {
     }
 
     router.history.subscribe((e) => {
+      const {
+        location: { pathname: path },
+      } = e;
       for (let i = 0; i < links.length; i++) {
-        if (e.location.pathname === links[i].link) setSelectedNav(i);
+        if (path === links[i].link) setSelectedNav(i);
       }
-      if (e.location.pathname === "/favorites") setNavVisible(false);
+      if (path === "/favorites") setNavVisible(false);
+      else if (!navVisible) setNavVisible(true);
     });
     if (!listRef.current) return;
 
@@ -107,9 +123,9 @@ export default function Header() {
   }, []);
 
   return (
-    z
+    !z
       .string()
-      .regex(/^(login|register)$/)
+      .regex(/^\/(login|register)$/)
       .safeParse(location.pathname).success && (
       <>
         <header>
@@ -158,7 +174,7 @@ export default function Header() {
               </ul>
             )}
           </nav>
-          <div className="favorites-button w-24 flex justify-around items-center">
+          <div className="favorites-button w-40 flex justify-between items-center">
             <Link
               to="/favorites"
               className="grid place-content-center relative"
@@ -195,6 +211,54 @@ export default function Header() {
                 <path d="M21.64,13a1,1,0,0,0-1.05-.14,8.05,8.05,0,0,1-3.37.73A8.15,8.15,0,0,1,9.08,5.49a8.59,8.59,0,0,1,.25-2A1,1,0,0,0,8,2.36,10.14,10.14,0,1,0,22,14.05,1,1,0,0,0,21.64,13Zm-9.5,6.69A8.14,8.14,0,0,1,7.08,5.22v.27A10.15,10.15,0,0,0,17.22,15.63a9.79,9.79,0,0,0,2.1-.22A8.11,8.11,0,0,1,12.14,19.73Z" />
               </svg>
             </label>
+            <div
+              className="du-dropdown du-dropdown-center w-8"
+              onClick={() => {
+                if (!user) router.navigate({ to: "/login" });
+              }}
+            >
+              <div
+                className="du-btn w-full h-full p-0 border-0"
+                style={{ margin: 0 }}
+                tabIndex={0}
+                role="button"
+              >
+                <UserSvg />
+              </div>
+              {user && (
+                <>
+                  <ul
+                    tabIndex={0}
+                    className="du-dropdown-content not-dark:bg-white du-menu bg-base-100 rounded-box z-1 w-32 p-2 shadow-sm"
+                  >
+                    <li>
+                      <a>
+                        <SettingSvg />
+                        <span className="not-dark:text-black dark:text-white">
+                          Settings
+                        </span>
+                      </a>
+                    </li>
+                    <li>
+                      <a>
+                        <ProfileSvg />
+                        <span className="not-dark:text-black dark:text-white">
+                          Profile
+                        </span>
+                      </a>
+                    </li>
+                    <li onClick={handleLogout}>
+                      <a>
+                        <LogoutSvg />
+                        <span className="not-dark:text-black dark:text-white">
+                          Logout
+                        </span>
+                      </a>
+                    </li>
+                  </ul>
+                </>
+              )}
+            </div>
           </div>
         </header>
       </>

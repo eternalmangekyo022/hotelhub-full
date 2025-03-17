@@ -19,7 +19,6 @@ interface IProps {
 }
 
 export default function Login({ register }: IProps) {
-  const navigate = useNavigate();
   const [error, setError] = useState<string>("");
   const [user, setUser] = useAtom(userAtom);
 
@@ -65,7 +64,7 @@ export default function Login({ register }: IProps) {
       <div className={`login-form-wrapper ${register ? "register" : "login"}`}>
         <form className="login-form">
           <div className="login-form-inner">
-            <div className="form-title">
+            <div className="form-title dark:text-black">
               <h1>{register ? "Register" : "Welcome back"}</h1>
               <h2>
                 {register
