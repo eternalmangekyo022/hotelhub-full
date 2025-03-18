@@ -22,7 +22,7 @@ type FormData = {
   message: string;
 };
 
-export const Route = createFileRoute("/contact")({
+export const Route = createFileRoute("/Contact")({
   component: Contact,
 });
 

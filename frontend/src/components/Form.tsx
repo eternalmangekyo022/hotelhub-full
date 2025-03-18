@@ -5,7 +5,6 @@ import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { userAtom } from "@/store";
 import { useAtom } from "jotai";
-import Cookie from "@/hooks/useCookie";
 
 interface IFormData {
   firstname: string;

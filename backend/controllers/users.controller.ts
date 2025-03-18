@@ -1,13 +1,7 @@
-/**
- * Handles user authentication and authorization
- * @namespace controllers/users
- */
-
-import * as model from "../models/users.model";
+import type { Request, Response, NextFunction } from "express";
 import jwt from "jsonwebtoken";
+import * as model from "../models/users.model";
 import dotenv from "dotenv";
-
-import { type Response, type Request } from "express";
 
 dotenv.config({ path: "./.env" });
 
@@ -23,8 +17,9 @@ export async function login(
 
   const accessToken = jwt.sign(
     { email: user.email, id: user.id },
+
     process.env.JWT_ACCESS_SECRET!,
-    { expiresIn: "15m" } // Short expiry for access token
+    { expiresIn: "15m" }
   );
 
   const refreshToken = jwt.sign(

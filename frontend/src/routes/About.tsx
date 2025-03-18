@@ -12,7 +12,7 @@ import Person4 from "../assets/images/Person4.png";
 import Person5 from "../assets/images/Person5.png";
 
 //components
-export const Route = createFileRoute("/about")({
+export const Route = createFileRoute("/About")({
   component: About,
 });
 
