@@ -84,7 +84,7 @@ const UserProfile = () => {
                 <div className="bg-gray-50 p-4 rounded-lg">
                   <h2 className="text-lg font-semibold mb-4 text-gray-700">Account Details</h2>
                   <div className="space-y-2">
-                    <p><span className="font-medium">User Role:</span> {userData.permissionId === 3 ? 'Member' : 'Administrator'}</p>
+                    <p><span className="font-medium">User Role:</span> {userData.permissionId === 1 ? 'Member' : 'Administrator'}</p>
                     <p><span className="font-medium">Registration Date:</span> {new Date(userData.registered).toLocaleDateString()}</p>
                   </div>
                 </div>
