@@ -15,7 +15,6 @@ export const Route = createFileRoute("/hotels/$hotelId")({
 });
 export default function HotelDetails() {
   const { hotelId } = Route.useParams();
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [stars, setStars] = useState<string[]>([]);
   const [added, setAdded] = useState(false);
   const [favorites, setFavorites] = useAtom(favoritesAtom);
@@ -44,21 +43,7 @@ export default function HotelDetails() {
     initialData: [],
   });
 
-  function handlePrevImage() {
-    if (hotel && hotel.images.length > 0) {
-      setCurrentImageIndex((prevIndex) =>
-        prevIndex === 0 ? hotel.images.length - 1 : prevIndex - 1
-      );
-    }
-  }
 
-  function handleNextImage() {
-    if (hotel && hotel.images.length > 0) {
-      setCurrentImageIndex((prevIndex) =>
-        prevIndex === hotel.images.length - 1 ? 0 : prevIndex + 1
-      );
-    }
-  }
 
   useEffect(() => {
     if (favorites.includes(Number(hotelId))) {

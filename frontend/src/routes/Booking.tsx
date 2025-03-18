@@ -125,10 +125,16 @@ const HotelBooking = () => {
         <div className="field">
           <label className="label">Expiry Date</label>
           <input
-            type="number"
+            type="text"
             className="input"
             placeholder="MM/YY"
+            maxLength={5}
             {...register('ccExpiry', { required: true })}
+            onChange={(e) => {
+              const value = e.target.value.replace(/\D+/g, '');
+              const newValue = value.replace(/(\d{2})(?=\d)/g, '$1/');
+              e.target.value = newValue;
+            }}
           />
           {errors.ccExpiry && (
             <span className="error">Expiry date is required</span>
@@ -138,11 +144,16 @@ const HotelBooking = () => {
         <div className="field">
           <label className="label">CVV</label>
           <input
-            type="number"
+            type="text"
             className="input"
-            min={100}
-            max={999}
+            maxLength={3}
+            inputMode="numeric"
+            pattern="[0-9]{3}"
             {...register('ccCvv', { required: true })}
+            onChange={(e) => {
+              const value = e.target.value.replace(/[^\d]/g, '');
+              e.target.value = value;
+            }}
           />
           {errors.ccCvv && (
             <span className="error">CVV is required</span>
