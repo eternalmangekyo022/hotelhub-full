@@ -7,6 +7,8 @@ import * as model from "../models/users.model";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 
+import { type Response, type Request } from "express";
+
 dotenv.config({ path: "./.env" });
 
 /**
@@ -15,7 +17,7 @@ dotenv.config({ path: "./.env" });
  */
 export async function login(
   req: Req<{ email: string; password: string }>,
-  res: Res
+  res: Response
 ) {
   const user = await model.login(req.body.email, req.body.password);
 
@@ -34,17 +36,15 @@ export async function login(
   // Optionally store refresh token in a secure location (e.g., database or cache)
 
   res.cookie("accessToken", accessToken, {
-    httpOnly: true, // Prevent client-side access to the cookie
     secure: process.env.NODE_ENV === "production", // Use HTTPS in production
-    sameSite: "strict", // Prevent CSRF attacks
     maxAge: 900 * 1000, // 1 hour
+    httpOnly: true,
   });
 
   res.cookie("refreshToken", refreshToken, {
-    httpOnly: true, // Prevent client-side access to the cookie
     secure: process.env.NODE_ENV === "production", // Use HTTPS in production
-    sameSite: "strict", // Prevent CSRF attacks
     maxAge: 24 * 60 * 60 * 1000, // 1 week
+    httpOnly: true,
   });
 
   res.json({ user });
@@ -88,7 +88,6 @@ export async function refresh(
   res.cookie("accessToken", await model.refresh(refreshToken), {
     httpOnly: true,
     maxAge: 900 * 1000,
-    sameSite: "strict",
     secure: process.env.NODE_ENV === "production",
   });
   res.send();
@@ -135,4 +134,22 @@ export async function patchUser(
 export async function getUsers(req: Req, res: Res) {
   const users = await model.getUsers();
   res.json(users);
+}
+
+export async function check(req: Request, res: Response) {
+  res.json(await model.getUserById(req.user?.id as number));
+}
+
+export async function logout(req: Request, res: Response) {
+  res.cookie("accessToken", "", {
+    maxAge: 0,
+    httpOnly: true,
+    path: "/",
+  });
+  res.cookie("refreshToken", "", {
+    maxAge: 0,
+    httpOnly: true,
+    path: "/",
+  });
+  res.send();
 }

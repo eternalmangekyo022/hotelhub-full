@@ -58,7 +58,7 @@ export default function Find() {
         <h1>Find Your Perfect Stay</h1>
         <h2>Search by Name, Location, or Ratings</h2>
         <div className="searchbar">
-          <label className="du-input">
+          <label className="du-input not-dark:bg-neutral-content">
             <svg
               className="h-[1em] opacity-50"
               xmlns="http://www.w3.org/2000/svg"
@@ -81,12 +81,15 @@ export default function Find() {
               className="grow"
               placeholder="Search"
             />
-            <kbd className="du-kbd du-kbd-sm">Ctrl</kbd>
-            <kbd className="du-kbd du-kbd-sm">K</kbd>
+            <kbd className="du-kbd du-kbd-sm not-dark:bg-gray-300">Ctrl</kbd>
+            <kbd className="du-kbd du-kbd-sm not-dark:bg-gray-300">K</kbd>
           </label>
         </div>
 
-        <label htmlFor="sort" className="du-select m-0 p-0 w-52 rounded-4xl">
+        <label
+          htmlFor="sort"
+          className="du-select m-0 p-0 w-52 rounded-4xl not-dark:bg-neutral-content"
+        >
           <span className="du-label">Sort</span>
           <select id="sort" value={sortBy} onChange={handleSortChange}>
             <option value="">None</option>

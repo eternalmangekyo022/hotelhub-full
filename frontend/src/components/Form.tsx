@@ -5,6 +5,7 @@ import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { userAtom } from "@/store";
 import { useAtom } from "jotai";
+import Cookie from "@/hooks/useCookie";
 
 interface IFormData {
   firstname: string;
@@ -21,6 +22,7 @@ interface IProps {
 export default function Login({ register }: IProps) {
   const [error, setError] = useState<string>("");
   const [user, setUser] = useAtom(userAtom);
+  const navigate = useNavigate();
 
   const { isLoading, refetch } = useQuery({
     queryKey: [register ? "register" : "login"],
@@ -34,9 +36,13 @@ export default function Login({ register }: IProps) {
             email: formData.email,
             password: formData.password,
           },
-          { headers: { "Content-Type": "application/json" } }
+          {
+            headers: { "Content-Type": "application/json" },
+            withCredentials: true,
+          }
         );
         setUser(user);
+        navigate({ to: "/" });
         return user;
       } catch (e) {
         setError((e as { message: string }).message);
@@ -48,8 +54,8 @@ export default function Login({ register }: IProps) {
   });
 
   const [formData, setFormData] = useState<IFormData>({
-    email: "",
-    password: "",
+    email: "benezoltancime@gmail.com",
+    password: "admin123",
     firstname: "",
     lastname: "",
     phone: "",

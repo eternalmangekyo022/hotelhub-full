@@ -5,10 +5,10 @@ import { selectedHotelAtom } from "@store";
 import { useAtom } from "jotai";
 
 export const Route = createFileRoute("/hotels/$hotelId")({
-  component: RouteComponent,
+  component: HotelId,
 });
 
-function RouteComponent() {
+function HotelId() {
   const [selected] = useAtom(selectedHotelAtom);
   const { hotelId } = useParams({ from: "/hotels/$hotelId" });
   const { data: hotel } = useQuery<Hotel>({

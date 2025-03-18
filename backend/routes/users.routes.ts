@@ -4,8 +4,10 @@ import * as users from "../controllers/users.controller";
 export default (use: UseFn, app: Express) => {
   const router = Router({ mergeParams: true });
   router.post("/login", use(users.login));
+  router.delete("/logout", use(users.logout));
   router.post("/register", use(users.register));
   router.post("/refresh", use(users.refresh));
+  router.post("/check", use(users.check));
 
   const userRouter = Router({ mergeParams: true });
   userRouter.delete("/:userId", use(users.deleteUser));

@@ -1,7 +1,7 @@
 //assets
 import DineEase from "../assets/images/DineEase.png";
 import DineEaseVector from "../assets/images/Hero Illustrationvector.svg";
-import Search from "../assets/images/Search Icon.png";
+import Search from "/vectors/search.svg";
 
 //hooks
 import useScreen from "../hooks/useScreen.ts";
@@ -26,7 +26,7 @@ export default function Hero() {
         <button type="button" onClick={() => navigate({ to: "/hotels" })}>
           <img width="13%" src={Search} alt="Search" />
           Explore Hotels
-        </button>{" "}
+        </button>
       </section>
       <div className="hero-image">
         <img

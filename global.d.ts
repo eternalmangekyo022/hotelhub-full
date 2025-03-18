@@ -99,16 +99,6 @@ declare global {
     ratingCount?: number; // rating count
     images: Image[];
   };
-  interface User {
-    id: number;
-    firstname: string;
-    lastname: string;
-    permission: string;
-    phone: string;
-    email: string;
-    registered: Date;
-    password: string;
-  }
 
   type UserRegister = Omit<User, "permission" | "registered" | "id">;
 

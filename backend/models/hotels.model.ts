@@ -1,44 +1,71 @@
 import db from "./db";
 
 export async function getHotels(offset: string) {
-  let hotels = (
-    await db.select<Hotel>(
-      "SELECT * FROM hotels limit 30 offset ?",
-      parseInt(offset)
-    )
-  ).map((h) => ({ ...h, images: [] as Image[] }));
+  const totalHotels = await db.selectOne<{ count: number }>(
+    "SELECT COUNT(*) AS count FROM hotels"
+  );
+  const total = totalHotels.count;
 
-  const ids = hotels.map((hotel) => hotel.id).join(",");
-  const images = await db.select<{
-    id: number;
-    hotel_id: number;
-    thumb: string;
-    full: string;
-  }>(`select * from images where hotel_id in (${ids})`);
+  const parsedOffset = parseInt(offset);
+  const requestedLimit = 30; // Default limit
+  const remainingRecords = total - parsedOffset;
 
-  for (let i = 0; i < hotels.length; i++) {
-    for (let j = 0; j < images.length; j++) {
-      if (hotels[i].id === images[j].hotel_id) {
-        hotels[i].images.push({ thumb: images[j].thumb, full: images[j].full });
+  const adjustedLimit = Math.min(requestedLimit, remainingRecords);
+
+  let hotels: Hotel[] = [];
+
+  if (adjustedLimit > 0) {
+    hotels = (
+      await db.select<Hotel>("SELECT * FROM hotels LIMIT ? OFFSET ?", [
+        adjustedLimit,
+        parsedOffset,
+      ])
+    ).map((h) => ({ ...h, images: [] as Image[] }));
+
+    const ids = hotels.map((hotel) => hotel.id).join(",");
+    const images = await db.select<{
+      id: number;
+      hotel_id: number;
+      thumb: string;
+      full: string;
+    }>(`SELECT * FROM images WHERE hotel_id IN (${ids})`);
+
+    for (let i = 0; i < hotels.length; i++) {
+      for (let j = 0; j < images.length; j++) {
+        if (hotels[i].id === images[j].hotel_id) {
+          hotels[i].images.push({
+            thumb: images[j].thumb,
+            full: images[j].full,
+          });
+        }
       }
     }
-  }
-  const toGet = hotels.map((i) => i.id).join(",");
-  const q = `select hotel_id, avg(rating) AS "avg", count(rating) as "count" from bookings where hotel_id in (${toGet}) group BY hotel_id`;
-  const ratings = await db.select<{ avg: string; count: number }>(q);
 
-  let final: Hotel[] = [];
+    const toGet = hotels.map((i) => i.id).join(",");
+    const q = `SELECT hotel_id, AVG(rating) AS "avg", COUNT(rating) AS "count" FROM bookings WHERE hotel_id IN (${toGet}) GROUP BY hotel_id`;
+    const ratings = await db.select<{
+      hotel_id: number;
+      avg: string;
+      count: number;
+    }>(q);
 
-  for (let i = 0; i < ratings.length; i++) {
-    final = [
-      ...final,
-      {
+    let final: Hotel[] = [];
+
+    for (let i = 0; i < hotels.length; i++) {
+      const hotelRating = ratings.find((r) => r.hotel_id === hotels[i].id);
+      final.push({
         ...hotels[i],
-        rating: { avg: parseFloat(ratings[i].avg), count: ratings[i].count },
-      },
-    ];
+        rating: {
+          avg: hotelRating ? parseFloat(hotelRating.avg) : 0,
+          count: hotelRating ? hotelRating.count : 0,
+        },
+      });
+    }
+
+    return final;
+  } else {
+    return [];
   }
-  return final;
 }
 
 export async function getHotelById(id: string) {
