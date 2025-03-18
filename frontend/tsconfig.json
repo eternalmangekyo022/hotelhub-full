@@ -31,7 +31,10 @@
       ],
       "@store": [
         "./src/store.ts"
-      ]
+      ],
+      "@hooks": [
+        "./src/hooks/*"
+      ],
     },
   },
   "include": [

@@ -1,15 +1,12 @@
-import { useState } from "react";
-import "./styles/find.scss";
-import Filter from "../assets/images/Filter Iconvector.svg";
-import Search from "../assets/images/Search Iconvector.svg";
-import SearchPurple from "../assets/images/Search Iconvector Purple.svg";
-import Location from "../assets/images/Location Iconvector.svg";
+import { useEffect, useRef, useState } from "react";
+import { useAtom } from "jotai";
 import z from "zod";
 
-import { useAtom } from "jotai";
+import "./styles/find.scss";
 import { sortByAtom, searchQueryAtom } from "../store";
 
 export default function Find() {
+  const searchRef = useRef<HTMLInputElement>(null);
   const [input, setInput] = useState("");
   const [rating, setRating] = useState("");
   const [location, setLocation] = useState("");
@@ -18,11 +15,6 @@ export default function Find() {
   const [, setSearchQuery] = useAtom(searchQueryAtom);
 
   const [sortBy, setSortBy] = useAtom(sortByAtom);
-
-  const onSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
-    e.preventDefault();
-    setSearchQuery(input || name); // Update search query in Hotels.tsx
-  };
 
   const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const sortBySchema = z.enum([
@@ -43,86 +35,63 @@ export default function Find() {
     setSortBy(toSortBy);
   };
 
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "k" && e.ctrlKey) {
+        e.preventDefault();
+        e.stopPropagation();
+        e.stopImmediatePropagation();
+        searchRef.current?.focus();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
+
   return (
     <section className="find-wrapper">
       <div className="search">
         <h1>Find Your Perfect Stay</h1>
         <h2>Search by Name, Location, or Ratings</h2>
         <div className="searchbar">
-          <form
-            onSubmit={onSubmit}
-            className={`input${isSimple ? "" : " complex"}`}
-          >
-            {isSimple ? (
-              <>
-                <img
-                  id="searchImage"
-                  src={Search}
-                  alt="Search icon"
-                  title="Search"
-                />
-                <input
-                  type="text"
-                  placeholder="Search for hotels"
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                />
-                <img
-                  id="filterImage"
-                  onClick={() => setIsSimple(false)}
-                  src={Filter}
-                  alt="Filter"
-                />
-              </>
-            ) : (
-              <>
-                <input
-                  placeholder="Name"
-                  type="text"
-                  className="name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                />
-                <div className="location-input">
-                  <img src={Location} alt="Location" />
-                  <input
-                    placeholder="Location"
-                    type="text"
-                    className="location"
-                    value={location}
-                    onChange={(e) => setLocation(e.target.value)}
-                  />
-                </div>
-                <input
-                  placeholder="Rating"
-                  type="number"
-                  className="rating"
-                  max={5}
-                  min={0}
-                  value={rating}
-                  onChange={(e) => setRating(e.target.value)}
-                />
-                <button
-                  className="simple-button"
-                  onClick={() => setIsSimple(true)}
-                >
-                  Simple search
-                </button>
-              </>
-            )}
-            <button className="search-button" type="submit">
-              <img src={SearchPurple} alt="Search" title="Search" />
-            </button>
-          </form>
+          <label className="du-input">
+            <svg
+              className="h-[1em] opacity-50"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+            >
+              <g
+                strokeLinejoin="round"
+                strokeLinecap="round"
+                strokeWidth="2.5"
+                fill="none"
+                stroke="currentColor"
+              >
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-4.3-4.3"></path>
+              </g>
+            </svg>
+            <input
+              ref={searchRef}
+              type="search"
+              className="grow"
+              placeholder="Search"
+            />
+            <kbd className="du-kbd du-kbd-sm">Ctrl</kbd>
+            <kbd className="du-kbd du-kbd-sm">K</kbd>
+          </label>
         </div>
 
-        {/* Sort By Section */}
-        <div className="sort-by">
-          <label htmlFor="sort">Sort By:</label>
+        <label htmlFor="sort" className="du-select m-0 p-0 w-52 rounded-4xl">
+          <span className="du-label">Sort</span>
           <select id="sort" value={sortBy} onChange={handleSortChange}>
             <option value="">None</option>
-            <option value="name-asc">Alphabetical (A-Z)</option>
-            <option value="name-desc">Alphabetical (Z-A)</option>
+            <option value="name-asc">A -&gt; Z</option>
+            <option value="name-desc">Z -&gt; A</option>
             <option value="rating-asc">Rating (Low to High)</option>
             <option value="rating-desc">Rating (High to Low)</option>
             <option value="ratingtotal-asc">Rating Count (Low to High)</option>
@@ -130,7 +99,7 @@ export default function Find() {
             <option value="price-asc">Price (Low to High)</option>
             <option value="price-desc">Price (High to Low)</option>
           </select>
-        </div>
+        </label>
       </div>
     </section>
   );

@@ -1,4 +1,8 @@
-import { Outlet, createRootRoute } from "@tanstack/react-router";
+import {
+  Outlet,
+  createRootRoute,
+  retainSearchParams,
+} from "@tanstack/react-router";
 import Header from "../components/Header.tsx";
 import Footer from "../components/Footer.tsx";
 import "../global.scss";
@@ -10,6 +14,9 @@ import axios from "axios";
 
 export const Route = createRootRoute({
   component: RootComponent,
+  search: {
+    middlewares: [retainSearchParams(true)],
+  },
 });
 
 function RootComponent() {
@@ -33,7 +40,7 @@ function RootComponent() {
   return (
     <>
       <Header />
-      <main className="dark:bg-base-100 dark:text-white not-dark:bg-rose-100 text-black">
+      <main className="dark:bg-base-100 dark:text-white not-dark:bg-white text-black">
         <Outlet />
       </main>
       <Footer />
