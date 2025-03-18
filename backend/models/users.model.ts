@@ -71,3 +71,8 @@ export async function getUsers() {
   const res = await db.select("SELECT * FROM users limit 30");
   return res;
 }
+
+export async function getUserById(id: number) {
+  const res = await db.select("SELECT * FROM users WHERE id = ?", [id]);
+  return res[0];
+}

@@ -115,3 +115,18 @@ export async function getUsers(req: Request, res: Response, next: NextFunction) 
     next(err);
   }
 }
+
+export async function getUserById(req: Request, res: Response, next: NextFunction) {
+  try {
+    const id = parseInt(req.params.id, 10);
+    if (isNaN(id)) throw { message: 'Invalid user ID', code: 400 };
+
+    const user = await model.getUserById(id); // Pass single number
+    if (!user) throw { message: 'User not found', code: 404 };
+
+    const { password: _, ...rest } = user;
+    res.json(rest);
+  } catch (err) {
+    next(err);
+  }
+}
