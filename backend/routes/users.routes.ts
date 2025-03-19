@@ -13,7 +13,7 @@ export default (use: UseFn, app: Express) => {
   userRouter.delete("/:userId", use(users.deleteUser));
   userRouter.patch("/:userId", use(users.patchUser));
   userRouter.get("/:userId", use(users.getUserById));
-  router.get('/users/:id', users.getUserById)
+  router.get('/users/:id', use(users.getUserById));
   //delete user
   //update user
   //get user

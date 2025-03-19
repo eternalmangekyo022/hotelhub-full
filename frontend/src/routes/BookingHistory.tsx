@@ -1,7 +1,7 @@
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { createFileRoute } from '@tanstack/react-router'
-
+import { useState, useEffect } from 'react';
+import { createFileRoute } from '@tanstack/react-router';
+import { useAtom } from 'jotai';
+import { userAtom } from '../store';
 
 interface Booking {
   id: number;
@@ -16,21 +16,24 @@ interface Booking {
 }
 
 const BookingHistory = () => {
-  const { register, handleSubmit } = useForm();
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [user] = useAtom(userAtom);
 
-  const fetchBookings = async (userId: string) => {
+  useEffect(() => {
+    if (user?.id) {
+      fetchBookings(user.id);
+    }
+  }, [user]);
+
+  const fetchBookings = async (userId: number) => {
     try {
       setLoading(true);
       setError(null);
       const response = await fetch(
-        `http://localhost:3000/api/v1/bookings/${userId}`,
-        {
-          headers: {
-            Authorization: 'Bearer pankix',
-          },
+        `http://localhost:3000/api/v1/bookings/${userId}`,{
+          credentials: 'include',
         }
       );
 
@@ -47,30 +50,11 @@ const BookingHistory = () => {
     }
   };
 
-  const onSubmit = (data: { userId: string }) => {
-    if (!data.userId.trim()) return;
-    fetchBookings(data.userId.trim());
-  };
-
   return (
     <div className="container">
       <h2 className="title">Booking History</h2>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="form">
-        <div className="field">
-          <label className="label">Enter User ID</label>
-          <input
-            className="input"
-            type="text"
-            {...register('userId', { required: true })}
-            placeholder="User ID"
-          />
-        </div>
-        <button type="submit" className="button" disabled={loading}>
-          {loading ? 'Loading...' : 'Get Bookings'}
-        </button>
-      </form>
-
+      {loading && <p>Loading...</p>}
       {error && <div className="error-message">{error}</div>}
 
       {bookings.length > 0 ? (
@@ -111,7 +95,9 @@ const BookingHistory = () => {
     </div>
   );
 };
+
 export const Route = createFileRoute('/BookingHistory')({
   component: BookingHistory,
-})
+});
+
 export default BookingHistory;
