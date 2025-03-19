@@ -40,6 +40,7 @@ export default function LoginFormInput({
         ref={inputRef}
         value={value}
         onChange={(e) => setValue(e.target.value)}
+        className="text-black"
       />
     </div>
   );

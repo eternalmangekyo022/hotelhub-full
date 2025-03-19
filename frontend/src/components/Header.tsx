@@ -4,7 +4,7 @@ import Menu from "../assets/images/Menu Icon.png";
 import "./styles/header.scss";
 import { useAtom } from "jotai";
 import { favoritesAtom, userAtom } from "@store";
-import FavoriteHeart from "./FavoriteHeart.tsx";
+import FavoriteHeart from "./svg/FavoriteHeartSvg.tsx";
 import Navlink from "./Navlink";
 
 import z from "zod";
@@ -15,6 +15,7 @@ import UserSvg from "./svg/UserSvg.tsx";
 import SettingSvg from "./svg/SettingSvg.tsx";
 import ProfileSvg from "./svg/ProfileSvg.tsx";
 import LogoutSvg from "./svg/LogoutSvg";
+import axios from "axios";
 
 export default function Header() {
   const LS_KEY = "hotelhub-theme";
@@ -67,7 +68,10 @@ export default function Header() {
     html?.setAttribute("data-theme", isDark ? "dark" : "light");
   }
 
-  function handleLogout() {
+  async function handleLogout() {
+    await axios.delete("http://localhost:3000/api/v1/logout", {
+      withCredentials: true,
+    });
     setUser(null);
   }
 

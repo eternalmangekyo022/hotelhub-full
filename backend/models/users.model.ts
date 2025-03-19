@@ -73,6 +73,5 @@ export async function getUsers() {
 }
 
 export async function getUserById(id: number) {
-  const res = await db.select("SELECT * FROM users WHERE id = ?", [id]);
-  return res[0];
+  return await db.selectOne<User>("SELECT * FROM users WHERE id = ?", id);
 }
