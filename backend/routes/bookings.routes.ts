@@ -6,6 +6,7 @@ export default (use: UseFn, app: Express) => {
 
   router.get("/", use(controller.getBookings));
   router.get("/:id", use(controller.getBookingsById));
+  router.post("/", use(controller.addBooking));
   app.use("/bookings", router);
 };
 
