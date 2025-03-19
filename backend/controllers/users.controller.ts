@@ -136,6 +136,7 @@ export async function getUsers(req: Req, res: Res) {
   res.json(users);
 }
 
+
 export async function check(req: Request, res: Response) {
   res.json(await model.getUserById(req.user?.id as number));
 }
@@ -152,4 +153,27 @@ export async function logout(req: Request, res: Response) {
     path: "/",
   });
   res.send();
+}
+
+export async function getUserById(req: Request, res: Response) {
+  const { id } = req.params;
+
+  // Validate the ID
+  const userId = parseInt(id, 10);
+  if (isNaN(userId)) {
+    return res.status(400).json({ message: "Invalid user ID" });
+  }
+
+  try {
+    const user = await model.getUserById(userId);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.json(user);
+  } catch (error) {
+    console.error("Error fetching user:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
 }
