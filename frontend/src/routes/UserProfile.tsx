@@ -13,11 +13,8 @@ const UserProfile = () => {
     try {
       const parsedUserId = parseInt(userId, 10);
       if (isNaN(parsedUserId)) throw new Error('Invalid User ID');
-
       const response = await fetch(`http://localhost:3000/api/v1/users/${parsedUserId}`, {
-        headers: {
-          Authorization: 'Bearer pankix',
-        },
+        credentials: 'include',
       });
       if (!response.ok) throw new Error('Failed to fetch user');
 
