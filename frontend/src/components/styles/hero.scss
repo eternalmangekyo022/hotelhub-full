@@ -96,13 +96,13 @@
 	}
 
 	.hero-text {
-		* {
-			margin-left: 2vh;
-		}
-
 		width: 100% !important;
 		height: 50%;
 		margin: 0 !important;
+
+		* {
+			margin-left: 2vh;
+		}
 
 		h1 {
 			font-size: 120% !important;

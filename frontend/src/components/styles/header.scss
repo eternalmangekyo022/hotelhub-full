@@ -71,14 +71,10 @@ header {
     cursor: pointer;
 
     .heart-svg {
-      $size: 2.2rem;
+      $size: 2.1rem;
       width: $size;
       height: $size;
       transition: transform 0.2s ease-in-out;
-
-      &:hover {
-        transform: scale(1.1);
-      }
     }
   }
 }

@@ -5,6 +5,8 @@ interface IProps {
   setValue: (val: string) => void;
   uid: string;
   children: React.ReactNode;
+  minLength?: number;
+  maxLength?: number;
 }
 
 export default function LoginFormInput({
@@ -12,6 +14,7 @@ export default function LoginFormInput({
   value,
   setValue,
   children,
+  maxLength,
 }: IProps) {
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -29,6 +32,7 @@ export default function LoginFormInput({
         {children}
       </label>
       <input
+        {...{ maxLength }}
         autoComplete="off"
         onKeyDown={(e) => e.key === "Escape" && inputRef.current?.blur()}
         type={uid === "login-password" ? "password" : "text"}
@@ -36,6 +40,7 @@ export default function LoginFormInput({
         ref={inputRef}
         value={value}
         onChange={(e) => setValue(e.target.value)}
+        className="text-black"
       />
     </div>
   );

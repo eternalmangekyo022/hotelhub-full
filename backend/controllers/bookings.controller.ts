@@ -1,4 +1,4 @@
-import { getBookings, getBookingsById } from "../models/bookings.model";
+import { getBookings, getBookingsById, addBooking } from "../models/bookings.model";
 
 export default {
   getBookings: async (req: any, res: any) => {
@@ -18,4 +18,14 @@ export default {
       res.status(500).json({ message: "Error fetching booking", error });
     }
   },
+addBooking: async (req: any, res: any) => {
+    try {
+      const bookingData = req.body;
+      const newBooking = await addBooking(bookingData);
+      res.status(201).json(newBooking);
+    } catch (error) {
+      res.status(500).json({ message: "Error adding booking", error });
+    }
+  },
 };
+

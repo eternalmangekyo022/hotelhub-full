@@ -4,13 +4,16 @@ import * as users from "../controllers/users.controller";
 export default (use: UseFn, app: Express) => {
   const router = Router({ mergeParams: true });
   router.post("/login", use(users.login));
+  router.delete("/logout", use(users.logout));
   router.post("/register", use(users.register));
   router.post("/refresh", use(users.refresh));
+  router.post("/check", use(users.check));
 
   const userRouter = Router({ mergeParams: true });
   userRouter.delete("/:userId", use(users.deleteUser));
   userRouter.patch("/:userId", use(users.patchUser));
-  userRouter.get("/", use(users.getUsers));
+  userRouter.get("/:userId", use(users.getUserById));
+  router.get('/users/:id', use(users.getUserById));
   //delete user
   //update user
   //get user
@@ -18,3 +21,4 @@ export default (use: UseFn, app: Express) => {
   router.use("/users", userRouter);
   app.use("/", router);
 };
+

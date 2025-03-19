@@ -6,7 +6,7 @@ import {
 } from "../models/hotels.model";
 
 export default {
-  getHotels: async ({ query: { offset } }: any, res: any) => {
+  getHotels: async ({ query: { offset } }: any, res: Res) => {
     const hotels = await getHotels(offset || "0");
     res.json(hotels);
   },

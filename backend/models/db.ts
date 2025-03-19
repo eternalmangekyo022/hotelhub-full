@@ -1,19 +1,10 @@
 import mysql from "mysql2";
 import dotenv from "dotenv";
 
-dotenv.config({ path: __dirname + "../.env" });
-console.log("Current working directory:", process.cwd()); // Log current working directory for debugging
-
-console.log("Database connection details:", {
-  host: process.env.HOST,
-  user: process.env.USER,
-  password: process.env.PASSWORD,
-  database: process.env.DATABASE,
-  port: Number(process.env.PORT),
-}); // Log database connection details for debugging
+dotenv.config({ path: __dirname + "./.env" });
+dotenv.config({ path: __dirname + "./jwt.env" });
 
 const conn = mysql.createPool({
-
   host: process.env.HOST,
   user: process.env.USER,
   password: process.env.PASSWORD,

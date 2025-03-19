@@ -1,13 +1,15 @@
-import { Link, useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
+import { Link, redirect, useNavigate } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
 import LoginFormInput from "../LoginFormInput";
 import axios from "axios";
-import React from "react";
+import { useQuery } from "@tanstack/react-query";
+import { userAtom } from "@/store";
+import { useAtom } from "jotai";
 
 interface IFormData {
-  firstname?: string;
-  lastname?: string;
-  phone?: string;
+  firstname: string;
+  lastname: string;
+  phone: string;
   email: string;
   password: string;
 }
@@ -17,44 +19,57 @@ interface IProps {
 }
 
 export default function Login({ register }: IProps) {
+  const [error, setError] = useState<string>("");
+  const [user, setUser] = useAtom(userAtom);
   const navigate = useNavigate();
+
+  const { isLoading, refetch } = useQuery({
+    queryKey: [register ? "register" : "login"],
+    async queryFn() {
+      try {
+        const {
+          data: { user },
+        } = await axios.post<{ user: User }>(
+          "http://localhost:3000/api/v1/login",
+          {
+            email: formData.email,
+            password: formData.password,
+          },
+          {
+            headers: { "Content-Type": "application/json" },
+            withCredentials: true,
+          }
+        );
+        setUser(user);
+        navigate({ to: "/" });
+        return user;
+      } catch (e) {
+        setError((e as { message: string }).message);
+        return null;
+      }
+    },
+    enabled: false,
+    retry: false,
+  });
+
   const [formData, setFormData] = useState<IFormData>({
-    email: "",
-    password: "",
+    email: "benezoltancime@gmail.com",
+    password: "admin123",
     firstname: "",
     lastname: "",
     phone: "",
   });
-  const [error, setError] = useState<string | null>(null);
 
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    setError(null);
-    const url = register ? "api/v1/register" : "api/v1/login";
-    try {
-      const { data, status } = await axios.post(
-        `http://localhost:3000/${url}`,
-        JSON.stringify(formData),
-        { headers: { "Content-Type": "application/json" } }
-      );
-
-      if (status !== 200)
-        throw new Error(data.message || "Something went wrong");
-      if (!register) localStorage.setItem("token", data.token);
-
-      navigate({ to: register ? ("/login" as string) : "/register" }); // Redirect on success
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (err: any) {
-      setError(err.message);
-    }
-  }
+  useEffect(() => {
+    if (user) redirect({ to: "/" });
+  }, []);
 
   return (
-    <div className={`login-wrapper${register ? " register" : ""}`}>
+    <div className={`login-wrapper${register ? " register" : ""} bg-base-100`}>
       <div className={`login-form-wrapper ${register ? "register" : "login"}`}>
-        <form className="login-form" onSubmit={(e) => handleSubmit(e)}>
+        <form className="login-form">
           <div className="login-form-inner">
-            <div className="form-title">
+            <div className="form-title dark:text-black">
               <h1>{register ? "Register" : "Welcome back"}</h1>
               <h2>
                 {register
@@ -67,16 +82,17 @@ export default function Login({ register }: IProps) {
                 <>
                   <LoginFormInput
                     uid="login-firstname"
-                    value={formData.firstname!}
+                    value={formData.firstname}
                     setValue={(val) =>
                       setFormData({ ...formData, firstname: val })
                     }
+                    maxLength={20}
                   >
                     First Name
                   </LoginFormInput>
                   <LoginFormInput
                     uid="login-lastname"
-                    value={formData.lastname!}
+                    value={formData.lastname}
                     setValue={(val) =>
                       setFormData({ ...formData, lastname: val })
                     }
@@ -85,7 +101,7 @@ export default function Login({ register }: IProps) {
                   </LoginFormInput>
                   <LoginFormInput
                     uid="login-phone"
-                    value={formData.phone!}
+                    value={formData.phone}
                     setValue={(val) => setFormData({ ...formData, phone: val })}
                   >
                     Phone
@@ -103,6 +119,7 @@ export default function Login({ register }: IProps) {
                 uid="login-password"
                 value={formData.password}
                 setValue={(val) => setFormData({ ...formData, password: val })}
+                maxLength={16}
               >
                 Password
               </LoginFormInput>
@@ -114,8 +131,16 @@ export default function Login({ register }: IProps) {
                 </div>
               )}
               {error && <p className="error">{error}</p>}
-              <button className="no-select" type="button">
-                {register ? "Register" : "Login"}
+              <button
+                className="no-select"
+                type="button"
+                onClick={() => refetch()}
+              >
+                {isLoading ? (
+                  <span className="du-loading du-loading-spinner w-6 h-6"></span>
+                ) : (
+                  <>{register ? "Register" : "Login"}</>
+                )}
               </button>
             </div>
           </div>
