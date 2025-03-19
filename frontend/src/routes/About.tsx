@@ -13,7 +13,7 @@ import Person5 from '../assets/images/Person5.png'
 
 const test = 'hi'
 //components
-export const Route = createFileRoute('/about')({
+export const Route = createFileRoute('/About')({
   component: About,
 })
 
