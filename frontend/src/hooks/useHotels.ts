@@ -9,7 +9,7 @@ export async function getHotels(offset: number = 0): Promise<Hotel[]> {
         headers: {
           "Content-Type": "application/json",
         },
-      }
+      },
     );
 
     return hotels;

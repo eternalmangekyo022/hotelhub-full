@@ -7,7 +7,12 @@
   text-align: center;
   padding: 40px;
   background: #f5f7fa;
-  min-height: calc(100vh - map-get(global.$main, "header-h") - map-get(global.$main, "footer-h"));
+  min-height: calc(
+    100vh - map-get(global.$main, "header-h") - map-get(
+        global.$main,
+        "footer-h"
+      )
+  );
   font-family: "Poppins", sans-serif;
 
   h1 {

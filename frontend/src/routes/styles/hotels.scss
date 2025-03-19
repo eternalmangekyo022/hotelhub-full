@@ -3,187 +3,197 @@
 $hover-detail: #0056b3; // For button hover effect
 
 .details-btn {
-	&:hover {
-		background: $hover-detail;
-	}
+  &:hover {
+    background: $hover-detail;
+  }
 
-	margin-top: 12px;
-	padding: 10px 16px;
-	font-size: 1rem;
-	font-weight: bold;
-	color: #fff;
-	background-color: #007bff;
-	border: none;
-	border-radius: 5px;
-	cursor: pointer;
-	transition: background-color 0.3s ease-in-out;
+  margin-top: 12px;
+  padding: 10px 16px;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
 
-	&:hover {
-		background: #0056b3;
-	}
+  &:hover {
+    background: #0056b3;
+  }
 }
 .thumb-img-container {
-	position: relative;
-	width: 100%;
-	height: 150px;
-	border-radius: 0.3rem;
-	overflow: hidden;
+  position: relative;
+  width: 100%;
+  height: 150px;
+  border-radius: 0.3rem;
+  overflow: hidden;
 
-	.thumb-img {
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
-		position: relative;
+  .thumb-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: relative;
 
-		&.disabled {
-			display: none;
-		}
+    &.disabled {
+      display: none;
+    }
 
-		> svg {
-			$size: 30%;
-			width: $size;
-			height: $size;
-			opacity: 0.3;
-			position: absolute;
-			left: 50%;
-			top: 50%;
-			transform: translate(-50%, -50%);
+    > svg {
+      $size: 30%;
+      width: $size;
+      height: $size;
+      opacity: 0.3;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
 
-			animation: svg-flicker 1.5s infinite;
-			stroke-dashoffset: 50;
+      animation: svg-flicker 1.5s infinite;
+      stroke-dashoffset: 50;
 
-			@keyframes svg-flicker {
-				0% {
-					opacity: 0.3;
-				}
+      @keyframes svg-flicker {
+        0% {
+          opacity: 0.3;
+        }
 
-				50% {
-					opacity: 0.2;
-				}
+        50% {
+          opacity: 0.2;
+        }
 
-				100% {
-					opacity: 0.3;
-				}
-			}
-		}
+        100% {
+          opacity: 0.3;
+        }
+      }
+    }
 
-		&.skeleton {
-			position: relative;
-			background-color: #bfbfbf;
+    &.skeleton {
+      position: relative;
+      background-color: #bfbfbf;
 
-			.skeleton-bar {
-				position: absolute;
-				width: 40%;
-				height: 100%;
-				background: linear-gradient(to right, transparent 0%, rgba(255, 255, 255, 0.263) 50%, transparent 100%);
-				transform: translateX(-50%);
+      .skeleton-bar {
+        position: absolute;
+        width: 40%;
+        height: 100%;
+        background: linear-gradient(
+          to right,
+          transparent 0%,
+          rgba(255, 255, 255, 0.263) 50%,
+          transparent 100%
+        );
+        transform: translateX(-50%);
 
-				animation: skeleton-bar 1s infinite;
-				animation-delay: 0.3s;
+        animation: skeleton-bar 1s infinite;
+        animation-delay: 0.3s;
 
-				@keyframes skeleton-bar {
-					0% {
-						opacity: 0;
-					}
+        @keyframes skeleton-bar {
+          0% {
+            opacity: 0;
+          }
 
-					10% {
-						opacity: 0.3;
-						left: 0;
-					}
+          10% {
+            opacity: 0.3;
+            left: 0;
+          }
 
-					20% {
-						opacity: 1;
-					}
+          20% {
+            opacity: 1;
+          }
 
-					100% {
-						left: 100%;
-						opacity: 0;
-					}
-				}
-			}
-		}
-	}
+          100% {
+            left: 100%;
+            opacity: 0;
+          }
+        }
+      }
+    }
+  }
 
-	button {
-		background: none;
-		border: none;
-		cursor: pointer;
-		position: absolute;
-		top: 0;
-		height: 100%;
-		width: 20%;
-		transition: 0.2s;
-		display: flex;
-		justify-content: start;
-		align-items: center;
+  button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 20%;
+    transition: 0.2s;
+    display: flex;
+    justify-content: start;
+    align-items: center;
 
-		img {
-			width: 50%;
-			filter: invert(1);
-		}
+    img {
+      width: 50%;
+      filter: invert(1);
+    }
 
-		&:hover {
-			background: rgba(0, 0, 0, 0.1);
-			box-shadow: 0 0 1rem rgba(0, 0, 0, 0.2);
+    &:hover {
+      background: rgba(0, 0, 0, 0.1);
+      box-shadow: 0 0 1rem rgba(0, 0, 0, 0.2);
 
-			img {
-				filter: opacity(0.8);
-			}
-		}
+      img {
+        filter: opacity(0.8);
+      }
+    }
 
-		&.next {
-			right: 0;
-			justify-content: end;
+    &.next {
+      right: 0;
+      justify-content: end;
 
-			img {
-				transform: rotate(180deg);
-			}
-		}
-	}
+      img {
+        transform: rotate(180deg);
+      }
+    }
+  }
 }
 
 .hotel-list {
-	width: 100%;
-	$min-h: calc(calc(100svh - map-get(global.$main, "footer-h")) - map-get(global.$main, "header-h"));
-	min-height: $min-h;
-	display: flex;
-	flex-wrap: wrap;
-	gap: 16px;
-	justify-content: center;
-	padding: 20px;
+  width: 100%;
+  $min-h: calc(
+    calc(100svh - map-get(global.$main, "footer-h")) - map-get(
+        global.$main,
+        "header-h"
+      )
+  );
+  min-height: $min-h;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: center;
+  padding: 20px;
 
-	.hotel-card {
-		p.hotel-text {
-			margin: 6px 0;
-			font-size: 1rem;
-			color: #666;
-		}
+  .hotel-card {
+    p.hotel-text {
+      margin: 6px 0;
+      font-size: 1rem;
+      color: #666;
+    }
 
-		.hotel-title {
-			font-size: 1.4rem;
-			color: #333;
-			margin-bottom: 8px;
-			margin-inline: auto;
-			text-wrap-mode: nowrap;
-			text-align: center;
-			width: 95%;
-			overflow-x: hidden;
-		}
+    .hotel-title {
+      font-size: 1.4rem;
+      color: #333;
+      margin-bottom: 8px;
+      margin-inline: auto;
+      text-wrap-mode: nowrap;
+      text-align: center;
+      width: 95%;
+      overflow-x: hidden;
+    }
 
-		.hotel-price {
-			font-size: 24px;
-			font-weight: bold;
-			line-height: 1.2;
-		}
+    .hotel-price {
+      font-size: 24px;
+      font-weight: bold;
+      line-height: 1.2;
+    }
 
-		.hotel-price span {
-			font-size: 14px;
-			font-weight: normal;
-			display: block;
-		}
-	}
+    .hotel-price span {
+      font-size: 14px;
+      font-weight: normal;
+      display: block;
+    }
+  }
 }
 
 .location-pin {
-	width: 12px;
+  width: 12px;
 }

@@ -1,194 +1,194 @@
 $header-h: 6vh;
 $footer-h: 25vh;
 $main: (
-	"light": #f0ecfc,
-	"dark": #803cec
+  "light": #f0ecfc,
+  "dark": #803cec,
 ) !default;
 
 .wrapper {
-	position: relative;
-	width: 100vw;
-	display: flex;
-	flex-direction: column;
-	justify-content: space-evenly;
-	align-items: center;
-	padding-block: 1rem;
+  position: relative;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  padding-block: 1rem;
 
-	.wrapper-inner {
-		width: 90%;
-		height: 35rem;
-		display: flex;
-		justify-content: space-between;
+  .wrapper-inner {
+    width: 90%;
+    height: 35rem;
+    display: flex;
+    justify-content: space-between;
 
-		.contact {
-			&-card {
-				position: relative;
-				color: whitesmoke;
-				width: 30%;
-				height: 100%;
-				display: flex;
-				flex-direction: column;
-				justify-content: space-evenly;
-				align-items: center;
-				border-radius: 0.7rem;
+    .contact {
+      &-card {
+        position: relative;
+        color: whitesmoke;
+        width: 30%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: center;
+        border-radius: 0.7rem;
 
-				section {
-					width: 85%;
-				}
+        section {
+          width: 85%;
+        }
 
-				.contact-title {
-					height: 30%;
-					display: flex;
-					flex-direction: column;
-					justify-content: center;
-					gap: 10%;
+        .contact-title {
+          height: 30%;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          gap: 10%;
 
-					h1 {
-						font-size: 1.7rem;
-						font-weight: 550;
-						+ h2 {
-							font-size: 1rem;
-							letter-spacing: 0.1px;
-							line-height: 1.5rem;
-						}
-					}
-				}
+          h1 {
+            font-size: 1.7rem;
+            font-weight: 550;
+            + h2 {
+              font-size: 1rem;
+              letter-spacing: 0.1px;
+              line-height: 1.5rem;
+            }
+          }
+        }
 
-				.contact-information {
-					height: 30%;
-					display: flex;
-					flex-direction: column;
-					justify-content: space-between;
+        .contact-information {
+          height: 30%;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
 
-					div {
-						width: 100%;
-						display: flex;
-						align-items: center;
-						gap: 1rem;
+          div {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
 
-						a {
-							font-weight: 100;
-							text-decoration: none;
-							color: whitesmoke;
-						}
-					}
-				}
+            a {
+              font-weight: 100;
+              text-decoration: none;
+              color: whitesmoke;
+            }
+          }
+        }
 
-				.socials {
-					display: flex;
-					align-items: flex-end;
-					gap: 1rem;
-					height: 40%;
+        .socials {
+          display: flex;
+          align-items: flex-end;
+          gap: 1rem;
+          height: 40%;
 
-					a {
-						font-weight: 100 !important;
-					}
-					img {
-						width: 2rem;
-						margin-bottom: 1rem;
-					}
-				}
+          a {
+            font-weight: 100 !important;
+          }
+          img {
+            width: 2rem;
+            margin-bottom: 1rem;
+          }
+        }
 
-				@mixin circle($size) {
-					position: absolute;
-					border-radius: 50%;
-					background-color: rgba(255, 255, 255, 0.1);
-					width: $size;
-					height: $size;
-					right: 0;
-					bottom: 0;
-					transform: translate(25%, 25%);
-				}
+        @mixin circle($size) {
+          position: absolute;
+          border-radius: 50%;
+          background-color: rgba(255, 255, 255, 0.1);
+          width: $size;
+          height: $size;
+          right: 0;
+          bottom: 0;
+          transform: translate(25%, 25%);
+        }
 
-				&:before {
-					content: "";
-					@include circle(12rem);
-				}
+        &:before {
+          content: "";
+          @include circle(12rem);
+        }
 
-				&:after {
-					content: "";
-					@include circle(7rem);
-					transform: translate(-50%, -50%);
-				}
-			}
+        &:after {
+          content: "";
+          @include circle(7rem);
+          transform: translate(-50%, -50%);
+        }
+      }
 
-			&-form {
-				position: relative;
-				width: 65%;
-				height: 100%;
-				display: flex;
-				flex-direction: column;
-				gap: 1rem;
+      &-form {
+        position: relative;
+        width: 65%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
 
-				form {
-					height: 40%;
-					width: 70%;
-					display: flex;
-					flex-wrap: wrap;
-					justify-content: space-between;
+        form {
+          height: 40%;
+          width: 70%;
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: space-between;
 
-					input {
-						width: 49%;
-						height: 2rem;
-						background-color: rgba(0, 0, 0, 0.05);
-						border-radius: 0.3rem;
-						border: 0;
+          input {
+            width: 49%;
+            height: 2rem;
+            background-color: rgba(0, 0, 0, 0.05);
+            border-radius: 0.3rem;
+            border: 0;
 
-						&::placeholder {
-							position: absolute;
-							left: 0.5rem;
-							top: 0.5rem;
-							color: rgba(0, 0, 0, 0.3);
-						}
-					}
+            &::placeholder {
+              position: absolute;
+              left: 0.5rem;
+              top: 0.5rem;
+              color: rgba(0, 0, 0, 0.3);
+            }
+          }
 
-					#message {
-						position: relative;
-						width: 100%;
-						height: 40%;
-					}
-				}
-			}
-		}
-	}
+          #message {
+            position: relative;
+            width: 100%;
+            height: 40%;
+          }
+        }
+      }
+    }
+  }
 }
 
 @media (max-width: 768px) {
-	.wrapper {
-		height: 85vh;
-		.wrapper-inner {
-			flex-direction: column;
-			height: 85vh !important;
+  .wrapper {
+    height: 85vh;
+    .wrapper-inner {
+      flex-direction: column;
+      height: 85vh !important;
 
-			justify-content: space-between;
+      justify-content: space-between;
 
-			.contact {
-				&-card {
-					width: 100% !important;
-					height: 55%;
-				}
+      .contact {
+        &-card {
+          width: 100% !important;
+          height: 55%;
+        }
 
-				&-form {
-					height: 40%;
-					width: 100%;
+        &-form {
+          height: 40%;
+          width: 100%;
 
-					form {
-						width: 100%;
-						height: 45%;
-						flex-wrap: wrap;
+          form {
+            width: 100%;
+            height: 45%;
+            flex-wrap: wrap;
 
-						input {
-							width: 45%;
-							position: relative;
-						}
+            input {
+              width: 45%;
+              position: relative;
+            }
 
-						button {
-							right: unset;
-							left: 0;
-						}
-					}
-				}
-			}
-		}
-	}
+            button {
+              right: unset;
+              left: 0;
+            }
+          }
+        }
+      }
+    }
+  }
 }

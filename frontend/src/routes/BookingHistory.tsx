@@ -46,7 +46,7 @@ const BookingHistory = () => {
       );
 
       if (!response.ok) {
-        throw new Error('Failed to fetch bookings');
+        throw new Error("Failed to fetch bookings");
       }
 
       const data = await response.json();
@@ -57,7 +57,7 @@ const BookingHistory = () => {
         fetchHotel(booking.hotel_id);
       });
     } catch (err) {
-      setError(err.message || 'An error occurred while fetching bookings');
+      setError(err.message || "An error occurred while fetching bookings");
     } finally {
       setLoading(false);
     }
@@ -102,15 +102,15 @@ const BookingHistory = () => {
                   <strong>Hotel:</strong> {hotels[booking.hotel_id]?.name || 'Loading...'}
                 </p>
                 <p>
-                  <strong>Booked On:</strong>{' '}
+                  <strong>Booked On:</strong>{" "}
                   {new Date(booking.booked).toLocaleDateString()}
                 </p>
                 <p>
-                  <strong>Check-in:</strong>{' '}
+                  <strong>Check-in:</strong>{" "}
                   {new Date(booking.checkin).toLocaleDateString()}
                 </p>
                 <p>
-                  <strong>Check-out:</strong>{' '}
+                  <strong>Check-out:</strong>{" "}
                   {new Date(booking.checkout).toLocaleDateString()}
                 </p>
                 <p>

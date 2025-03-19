@@ -59,7 +59,7 @@ export default function HotelCard({
       Array.from({ length: 5 }, (_, index) => ({
         roundedRating: index + 1,
         src: index < roundedRating ? Star : EmptyStar,
-      }))
+      })),
     );
 
     ref.current?.setAttribute("data-idx", (idx + 1).toString());

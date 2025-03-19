@@ -8,7 +8,7 @@ const savedFavorites = localStorage
 
 export const favoritesAtom = atomWithStorage<number[]>(
   "favorites",
-  savedFavorites || []
+  savedFavorites || [],
 );
 
 export const selectedHotelAtom = atom<Hotel | null>(null);

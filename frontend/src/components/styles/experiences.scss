@@ -1,146 +1,146 @@
 @use "../../global.scss" as global;
 
 $shadow:
-	0 2px 4px rgba(0, 0, 0, 0.1),
-	-2px 0 4px rgba(0, 0, 0, 0.05),
-	2px 0 4px rgba(0, 0, 0, 0.05);
+  0 2px 4px rgba(0, 0, 0, 0.1),
+  -2px 0 4px rgba(0, 0, 0, 0.05),
+  2px 0 4px rgba(0, 0, 0, 0.05);
 
 $height: 40rem;
 
 .experiences {
-	position: relative;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	flex-direction: column;
-	margin-top: 2rem;
-	width: 100%;
-	height: $height;
-	background-color: map-get(global.$main, "light");
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 2rem;
+  width: 100%;
+  height: $height;
+  background-color: map-get(global.$main, "light");
 
-	h1 {
-		width: 23%;
-		position: absolute;
-		left: 10%;
-		top: 6%;
+  h1 {
+    width: 23%;
+    position: absolute;
+    left: 10%;
+    top: 6%;
 
-		&:before {
-			$size: 10rem;
-			content: "";
-			position: absolute;
-			left: -39%;
-			top: -36%;
-			display: block;
-			background-image: url("../../assets/images/Quote\ markvector.svg");
-			background-repeat: no-repeat;
-			background-position: center;
-			width: $size;
-			height: $size;
-			background-size: $size;
-		}
-	}
-	.cards {
-		position: relative;
-		width: 60%;
-		height: 80%;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		gap: 1.4rem;
+    &:before {
+      $size: 10rem;
+      content: "";
+      position: absolute;
+      left: -39%;
+      top: -36%;
+      display: block;
+      background-image: url("../../assets/images/Quote\ markvector.svg");
+      background-repeat: no-repeat;
+      background-position: center;
+      width: $size;
+      height: $size;
+      background-size: $size;
+    }
+  }
+  .cards {
+    position: relative;
+    width: 60%;
+    height: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.4rem;
 
-		div.second > div:nth-child(2) {
-			width: 85%;
-			height: 30%;
-		}
-		> div {
-			width: fit-content;
-			height: 100%;
-			display: flex;
-			flex-direction: column;
-			gap: 1rem;
-			justify-content: center;
+    div.second > div:nth-child(2) {
+      width: 85%;
+      height: 30%;
+    }
+    > div {
+      width: fit-content;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      justify-content: center;
 
-			&:nth-child(2) {
-				justify-content: space-between;
-			}
-			.experience {
-				position: relative;
-				width: 20rem;
-				height: fit-content;
-				background-color: white;
-				display: flex;
-				flex-direction: column;
-				justify-content: center;
-				align-items: center;
-				padding: 1rem;
-				padding-block: 2.4rem;
-				border-radius: 0.5rem;
-				box-shadow: $shadow;
+      &:nth-child(2) {
+        justify-content: space-between;
+      }
+      .experience {
+        position: relative;
+        width: 20rem;
+        height: fit-content;
+        background-color: white;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 1rem;
+        padding-block: 2.4rem;
+        border-radius: 0.5rem;
+        box-shadow: $shadow;
 
-				img {
-					position: absolute;
-					left: 4%;
-					top: 6%;
-					width: 1vw;
-					fill: map-get(global.$main, "dark");
-				}
+        img {
+          position: absolute;
+          left: 4%;
+          top: 6%;
+          width: 1vw;
+          fill: map-get(global.$main, "dark");
+        }
 
-				span {
-					font-weight: 700;
-				}
-			}
-		}
-		/*.card {
+        span {
+          font-weight: 700;
+        }
+      }
+    }
+    /*.card {
 		}*/
-	}
+  }
 }
 
 @media (max-width: 768px) {
-	$width: 90%;
-	.experiences {
-		height: calc($height + 18rem);
+  $width: 90%;
+  .experiences {
+    height: calc($height + 18rem);
 
-		h1 {
-			inset: 0;
-			position: relative;
-			width: 90%;
-			font-size: 2rem;
-			&:before {
-				left: -10%;
-				top: -10%;
-			}
-		}
+    h1 {
+      inset: 0;
+      position: relative;
+      width: 90%;
+      font-size: 2rem;
+      &:before {
+        left: -10%;
+        top: -10%;
+      }
+    }
 
-		.cards {
-			position: relative;
-			width: $width;
-			display: flex;
-			justify-content: space-evenly;
-			align-items: center;
+    .cards {
+      position: relative;
+      width: $width;
+      display: flex;
+      justify-content: space-evenly;
+      align-items: center;
 
-			> div {
-				width: 100%;
-				height: 100%;
-				display: flex;
-				flex-direction: column;
-				justify-content: space-evenly;
-				align-items: center;
-				width: $width;
+      > div {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: center;
+        width: $width;
 
-				.experience {
-					width: 100%;
-					display: flex;
-					justify-content: space-evenly;
-					align-items: start;
-					padding-inline: 2rem;
+        .experience {
+          width: 100%;
+          display: flex;
+          justify-content: space-evenly;
+          align-items: start;
+          padding-inline: 2rem;
 
-					img {
-						width: 2vw;
-						left: 1.6%;
-						top: 20%;
-					}
-				}
-			}
-		}
-	}
+          img {
+            width: 2vw;
+            left: 1.6%;
+            top: 20%;
+          }
+        }
+      }
+    }
+  }
 }

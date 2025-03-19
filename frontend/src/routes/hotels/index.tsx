@@ -52,7 +52,7 @@ function Hotels() {
       searchQuery.trim() === ""
         ? mutatedHotels
         : mutatedHotels.filter((hotel) =>
-            hotel.name.toLowerCase().includes(searchQuery.toLowerCase())
+            hotel.name.toLowerCase().includes(searchQuery.toLowerCase()),
           );
 
     const sortedHotels = [...filtered].sort((a, b) => {

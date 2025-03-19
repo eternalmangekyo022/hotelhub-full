@@ -3,9 +3,13 @@ import { useForm } from 'react-hook-form'
 import DatePicker from 'react-datepicker'
 import { createFileRoute, useParams } from '@tanstack/react-router'
 import 'react-datepicker/dist/react-datepicker.css'
+<<<<<<< HEAD
 import "./styles/booking.scss"
 import { useAtom } from 'jotai'
 import { userAtom } from '../store'
+=======
+import './styles/booking.scss'
+>>>>>>> d8b7e5507eabfdae4aa8d63fba6fd6318639155a
 
 const HotelBooking = () => {
   const { id } = useParams({ strict: false })
@@ -17,7 +21,9 @@ const HotelBooking = () => {
   useEffect(() => {
     const fetchHotel = async () => {
       try {
-        const response = await fetch(`http://localhost:3000/api/v1/hotels/id/${id}`)
+        const response = await fetch(
+          `http://localhost:3000/api/v1/hotels/id/${id}`,
+        )
         if (!response.ok) throw new Error('Hotel not found')
         const data = await response.json()
         setHotel(data)
@@ -101,7 +107,7 @@ const HotelBooking = () => {
           <p>Price per night: ${hotel.price}</p>
         </div>
       )}
-      
+
       <form onSubmit={handleSubmit(onSubmit)} className="form">
         <div className="form-grid">
           <div className="left-column">
