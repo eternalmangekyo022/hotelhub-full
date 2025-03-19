@@ -16,7 +16,6 @@ import SettingSvg from './svg/SettingSvg.tsx'
 import ProfileSvg from './svg/ProfileSvg.tsx'
 import FavoriteHeart from './svg/FavoriteHeartSvg.tsx'
 
-import Triangle from '/vectors/triangle.svg'
 import Menu from '../assets/images/Menu Icon.png'
 
 export default function Header() {
@@ -224,12 +223,12 @@ export default function Header() {
               }}
             >
               <div
-                className="du-btn h-full w-full border-0 bg-none p-0"
+                className="du-btn h-full w-full border-0 bg-transparent p-0"
                 style={{ margin: 0 }}
                 tabIndex={0}
                 role="button"
               >
-                {user ? <UserSvg /> : <LogoutSvg reverse />}
+                {user ? <UserSvg /> : <LogoutSvg />}
               </div>
               {user && (
                 <>
@@ -255,7 +254,7 @@ export default function Header() {
                     </li>
                     <li onClick={handleLogout}>
                       <a>
-                        <LogoutSvg />
+                        <LogoutSvg reverse />
                         <span className="not-dark:text-black dark:text-white">
                           Logout
                         </span>

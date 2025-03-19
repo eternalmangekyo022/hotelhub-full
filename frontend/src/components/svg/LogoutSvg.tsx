@@ -1,6 +1,6 @@
 interface IWrapperProps {
-  children: React.ReactNode;
-  reverse?: boolean;
+  children: React.ReactNode
+  reverse?: boolean
 }
 
 function Wrapper({ children, reverse }: IWrapperProps) {
@@ -11,7 +11,7 @@ function Wrapper({ children, reverse }: IWrapperProps) {
       viewBox="0 0 24.00 24.00"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className="w-8 h-8 -scale-100"
+      className="h-7 w-7 -scale-100"
     >
       {children}
     </svg>
@@ -22,11 +22,11 @@ function Wrapper({ children, reverse }: IWrapperProps) {
       viewBox="0 0 24.00 24.00"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className="w-7 h-7"
+      className="h-8 w-8"
     >
       {children}
     </svg>
-  );
+  )
 }
 
 export default function LogoutSvg(
@@ -58,5 +58,5 @@ export default function LogoutSvg(
         />
       </g>
     </Wrapper>
-  );
+  )
 }
