@@ -51,7 +51,7 @@ const UserProfile = () => {
         <div className="profile-card">
           {userData && (
             <div>
-              <div className="user-header">
+              <div className="profile-header">
                 <div className="avatar">
                   {userData.firstname[0]}{userData.lastname[0]}
                 </div>
