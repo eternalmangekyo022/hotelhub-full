@@ -1,132 +1,132 @@
-import { useEffect, useRef, useState, useReducer } from "react";
-import { Link, useRouter, useLocation } from "@tanstack/react-router";
-import axios from "axios";
-import z from "zod";
-import { useAtom } from "jotai";
-import "./styles/header.scss";
+import { useEffect, useRef, useState, useReducer } from 'react'
+import { Link, useRouter, useLocation } from '@tanstack/react-router'
+import axios from 'axios'
+import z from 'zod'
+import { useAtom } from 'jotai'
+import './styles/header.scss'
 
-import useScreen from "../hooks/useScreen.ts";
-import Navlink from "./Navlink";
-import { favoritesAtom, userAtom } from "@store";
-import links from "./header/links";
+import useScreen from '../hooks/useScreen.ts'
+import Navlink from './Navlink'
+import { favoritesAtom, userAtom } from '@store'
+import links from './header/links'
 
-import UserSvg from "./svg/UserSvg.tsx";
-import LogoutSvg from "./svg/LogoutSvg";
-import SettingSvg from "./svg/SettingSvg.tsx";
-import ProfileSvg from "./svg/ProfileSvg.tsx";
-import FavoriteHeart from "./svg/FavoriteHeartSvg.tsx";
+import UserSvg from './svg/UserSvg.tsx'
+import LogoutSvg from './svg/LogoutSvg'
+import SettingSvg from './svg/SettingSvg.tsx'
+import ProfileSvg from './svg/ProfileSvg.tsx'
+import FavoriteHeart from './svg/FavoriteHeartSvg.tsx'
 
-import Triangle from "/vectors/triangle.svg";
-import Menu from "../assets/images/Menu Icon.png";
+import Triangle from '/vectors/triangle.svg'
+import Menu from '../assets/images/Menu Icon.png'
 
 export default function Header() {
-  const LS_KEY = "hotelhub-theme";
-  const location = useLocation();
-  const [width] = useScreen();
+  const LS_KEY = 'hotelhub-theme'
+  const location = useLocation()
+  const [width] = useScreen()
 
-  const [favorites] = useAtom(favoritesAtom);
-  const [user, setUser] = useAtom(userAtom);
+  const [favorites] = useAtom(favoritesAtom)
+  const [user, setUser] = useAtom(userAtom)
 
-  const listRef = useRef<HTMLUListElement>(null);
-  const [selectedNav, setSelectedNav] = useState<number>(0);
-  const [navVisible, setNavVisible] = useState(false);
-  const [distance, setDistance] = useState(0);
-  const [isDark, dispatchIsDark] = useReducer(themeReducer, false);
-  const router = useRouter();
-  const COLS = 4;
+  const listRef = useRef<HTMLUListElement>(null)
+  const [selectedNav, setSelectedNav] = useState<number>(0)
+  const [navVisible, setNavVisible] = useState(false)
+  const [distance, setDistance] = useState(0)
+  const [isDark, dispatchIsDark] = useReducer(themeReducer, false)
+  const router = useRouter()
+  const COLS = 4
 
   function themeReducer(
     state: boolean,
-    action: { type: "on" | "off" | "toggle" },
+    action: { type: 'on' | 'off' | 'toggle' },
   ) {
     localStorage.setItem(
       LS_KEY,
-      { on: "dark", off: "light", toggle: state ? "light" : "dark" }[
+      { on: 'dark', off: 'light', toggle: state ? 'light' : 'dark' }[
         action.type
       ],
-    );
+    )
     switch (action.type) {
-      case "on":
-        toggleHtmlData(true);
-        return true;
-      case "off":
-        toggleHtmlData(false);
-        return false;
-      case "toggle":
-        toggleHtmlData(!state);
-        return !state;
+      case 'on':
+        toggleHtmlData(true)
+        return true
+      case 'off':
+        toggleHtmlData(false)
+        return false
+      case 'toggle':
+        toggleHtmlData(!state)
+        return !state
     }
   }
 
   function calcDistance() {
-    if (!listRef.current) return 0;
-    const { clientWidth: w } = listRef.current;
-    const fr = w / COLS;
-    return fr * selectedNav + fr / 2;
+    if (!listRef.current) return 0
+    const { clientWidth: w } = listRef.current
+    const fr = w / COLS
+    return fr * selectedNav + fr / 2
   }
 
   function toggleHtmlData(isDark: boolean) {
-    const html = document.querySelector("html");
-    html?.setAttribute("data-theme", isDark ? "dark" : "light");
+    const html = document.querySelector('html')
+    html?.setAttribute('data-theme', isDark ? 'dark' : 'light')
   }
 
   async function handleLogout() {
-    await axios.delete("http://localhost:3000/api/v1/logout", {
+    await axios.delete('http://localhost:3000/api/v1/logout', {
       withCredentials: true,
-    });
-    setUser(null);
+    })
+    setUser(null)
   }
 
   useEffect(() => {
-    setDistance(calcDistance());
-    setNavVisible(true);
-  }, [selectedNav]);
+    setDistance(calcDistance())
+    setNavVisible(true)
+  }, [selectedNav])
 
   useEffect(() => {
     for (let i = 0; i < links.length; i++) {
-      if (router.history.location.pathname === links[i].link) setSelectedNav(i);
+      if (router.history.location.pathname === links[i].link) setSelectedNav(i)
     }
 
     router.history.subscribe((e) => {
       const {
         location: { pathname: path },
-      } = e;
+      } = e
       for (let i = 0; i < links.length; i++) {
-        if (path === links[i].link) setSelectedNav(i);
+        if (path === links[i].link) setSelectedNav(i)
       }
-      if (path === "/favorites") setNavVisible(false);
-      else if (!navVisible) setNavVisible(true);
-    });
-    if (!listRef.current) return;
+      if (path === '/favorites') setNavVisible(false)
+      else if (!navVisible) setNavVisible(true)
+    })
+    if (!listRef.current) return
 
     function onResize() {
-      const d = calcDistance();
-      setDistance(d);
+      const d = calcDistance()
+      setDistance(d)
     }
 
-    window.addEventListener("resize", onResize);
+    window.addEventListener('resize', onResize)
 
-    const saved = localStorage.getItem(LS_KEY);
+    const saved = localStorage.getItem(LS_KEY)
 
     if (saved) {
-      const savedSchema = z.string().regex(/^(light|dark)$/);
-      const { success } = savedSchema.safeParse(saved);
+      const savedSchema = z.string().regex(/^(light|dark)$/)
+      const { success } = savedSchema.safeParse(saved)
       if (success) {
-        switch (saved as "light" | "dark") {
-          case "dark":
-            dispatchIsDark({ type: "on" });
-            break;
-          case "light":
-            dispatchIsDark({ type: "off" });
-            break;
+        switch (saved as 'light' | 'dark') {
+          case 'dark':
+            dispatchIsDark({ type: 'on' })
+            break
+          case 'light':
+            dispatchIsDark({ type: 'off' })
+            break
         }
       }
     }
 
     return () => {
-      window.removeEventListener("resize", onResize);
-    };
-  }, []);
+      window.removeEventListener('resize', onResize)
+    }
+  }, [])
 
   return (
     !z
@@ -143,7 +143,7 @@ export default function Header() {
             ) : (
               <ul
                 ref={listRef}
-                className="du-menu p-0 w-full h-[70%] bg-base-200 rounded-box mt-6 grid items-center relative hover-link not-dark:bg-blue-900 dark:bg-blue-950"
+                className="du-menu bg-base-200 rounded-box hover-link relative mt-6 grid h-[70%] w-full items-center p-0 not-dark:bg-blue-900 dark:bg-blue-950"
                 style={{
                   gridTemplateColumns: `repeat(${links.length}, minmax(0, 1fr))`,
                 }}
@@ -158,19 +158,19 @@ export default function Header() {
                 {links.map(({ link, title, docTitle, img }, idx) => (
                   <Navlink
                     to={
-                      ["/register", "/login"].includes(
+                      ['/register', '/login'].includes(
                         location.pathname.toLowerCase(),
                       ) &&
-                      (link === "/register" ||
-                        (link.toLowerCase() as string) === "/login")
+                      (link === '/register' ||
+                        (link.toLowerCase() as string) === '/login')
                         ? location.pathname.toLowerCase()
                         : (link.toLowerCase() as string)
                     }
                     key={link}
                     onClick={() => {
-                      document.title = docTitle;
-                      if (selectedNav === idx) return;
-                      setSelectedNav(idx);
+                      document.title = docTitle
+                      if (selectedNav === idx) return
+                      setSelectedNav(idx)
                     }}
                     src={img}
                   >
@@ -180,10 +180,10 @@ export default function Header() {
               </ul>
             )}
           </nav>
-          <div className="favorites-button w-40 flex justify-between items-center">
+          <div className="favorites-button flex w-40 items-center justify-between">
             <Link
               to="/favorites"
-              className="grid place-content-center relative"
+              className="relative grid place-content-center"
             >
               <FavoriteHeart color="#000" active />
               <p className="favorites-count absolute -right-0 bottom-2 text-white">
@@ -197,7 +197,7 @@ export default function Header() {
                 value="dark"
                 checked={isDark}
                 onChange={() => {
-                  dispatchIsDark({ type: "toggle" });
+                  dispatchIsDark({ type: 'toggle' })
                 }}
               />
 
@@ -218,13 +218,13 @@ export default function Header() {
               </svg>
             </label>
             <div
-              className="du-dropdown du-dropdown-center w-8 py-3 px-3"
+              className="du-dropdown du-dropdown-center w-8"
               onClick={() => {
-                if (!user) router.navigate({ to: "/login" });
+                if (!user) router.navigate({ to: '/login' })
               }}
             >
               <div
-                className="du-btn w-full h-full p-0 border-0 bg-none"
+                className="du-btn h-full w-full border-0 bg-none p-0"
                 style={{ margin: 0 }}
                 tabIndex={0}
                 role="button"
@@ -235,7 +235,7 @@ export default function Header() {
                 <>
                   <ul
                     tabIndex={0}
-                    className="du-dropdown-content not-dark:bg-white du-menu bg-base-100 rounded-box z-1 w-32 p-2 shadow-sm"
+                    className="du-dropdown-content du-menu bg-base-100 rounded-box z-1 w-32 p-2 shadow-sm not-dark:bg-white"
                   >
                     <li>
                       <a>
@@ -269,5 +269,5 @@ export default function Header() {
         </header>
       </>
     )
-  );
+  )
 }
