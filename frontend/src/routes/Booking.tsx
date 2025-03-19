@@ -1,41 +1,41 @@
-import { useState, useEffect } from "react";
-import { useForm } from "react-hook-form";
-import DatePicker from "react-datepicker";
-import { createFileRoute, useParams } from "@tanstack/react-router";
-import "react-datepicker/dist/react-datepicker.css";
-import "./styles/booking.scss";
+import { useState, useEffect } from 'react'
+import { useForm } from 'react-hook-form'
+import DatePicker from 'react-datepicker'
+import { createFileRoute, useParams } from '@tanstack/react-router'
+import 'react-datepicker/dist/react-datepicker.css'
+import './styles/booking.scss'
 
 const HotelBooking = () => {
-  const { id } = useParams({ strict: false });
-  const [hotel, setHotel] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const { id } = useParams({ strict: false })
+  const [hotel, setHotel] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
 
   useEffect(() => {
     const fetchHotel = async () => {
       try {
         const response = await fetch(
           `http://localhost:3000/api/v1/hotels/id/${id}`,
-        );
-        if (!response.ok) throw new Error("Hotel not found");
-        const data = await response.json();
-        setHotel(data);
+        )
+        if (!response.ok) throw new Error('Hotel not found')
+        const data = await response.json()
+        setHotel(data)
       } catch (err) {
-        setError(err.message);
+        setError(err.message)
       } finally {
-        setLoading(false);
+        setLoading(false)
       }
-    };
-    fetchHotel();
-  }, [id]);
+    }
+    fetchHotel()
+  }, [id])
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
-  const [arrivalDate, setArrivalDate] = useState(null);
-  const [leavingDate, setLeavingDate] = useState(null);
+  } = useForm()
+  const [arrivalDate, setArrivalDate] = useState(null)
+  const [leavingDate, setLeavingDate] = useState(null)
 
   const onSubmit = (data) => {
     const bookingData = {
@@ -45,13 +45,13 @@ const HotelBooking = () => {
       hotelId: id,
       hotelName: hotel?.name,
       price: hotel?.price,
-    };
-    console.log(bookingData);
-    alert("Booking submitted!");
-  };
+    }
+    console.log(bookingData)
+    alert('Booking submitted!')
+  }
 
-  if (loading) return <div className="container">Loading...</div>;
-  if (error) return <div className="container">Error: {error}</div>;
+  if (loading) return <div className="container">Loading...</div>
+  if (error) return <div className="container">Error: {error}</div>
 
   return (
     <div className="container">
@@ -70,7 +70,7 @@ const HotelBooking = () => {
               <label className="label">First Name</label>
               <input
                 className="input"
-                {...register("firstName", { required: true })}
+                {...register('firstName', { required: true })}
               />
               {errors.firstName && (
                 <span className="error">First name is required</span>
@@ -81,7 +81,7 @@ const HotelBooking = () => {
               <label className="label">Last Name</label>
               <input
                 className="input"
-                {...register("lastName", { required: true })}
+                {...register('lastName', { required: true })}
               />
               {errors.lastName && (
                 <span className="error">Last name is required</span>
@@ -92,7 +92,7 @@ const HotelBooking = () => {
               <label className="label">Address</label>
               <input
                 className="input"
-                {...register("address", { required: true })}
+                {...register('address', { required: true })}
               />
               {errors.address && (
                 <span className="error">Address is required</span>
@@ -103,7 +103,7 @@ const HotelBooking = () => {
               <label className="label">Post Code</label>
               <input
                 className="input"
-                {...register("postCode", { required: true })}
+                {...register('postCode', { required: true })}
               />
               {errors.postCode && (
                 <span className="error">Post code is required</span>
@@ -117,7 +117,7 @@ const HotelBooking = () => {
               <input
                 type="text"
                 className="input"
-                {...register("ccNumber", { required: true })}
+                {...register('ccNumber', { required: true })}
               />
               {errors.ccNumber && (
                 <span className="error">Credit card number is required</span>
@@ -127,10 +127,16 @@ const HotelBooking = () => {
             <div className="field">
               <label className="label">Expiry Date</label>
               <input
-                type="number"
+                type="text"
                 className="input"
                 placeholder="MM/YY"
-                {...register("ccExpiry", { required: true })}
+                maxLength={5}
+                {...register('ccExpiry', { required: true })}
+                onChange={(e) => {
+                  const value = e.target.value.replace(/\D+/g, '')
+                  const newValue = value.replace(/(\d{2})(?=\d)/g, '$1/')
+                  e.target.value = newValue
+                }}
               />
               {errors.ccExpiry && (
                 <span className="error">Expiry date is required</span>
@@ -140,11 +146,16 @@ const HotelBooking = () => {
             <div className="field">
               <label className="label">CVV</label>
               <input
-                type="number"
+                type="text"
                 className="input"
-                min={100}
-                max={999}
-                {...register("ccCvv", { required: true })}
+                maxLength={3}
+                inputMode="numeric"
+                pattern="[0-9]{3}"
+                {...register('ccCvv', { required: true })}
+                onChange={(e) => {
+                  const value = e.target.value.replace(/[^\d]/g, '')
+                  e.target.value = value
+                }}
               />
               {errors.ccCvv && <span className="error">CVV is required</span>}
             </div>
@@ -176,11 +187,11 @@ const HotelBooking = () => {
         </button>
       </form>
     </div>
-  );
-};
+  )
+}
 
-export const Route = createFileRoute("/booking")({
+export const Route = createFileRoute('/Booking')({
   component: HotelBooking,
-});
+})
 
-export default HotelBooking;
+export default HotelBooking

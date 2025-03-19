@@ -12,7 +12,8 @@ export default (use: UseFn, app: Express) => {
   const userRouter = Router({ mergeParams: true });
   userRouter.delete("/:userId", use(users.deleteUser));
   userRouter.patch("/:userId", use(users.patchUser));
-  userRouter.get("/", use(users.getUsers));
+  userRouter.get("/:userId", use(users.getUserById));
+  router.get('/users/:id', users.getUserById)
   //delete user
   //update user
   //get user
@@ -20,3 +21,4 @@ export default (use: UseFn, app: Express) => {
   router.use("/users", userRouter);
   app.use("/", router);
 };
+
