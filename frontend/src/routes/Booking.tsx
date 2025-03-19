@@ -36,28 +36,57 @@ const HotelBooking = () => {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      firstName: user?.firstname,
-      lastName: user?.lastname
+      firstname: user?.firstname,
+      lastname: user?.lastname
     }
   })
   const [arrivalDate, setArrivalDate] = useState(null)
   const [leavingDate, setLeavingDate] = useState(null)
 
-  const onSubmit = (data) => {
+  const formatDate = (date) => {
+    const pad = (num) => (num < 10 ? `0${num}` : num)
+    const year = date.getFullYear()
+    const month = pad(date.getMonth() + 1)
+    const day = pad(date.getDate())
+    const hours = pad(date.getHours())
+    const minutes = pad(date.getMinutes())
+    const seconds = pad(date.getSeconds())
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`
+  }
+
+  const onSubmit = async (data) => {
     const bookingData = {
-      ...data,
-      user_id: user?.id, // Assuming the user object has an id
+      user_id: user?.id,
       hotel_id: id,
-      booked: new Date().toISOString(), // Current timestamp
-      checkin: arrivalDate.toISOString(),
-      checkout: leavingDate.toISOString(),
-      payment_id: data.payment_id === 'cash' ? 1 : 2, // Assuming 1 for cash, 2 for card
+      booked: formatDate(new Date()),
+      checkin: formatDate(arrivalDate),
+      checkout: formatDate(leavingDate),
+      payment_id: data.payment_id === 'cash' ? 1 : 2,
       participants: parseInt(data.participants, 10),
-      hotelName: hotel?.name,
-      price: hotel?.price
+      rating: 0
     }
-    console.log(bookingData)
-    alert('Booking submitted!')
+    
+    try {
+      const response = await fetch('http://localhost:3000/api/v1/bookings', {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(bookingData),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to submit booking');
+      }
+
+      const result = await response.json();
+      console.log(result);
+      alert('Booking submitted successfully!');
+    } catch (error) {
+      console.error('Error:', error);
+      alert('An error occurred while submitting the booking');
+    }
   }
 
   if (loading) return <div className="container">Loading...</div>
@@ -80,10 +109,10 @@ const HotelBooking = () => {
               <label className="label">First Name</label>
               <input
                 className="input"
-                {...register('firstName', { required: true })}
+                {...register('firstname', { required: true })}
                 readOnly
               />
-              {errors.firstName && (
+              {errors.firstname && (
                 <span className="error">First name is required</span>
               )}
             </div>
@@ -92,10 +121,10 @@ const HotelBooking = () => {
               <label className="label">Last Name</label>
               <input
                 className="input"
-                {...register('lastName', { required: true })}
+                {...register('lastname', { required: true })}
                 readOnly
               />
-              {errors.lastName && (
+              {errors.lastname && (
                 <span className="error">Last name is required</span>
               )}
             </div>
@@ -179,20 +208,32 @@ const HotelBooking = () => {
         <div className="field">
           <label className="label">Arrival Date</label>
           <DatePicker
+          minDate={new Date()}
             popperPlacement='top'
             selected={arrivalDate}
             onChange={(date) => setArrivalDate(date)}
             className="input"
+            showTimeSelect
+            timeFormat="HH:mm"
+            timeIntervals={15}
+            timeCaption="time"
+            dateFormat="yyyy-MM-dd HH:mm:ss"
           />
         </div>
 
         <div className="field">
           <label className="label">Leaving Date</label>
           <DatePicker
+          minDate={new Date()}
             popperPlacement='top'
             selected={leavingDate}
             onChange={(date) => setLeavingDate(date)}
             className="input"
+            showTimeSelect
+            timeFormat="HH:mm"
+            timeIntervals={15}
+            timeCaption="time"
+            dateFormat="yyyy-MM-dd HH:mm:ss"
           />
         </div>
 

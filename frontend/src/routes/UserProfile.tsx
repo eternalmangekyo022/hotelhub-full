@@ -9,6 +9,9 @@ const UserProfile = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
   const [user] = useAtom(userAtom); // Get logged-in user
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentPassword, setCurrentPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
 
   useEffect(() => {
     if (!user?.id) {
@@ -17,6 +20,8 @@ const UserProfile = () => {
       return;
     }
 
+    
+  
     const fetchUserData = async () => {
       try {
         const response = await fetch(`http://localhost:3000/api/v1/users/${user.id}`, {
@@ -39,7 +44,29 @@ const UserProfile = () => {
   }, [user?.id]);
 
   const handlePasswordChange = () => {
-    console.log('Password change initiated');
+    setIsModalOpen(true);
+  };
+
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+    setCurrentPassword('');
+    setNewPassword('');
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (currentPassword === newPassword) {
+      alert('New password cannot be the same as the current password.');
+      return;
+    }
+    try {
+      // Add your password change logic here
+      console.log('Current Password:', currentPassword);
+      console.log('New Password:', newPassword);
+      handleModalClose();
+    } catch (err) {
+      alert('An error occurred while changing the password.');
+    }
   };
 
   if (loading) return <p className="loading-message">Loading profile...</p>;
@@ -85,6 +112,45 @@ const UserProfile = () => {
                   <button className="history-button">View Booking History</button>
                 </Link>
               </div>
+
+              {/* Modal for changing password */}
+              {isModalOpen && (
+                <div className="modal-overlay">
+                  <div className="modal">
+                    <h2>Change Password</h2>
+                    <form onSubmit={handleSubmit}>
+                      <div className="form-group">
+                        <label htmlFor="currentPassword">Current Password</label>
+                        <input
+                          type="password"
+                          id="currentPassword"
+                          value={currentPassword}
+                          onChange={(e) => setCurrentPassword(e.target.value)}
+                          required
+                        />
+                      </div>
+                      <div className="form-group">
+                        <label htmlFor="newPassword">New Password</label>
+                        <input
+                          type="password"
+                          id="newPassword"
+                          value={newPassword}
+                          onChange={(e) => setNewPassword(e.target.value)}
+                          required
+                        />
+                      </div>
+                      <div className="button-group">
+                        <button type="button" onClick={handleModalClose} className="cancel-button">
+                          Cancel
+                        </button>
+                        <button type="submit" className="submit-button">
+                          Submit
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              )}
             </div>
           )}
         </div>
