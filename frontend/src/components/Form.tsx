@@ -38,7 +38,7 @@ export default function Login({ register }: IProps) {
           {
             headers: { "Content-Type": "application/json" },
             withCredentials: true,
-          }
+          },
         );
         setUser(user);
         navigate({ to: "/" });

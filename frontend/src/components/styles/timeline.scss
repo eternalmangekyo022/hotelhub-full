@@ -1,139 +1,139 @@
 $main: (
-	"light": #f0ecfc,
-	"dark": #803cec
+  "light": #f0ecfc,
+  "dark": #803cec,
 );
 
 @mixin center-abs {
-	position: absolute;
-	left: 50%;
-	top: 50%;
-	transform: translate(-50%, -50%);
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 }
 
 @mixin center-flex {
-	display: flex;
-	justify-content: center;
-	align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .timeline-container {
-	position: relative;
-	display: flex;
-	width: clamp(30rem, 100%, 60rem);
-	height: clamp(20rem, 50vh, 20rem);
-	margin-bottom: 10vh;
+  position: relative;
+  display: flex;
+  width: clamp(30rem, 100%, 60rem);
+  height: clamp(20rem, 50vh, 20rem);
+  margin-bottom: 10vh;
 
-	&:before {
-		display: inline-block;
-		content: "";
-		@include center-abs;
-		width: 100%;
-		height: 1.3px;
-		background-color: map-get($main, "dark");
-	}
+  &:before {
+    display: inline-block;
+    content: "";
+    @include center-abs;
+    width: 100%;
+    height: 1.3px;
+    background-color: map-get($main, "dark");
+  }
 
-	.timeline {
-		position: relative;
-		width: 20%;
-		height: 100%;
-		display: flex;
-		flex-direction: column;
-		justify-content: space-between;
+  .timeline {
+    position: relative;
+    width: 20%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 
-		div:not(.circle) {
-			width: 100%;
-			height: 40%;
-			gap: 1.2rem;
+    div:not(.circle) {
+      width: 100%;
+      height: 40%;
+      gap: 1.2rem;
 
-			display: flex;
-			flex-direction: column-reverse;
-			align-items: center;
+      display: flex;
+      flex-direction: column-reverse;
+      align-items: center;
 
-			span {
-				font-size: 0.9rem;
-				font-weight: 600;
-				width: 90%;
-				text-align: center;
-				letter-spacing: -0.1px;
-				line-height: 18px;
-			}
+      span {
+        font-size: 0.9rem;
+        font-weight: 600;
+        width: 90%;
+        text-align: center;
+        letter-spacing: -0.1px;
+        line-height: 18px;
+      }
 
-			.pointer {
-				display: flex;
-				flex-direction: column;
-				width: 100%;
-				height: 100%;
-				gap: 0;
+      .pointer {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+        gap: 0;
 
-				div {
-					background-color: rgb(225, 218, 218);
-				}
+        div {
+          background-color: rgb(225, 218, 218);
+        }
 
-				.pointer-dot {
-					$size: 0.5rem;
-					width: $size;
-					height: $size;
-					border-radius: 50%;
-				}
+        .pointer-dot {
+          $size: 0.5rem;
+          width: $size;
+          height: $size;
+          border-radius: 50%;
+        }
 
-				.pointer-line {
-					width: 0.1rem;
-					height: 100%;
-				}
-			}
-		}
+        .pointer-line {
+          width: 0.1rem;
+          height: 100%;
+        }
+      }
+    }
 
-		.circle {
-			$size: 1.3rem;
-			@include center-abs;
+    .circle {
+      $size: 1.3rem;
+      @include center-abs;
 
-			width: $size;
-			height: $size;
-			border: 3px solid map-get($main, "dark");
-			border-radius: 50%;
-			> div {
-				$size: 70%;
-				@include center-abs;
-				left: 51%; // didnt work otherwise, but why tho????
-				width: $size;
-				height: $size;
-				background-color: map-get($main, "dark");
-				border-radius: 50%;
-			}
+      width: $size;
+      height: $size;
+      border: 3px solid map-get($main, "dark");
+      border-radius: 50%;
+      > div {
+        $size: 70%;
+        @include center-abs;
+        left: 51%; // didnt work otherwise, but why tho????
+        width: $size;
+        height: $size;
+        background-color: map-get($main, "dark");
+        border-radius: 50%;
+      }
 
-			&:before {
-				content: attr(data-date);
-				color: map-get($main, "dark");
-				font-weight: 600;
-				font-size: 1.2rem;
-				@include center-abs;
-				top: 2.2rem;
-			}
-		}
+      &:before {
+        content: attr(data-date);
+        color: map-get($main, "dark");
+        font-weight: 600;
+        font-size: 1.2rem;
+        @include center-abs;
+        top: 2.2rem;
+      }
+    }
 
-		&.reverse {
-			flex-direction: column-reverse;
+    &.reverse {
+      flex-direction: column-reverse;
 
-			div {
-				flex-direction: column;
+      div {
+        flex-direction: column;
 
-				.pointer {
-					flex-direction: column-reverse;
-				}
-			}
+        .pointer {
+          flex-direction: column-reverse;
+        }
+      }
 
-			.circle:before {
-				top: -1rem;
-			}
-		}
-	}
+      .circle:before {
+        top: -1rem;
+      }
+    }
+  }
 }
 
 @media (max-width: 768px) {
-	.timeline-container {
-		margin-bottom: 5vh;
-	}
-	span {
-		width: 120% !important;
-	}
+  .timeline-container {
+    margin-bottom: 5vh;
+  }
+  span {
+    width: 120% !important;
+  }
 }

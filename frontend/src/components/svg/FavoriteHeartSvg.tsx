@@ -4,7 +4,7 @@ interface Props {
 }
 
 export default function Heart(
-  { active, color }: Props = { active: false, color: "#000" }
+  { active, color }: Props = { active: false, color: "#000" },
 ) {
   return (
     <svg

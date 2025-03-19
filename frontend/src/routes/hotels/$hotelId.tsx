@@ -25,7 +25,7 @@ export default function HotelDetails() {
     queryKey: ["hotel", hotelId],
     queryFn: async () => {
       const { data } = await axios.get<Hotel>(
-        `http://localhost:3000/api/v1/hotels/id/${hotelId}`
+        `http://localhost:3000/api/v1/hotels/id/${hotelId}`,
       );
       return data;
     },
@@ -37,7 +37,7 @@ export default function HotelDetails() {
     queryKey: ["amenities", hotelId],
     queryFn: async () => {
       const { data } = await axios.get<Amenity[]>(
-        `http://localhost:3000/api/v1/amenities/${hotelId}`
+        `http://localhost:3000/api/v1/amenities/${hotelId}`,
       );
       return data;
     },
@@ -47,7 +47,7 @@ export default function HotelDetails() {
   function handlePrevImage() {
     if (hotel && hotel.images.length > 0) {
       setCurrentImageIndex((prevIndex) =>
-        prevIndex === 0 ? hotel.images.length - 1 : prevIndex - 1
+        prevIndex === 0 ? hotel.images.length - 1 : prevIndex - 1,
       );
     }
   }
@@ -55,7 +55,7 @@ export default function HotelDetails() {
   function handleNextImage() {
     if (hotel && hotel.images.length > 0) {
       setCurrentImageIndex((prevIndex) =>
-        prevIndex === hotel.images.length - 1 ? 0 : prevIndex + 1
+        prevIndex === hotel.images.length - 1 ? 0 : prevIndex + 1,
       );
     }
   }
@@ -89,8 +89,8 @@ export default function HotelDetails() {
       const totalStars = 5;
       setStars(
         Array.from({ length: totalStars }, (_, index) =>
-          index < roundedRating ? star : emptyStar
-        )
+          index < roundedRating ? star : emptyStar,
+        ),
       );
     }
   }, [hotel]);

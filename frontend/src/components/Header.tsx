@@ -1,21 +1,23 @@
-import useScreen from "../hooks/useScreen.ts";
-import { Link, useRouter, useLocation } from "@tanstack/react-router";
-import Menu from "../assets/images/Menu Icon.png";
-import "./styles/header.scss";
-import { useAtom } from "jotai";
-import { favoritesAtom, userAtom } from "@store";
-import FavoriteHeart from "./svg/FavoriteHeartSvg.tsx";
-import Navlink from "./Navlink";
-
-import z from "zod";
 import { useEffect, useRef, useState, useReducer } from "react";
-import links from "./header/links";
-import UserSvg from "./svg/UserSvg.tsx";
+import { Link, useRouter, useLocation } from "@tanstack/react-router";
+import axios from "axios";
+import z from "zod";
+import { useAtom } from "jotai";
+import "./styles/header.scss";
 
+import useScreen from "../hooks/useScreen.ts";
+import Navlink from "./Navlink";
+import { favoritesAtom, userAtom } from "@store";
+import links from "./header/links";
+
+import UserSvg from "./svg/UserSvg.tsx";
+import LogoutSvg from "./svg/LogoutSvg";
 import SettingSvg from "./svg/SettingSvg.tsx";
 import ProfileSvg from "./svg/ProfileSvg.tsx";
-import LogoutSvg from "./svg/LogoutSvg";
-import axios from "axios";
+import FavoriteHeart from "./svg/FavoriteHeartSvg.tsx";
+
+import Triangle from "/vectors/triangle.svg";
+import Menu from "../assets/images/Menu Icon.png";
 
 export default function Header() {
   const LS_KEY = "hotelhub-theme";
@@ -35,13 +37,13 @@ export default function Header() {
 
   function themeReducer(
     state: boolean,
-    action: { type: "on" | "off" | "toggle" }
+    action: { type: "on" | "off" | "toggle" },
   ) {
     localStorage.setItem(
       LS_KEY,
       { on: "dark", off: "light", toggle: state ? "light" : "dark" }[
         action.type
-      ]
+      ],
     );
     switch (action.type) {
       case "on":
@@ -157,7 +159,7 @@ export default function Header() {
                   <Navlink
                     to={
                       ["/register", "/login"].includes(
-                        location.pathname.toLowerCase()
+                        location.pathname.toLowerCase(),
                       ) &&
                       (link === "/register" ||
                         (link.toLowerCase() as string) === "/login")
@@ -216,18 +218,18 @@ export default function Header() {
               </svg>
             </label>
             <div
-              className="du-dropdown du-dropdown-center w-8"
+              className="du-dropdown du-dropdown-center w-8 py-3 px-3"
               onClick={() => {
                 if (!user) router.navigate({ to: "/login" });
               }}
             >
               <div
-                className="du-btn w-full h-full p-0 border-0"
+                className="du-btn w-full h-full p-0 border-0 bg-none"
                 style={{ margin: 0 }}
                 tabIndex={0}
                 role="button"
               >
-                <UserSvg />
+                {user ? <UserSvg /> : <LogoutSvg reverse />}
               </div>
               {user && (
                 <>

@@ -1,7 +1,6 @@
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { createFileRoute } from '@tanstack/react-router'
-
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { createFileRoute } from "@tanstack/react-router";
 
 interface Booking {
   id: number;
@@ -29,19 +28,19 @@ const BookingHistory = () => {
         `http://localhost:3000/api/v1/bookings/${userId}`,
         {
           headers: {
-            Authorization: 'Bearer pankix',
+            Authorization: "Bearer pankix",
           },
-        }
+        },
       );
 
       if (!response.ok) {
-        throw new Error('Failed to fetch bookings');
+        throw new Error("Failed to fetch bookings");
       }
 
       const data = await response.json();
       setBookings(data);
     } catch (err) {
-      setError(err.message || 'An error occurred while fetching bookings');
+      setError(err.message || "An error occurred while fetching bookings");
     } finally {
       setLoading(false);
     }
@@ -62,12 +61,12 @@ const BookingHistory = () => {
           <input
             className="input"
             type="text"
-            {...register('userId', { required: true })}
+            {...register("userId", { required: true })}
             placeholder="User ID"
           />
         </div>
         <button type="submit" className="button" disabled={loading}>
-          {loading ? 'Loading...' : 'Get Bookings'}
+          {loading ? "Loading..." : "Get Bookings"}
         </button>
       </form>
 
@@ -83,15 +82,15 @@ const BookingHistory = () => {
                   <strong>Hotel ID:</strong> {booking.hotel_id}
                 </p>
                 <p>
-                  <strong>Booked On:</strong>{' '}
+                  <strong>Booked On:</strong>{" "}
                   {new Date(booking.booked).toLocaleDateString()}
                 </p>
                 <p>
-                  <strong>Check-in:</strong>{' '}
+                  <strong>Check-in:</strong>{" "}
                   {new Date(booking.checkin).toLocaleDateString()}
                 </p>
                 <p>
-                  <strong>Check-out:</strong>{' '}
+                  <strong>Check-out:</strong>{" "}
                   {new Date(booking.checkout).toLocaleDateString()}
                 </p>
                 <p>
@@ -111,7 +110,7 @@ const BookingHistory = () => {
     </div>
   );
 };
-export const Route = createFileRoute('/BookingHistory')({
+export const Route = createFileRoute("/BookingHistory")({
   component: BookingHistory,
-})
+});
 export default BookingHistory;

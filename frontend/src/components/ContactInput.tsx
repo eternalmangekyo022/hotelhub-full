@@ -7,7 +7,7 @@ export default function ContectInput(
   { placeholder, className, validating }: Props = {
     placeholder: "",
     className: "",
-  }
+  },
 ) {
   const min = 6;
   const max = 16;

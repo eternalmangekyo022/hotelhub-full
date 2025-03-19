@@ -24,7 +24,7 @@ export default function Favorites() {
               "Content-Type": "application/json",
               Authorization: "Bearer pankix",
             },
-          })
+          }),
         );
         const responses = await Promise.all(hotelRequests);
         return responses.map((res) => res.data);

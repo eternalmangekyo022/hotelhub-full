@@ -30,7 +30,7 @@ function RootComponent() {
       const {
         data: { lat, lon },
       } = await axios.get<{ lat: number; lon: number }>(
-        "http://ip-api.com/json/"
+        "http://ip-api.com/json/",
       );
       const formatted = { lat, lon };
       setLocation(formatted);
@@ -45,7 +45,7 @@ function RootComponent() {
         const { data } = await axios.post<User>(
           "http://localhost:3000/api/v1/check",
           null,
-          { withCredentials: true }
+          { withCredentials: true },
         );
 
         setUser(data);

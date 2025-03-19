@@ -1,12 +1,11 @@
 {
-  "name": "es2025-s17-r1-206",
+  "name": "hotelhub-frontend",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "bunx --bun vite",
     "build": "bunx --bun build",
-    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -26,34 +25,17 @@
     "zod": "^3.24.2"
   },
   "devDependencies": {
-    "@eslint/js": "^9.22.0",
-    "@tanstack/eslint-plugin-query": "^5.67.2",
     "@tanstack/router-devtools": "^1.114.17",
     "@tanstack/router-plugin": "^1.114.17",
     "@types/node": "^22.13.10",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
-    "@typescript-eslint/eslint-plugin": "^6.21.0",
-    "@typescript-eslint/parser": "^6.21.0",
     "@vitejs/plugin-react-swc": "^3.8.0",
-    "eslint": "^9.22.0",
-    "eslint-plugin-react": "^7.37.4",
-    "eslint-plugin-react-hooks": "^4.6.2",
-    "eslint-plugin-react-refresh": "^0.4.19",
     "globals": "^15.15.0",
+    "prettier": "^3.5.3",
+    "prettier-plugin-tailwindcss": "^0.6.11",
     "sass": "^1.85.1",
     "typescript": "^5.8.2",
-    "typescript-eslint": "^8.26.1",
     "vite": "^5.4.14"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ],
-    "rules": {
-      "react/jsx-uses-react": "off",
-      "react/react-in-jsx-scope": "off"
-    }
   }
 }

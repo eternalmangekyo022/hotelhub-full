@@ -1,5 +1,21 @@
-export default function LogoutSvg() {
-  return (
+interface IWrapperProps {
+  children: React.ReactNode;
+  reverse?: boolean;
+}
+
+function Wrapper({ children, reverse }: IWrapperProps) {
+  return reverse ? (
+    <svg
+      width="64px"
+      height="64px"
+      viewBox="0 0 24.00 24.00"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className="w-8 h-8 -scale-100"
+    >
+      {children}
+    </svg>
+  ) : (
     <svg
       width="64px"
       height="64px"
@@ -8,6 +24,16 @@ export default function LogoutSvg() {
       xmlns="http://www.w3.org/2000/svg"
       className="w-7 h-7"
     >
+      {children}
+    </svg>
+  );
+}
+
+export default function LogoutSvg(
+  { reverse }: { reverse?: boolean } = { reverse: false },
+) {
+  return (
+    <Wrapper reverse={reverse}>
       <g
         id="SVGRepo_iconCarrier"
         className="not-dark:stroke-black dark:stroke-white"
@@ -31,6 +57,6 @@ export default function LogoutSvg() {
           strokeLinejoin="round"
         />
       </g>
-    </svg>
+    </Wrapper>
   );
 }

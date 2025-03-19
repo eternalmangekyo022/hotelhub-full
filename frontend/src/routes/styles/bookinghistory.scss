@@ -1,44 +1,42 @@
+.error-message {
+  color: #ef4444;
+  margin: 1rem 0;
+  padding: 1rem;
+  background: #fee2e2;
+  border-radius: 6px;
+}
 
-  
-  .error-message {
-    color: #ef4444;
-    margin: 1rem 0;
-    padding: 1rem;
-    background: #fee2e2;
-    border-radius: 6px;
+.bookings-list {
+  margin-top: 2rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.booking-card {
+  padding: 1.5rem;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  h3 {
+    margin: 0 0 1rem 0;
+    color: #1a1a1a;
+    font-size: 1.25rem;
   }
-  
-  .bookings-list {
-    margin-top: 2rem;
+
+  .booking-details {
     display: grid;
-    gap: 1rem;
-  }
-  
-  .booking-card {
-    padding: 1.5rem;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    
-    h3 {
-      margin: 0 0 1rem 0;
-      color: #1a1a1a;
-      font-size: 1.25rem;
-    }
-  
-    .booking-details {
-      display: grid;
-      gap: 0.5rem;
-      color: #4a5568;
-      
-      p {
-        margin: 0;
-      }
-    }
-  }
-  
-  .no-bookings {
-    text-align: center;
+    gap: 0.5rem;
     color: #4a5568;
-    margin-top: 2rem;
+
+    p {
+      margin: 0;
+    }
   }
+}
+
+.no-bookings {
+  text-align: center;
+  color: #4a5568;
+  margin-top: 2rem;
+}

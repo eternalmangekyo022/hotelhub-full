@@ -1,124 +1,124 @@
 @use "../../global.scss" as global;
 
 @mixin flex-center {
-	display: flex;
-	justify-content: center;
-	align-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .hero {
-	position: relative;
-	height: 50vh;
-	width: 100%;
-	margin-top: 4rem;
-	display: flex;
-	align-items: start;
+  position: relative;
+  height: 50vh;
+  width: 100%;
+  margin-top: 4rem;
+  display: flex;
+  align-items: start;
 
-	.hero-image {
-		width: 40%;
+  .hero-image {
+    width: 40%;
 
-		img {
-			width: 100%;
-			height: 70%;
-		}
-	}
+    img {
+      width: 100%;
+      height: 70%;
+    }
+  }
 
-	.hero-text {
-		width: 50%;
-		height: 100%;
-		margin-left: 5rem;
-		font-size: 2rem;
-		display: flex;
-		flex-direction: column;
-		justify-content: space-evenly;
+  .hero-text {
+    width: 50%;
+    height: 100%;
+    margin-left: 5rem;
+    font-size: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
 
-		h1 {
-			font-weight: 700;
-			font-size: 4rem;
-		}
+    h1 {
+      font-weight: 700;
+      font-size: 4rem;
+    }
 
-		p {
-			font-size: 1rem;
-		}
+    p {
+      font-size: 1rem;
+    }
 
-		button {
-			@include flex-center;
-			background-color: map-get($map: global.$main, $key: "dark");
-			cursor: pointer;
-			border-radius: 0.5rem;
-			border: none;
-			width: 15rem;
-			height: 3rem;
-			color: white;
-			font-size: 1rem;
-			font-weight: 600;
-		}
-	}
+    button {
+      @include flex-center;
+      background-color: map-get($map: global.$main, $key: "dark");
+      cursor: pointer;
+      border-radius: 0.5rem;
+      border: none;
+      width: 15rem;
+      height: 3rem;
+      color: white;
+      font-size: 1rem;
+      font-weight: 600;
+    }
+  }
 
-	.blur {
-		position: absolute;
-		right: 0;
-		top: -10rem;
-		filter: blur(5rem);
-		width: 10rem;
-		height: 10rem;
-		background-color: rgb(196, 144, 196);
-		border-radius: 100%;
-	}
+  .blur {
+    position: absolute;
+    right: 0;
+    top: -10rem;
+    filter: blur(5rem);
+    width: 10rem;
+    height: 10rem;
+    background-color: rgb(196, 144, 196);
+    border-radius: 100%;
+  }
 }
 
 @media (max-width: 768px) {
-	.hero-text,
-	.hero-image {
-		height: 40%;
-		width: 90% !important;
-	}
+  .hero-text,
+  .hero-image {
+    height: 40%;
+    width: 90% !important;
+  }
 
-	.hero-image {
-		height: 50%;
-		display: flex;
-		justify-content: center;
-		align-items: center;
+  .hero-image {
+    height: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-		img {
-			width: clamp(10rem, 100vw, 50rem) !important;
-			height: 50vh !important;
-		}
-	}
+    img {
+      width: clamp(10rem, 100vw, 50rem) !important;
+      height: 50vh !important;
+    }
+  }
 
-	.hero {
-		height: 80%;
-		flex-direction: column;
-		justify-content: space-between;
-		align-items: center;
-		height: 75vh;
-		margin-top: -1rem;
-	}
+  .hero {
+    height: 80%;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    height: 75vh;
+    margin-top: -1rem;
+  }
 
-	.hero-text {
-		width: 100% !important;
-		height: 50%;
-		margin: 0 !important;
+  .hero-text {
+    width: 100% !important;
+    height: 50%;
+    margin: 0 !important;
 
-		* {
-			margin-left: 2vh;
-		}
+    * {
+      margin-left: 2vh;
+    }
 
-		h1 {
-			font-size: 120% !important;
-		}
+    h1 {
+      font-size: 120% !important;
+    }
 
-		p {
-			font-size: 1.5rem !important;
-		}
+    p {
+      font-size: 1.5rem !important;
+    }
 
-		button {
-			font-size: 1.5rem;
-			height: 4rem !important;
-			width: 20rem !important;
-			img {
-				margin: 0;
-			}
-		}
-	}
+    button {
+      font-size: 1.5rem;
+      height: 4rem !important;
+      width: 20rem !important;
+      img {
+        margin: 0;
+      }
+    }
+  }
 }

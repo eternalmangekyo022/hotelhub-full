@@ -1,15 +1,15 @@
-import { useEffect } from 'react'
-import './styles/pp.scss'
-import { createFileRoute } from '@tanstack/react-router'
+import { useEffect } from "react";
+import "./styles/pp.scss";
+import { createFileRoute } from "@tanstack/react-router";
 
-export const Route = createFileRoute('/privacy-policy')({
+export const Route = createFileRoute("/privacy-policy")({
   component: PP,
-})
+});
 
 function PP() {
   useEffect(() => {
-    document.title = 'HotelHub - Privacy Policy'
-  }, [])
+    document.title = "HotelHub - Privacy Policy";
+  }, []);
 
   return (
     <div className="pp">
@@ -81,5 +81,5 @@ function PP() {
         </p>
       </div>
     </div>
-  )
+  );
 }
