@@ -77,15 +77,84 @@
   padding-bottom: 5px;
 }
 
+/* Enhanced Info Cards */
+.info-card {
+  flex: 1;
+  min-width: 45%;
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.info-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+}
+
+.info-card h2 {
+  font-size: 24px;
+  margin-bottom: 15px;
+  color: #007bff;
+  border-bottom: 3px solid #007bff;
+  padding-bottom: 8px;
+  font-weight: 600;
+}
+
 .info-card p {
   font-size: 18px;
-  margin: 10px 0;
+  margin: 12px 0;
+  color: #333;
+  line-height: 1.6;
 }
 
 .info-card span {
   font-weight: bold;
+  color: #007bff;
 }
 
+/* Add a subtle gradient background to the cards */
+.info-card {
+  background: linear-gradient(145deg, #ffffff, #f9f9f9);
+}
+
+/* Add a small icon or decorative element to the card header */
+.info-card h2::before {
+  content: "•";
+  color: #007bff;
+  margin-right: 10px;
+  font-size: 24px;
+}
+
+/* Improve spacing and alignment */
+.info-card {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Add a hover effect to the card content */
+.info-card:hover p {
+  color: #0056b3;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 1024px) {
+  .info-card {
+    min-width: 100%;
+    padding: 25px;
+  }
+
+  .info-card h2 {
+    font-size: 22px;
+  }
+
+  .info-card p {
+    font-size: 16px;
+  }
+}
 /* Buttons Section */
 .button-group {
   width: 100%;
