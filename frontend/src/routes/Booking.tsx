@@ -34,7 +34,12 @@ const HotelBooking = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm()
+  } = useForm({
+    defaultValues: {
+      firstName: user?.firstname,
+      lastName: user?.lastname
+    }
+  })
   const [arrivalDate, setArrivalDate] = useState(null)
   const [leavingDate, setLeavingDate] = useState(null)
 
@@ -76,6 +81,7 @@ const HotelBooking = () => {
               <input
                 className="input"
                 {...register('firstName', { required: true })}
+                readOnly
               />
               {errors.firstName && (
                 <span className="error">First name is required</span>
@@ -87,6 +93,7 @@ const HotelBooking = () => {
               <input
                 className="input"
                 {...register('lastName', { required: true })}
+                readOnly
               />
               {errors.lastName && (
                 <span className="error">Last name is required</span>
