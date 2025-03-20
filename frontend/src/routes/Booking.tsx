@@ -232,8 +232,14 @@ const HotelBooking = () => {
             onChange={(e) => setPaymentMethod(e.target.value)}
           >
             <option value="">Select payment method</option>
-            <option value="cash">Cash</option>
-            <option value="card">Card</option>
+            {hotel?.payment_id === 1 && <option value="cash">Cash</option>}
+            {hotel?.payment_id === 2 && <option value="card">Card</option>}
+            {hotel?.payment_id === 3 && (
+              <>
+                <option value="cash">Cash</option>
+                <option value="card">Card</option>
+              </>
+            )}
           </select>
           {errors.payment_id && (
             <span className="error">Payment method is required</span>
