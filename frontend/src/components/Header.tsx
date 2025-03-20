@@ -246,7 +246,9 @@ export default function Header() {
                         </span>
                       </a>
                     </li>
+                    <Link to='/UserProfile'>
                     <li>
+                      
                       <a>
                         <ProfileSvg />
                         <span className="not-dark:text-black dark:text-white">
@@ -254,6 +256,7 @@ export default function Header() {
                         </span>
                       </a>
                     </li>
+                    </Link>
                     <li onClick={handleLogout}>
                       <a>
                         <LogoutSvg reverse />

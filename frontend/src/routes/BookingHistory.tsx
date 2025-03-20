@@ -1,6 +1,8 @@
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { createFileRoute } from "@tanstack/react-router";
+import { useState, useEffect } from 'react';
+import { createFileRoute } from '@tanstack/react-router';
+import { useAtom } from 'jotai';
+import { userAtom } from '../store';
+import './styles/bookinghistory.scss';
 
 interface Booking {
   id: number;
@@ -14,23 +16,33 @@ interface Booking {
   rating: number;
 }
 
+interface Hotel {
+  id: number;
+  name: string;
+  // Add other hotel properties as needed
+}
+
 const BookingHistory = () => {
-  const { register, handleSubmit } = useForm();
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [user] = useAtom(userAtom);
+  const [hotels, setHotels] = useState<{ [key: number]: Hotel }>({});
 
-  const fetchBookings = async (userId: string) => {
+  useEffect(() => {
+    if (user?.id) {
+      fetchBookings(user.id);
+    }
+  }, [user]);
+
+  const fetchBookings = async (userId: number) => {
     try {
       setLoading(true);
       setError(null);
       const response = await fetch(
-        `http://localhost:3000/api/v1/bookings/${userId}`,
-        {
-          headers: {
-            Authorization: "Bearer pankix",
-          },
-        },
+        `http://localhost:3000/api/v1/bookings/${userId}`, {
+          credentials: 'include',
+        }
       );
 
       if (!response.ok) {
@@ -39,6 +51,11 @@ const BookingHistory = () => {
 
       const data = await response.json();
       setBookings(data);
+
+      // Fetch hotel details for each booking
+      data.forEach((booking: Booking) => {
+        fetchHotel(booking.hotel_id);
+      });
     } catch (err) {
       setError(err.message || "An error occurred while fetching bookings");
     } finally {
@@ -46,30 +63,33 @@ const BookingHistory = () => {
     }
   };
 
-  const onSubmit = (data: { userId: string }) => {
-    if (!data.userId.trim()) return;
-    fetchBookings(data.userId.trim());
+  const fetchHotel = async (hotelId: number) => {
+    try {
+      const response = await fetch(
+        `http://localhost:3000/api/v1/hotels/id/${hotelId}`, {
+          credentials: 'include',
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch hotel details');
+      }
+
+      const hotelData = await response.json();
+      setHotels((prevHotels) => ({
+        ...prevHotels,
+        [hotelId]: hotelData,
+      }));
+    } catch (err) {
+      console.error('Failed to fetch hotel details:', err);
+    }
   };
 
   return (
     <div className="container">
       <h2 className="title">Booking History</h2>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="form">
-        <div className="field">
-          <label className="label">Enter User ID</label>
-          <input
-            className="input"
-            type="text"
-            {...register("userId", { required: true })}
-            placeholder="User ID"
-          />
-        </div>
-        <button type="submit" className="button" disabled={loading}>
-          {loading ? "Loading..." : "Get Bookings"}
-        </button>
-      </form>
-
+      {loading && <p>Loading...</p>}
       {error && <div className="error-message">{error}</div>}
 
       {bookings.length > 0 ? (
@@ -79,7 +99,7 @@ const BookingHistory = () => {
               <h3>Booking ID: {booking.id}</h3>
               <div className="booking-details">
                 <p>
-                  <strong>Hotel ID:</strong> {booking.hotel_id}
+                  <strong>Hotel:</strong> {hotels[booking.hotel_id]?.name || 'Loading...'}
                 </p>
                 <p>
                   <strong>Booked On:</strong>{" "}
@@ -97,7 +117,7 @@ const BookingHistory = () => {
                   <strong>Participants:</strong> {booking.participants}
                 </p>
                 <p>
-                  <strong>Rating:</strong> {booking.rating}/5
+                  <strong>Rating:</strong> {booking.rating > 0 ? `${booking.rating}/5` : 'Not rated yet'}
                 </p>
                 <hr />
               </div>
@@ -110,7 +130,9 @@ const BookingHistory = () => {
     </div>
   );
 };
-export const Route = createFileRoute("/BookingHistory")({
+
+export const Route = createFileRoute('/BookingHistory')({
   component: BookingHistory,
 });
+
 export default BookingHistory;

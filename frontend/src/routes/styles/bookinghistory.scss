@@ -1,42 +1,103 @@
 .error-message {
-  color: #ef4444;
-  margin: 1rem 0;
-  padding: 1rem;
+  color: #dc2626;
+  margin: 1.5rem 0;
+  padding: 1.25rem;
   background: #fee2e2;
-  border-radius: 6px;
+  border-radius: 8px;
+  border-left: 4px solid #dc2626;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-weight: 500;
+  transition: opacity 0.3s ease;
+}
+
+.error-message:hover {
+  opacity: 0.9;
+}
+
+.error-message svg {
+  flex-shrink: 0;
+  width: 1.5rem;
+  height: 1.5rem;
 }
 
 .bookings-list {
-  margin-top: 2rem;
+  margin-top: 2.5rem;
   display: grid;
-  gap: 1rem;
+  gap: 1.25rem;
+  position: relative;
 }
 
 .booking-card {
-  padding: 1.5rem;
+  padding: 1.75rem;
   background: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 
+              0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border: 1px solid #f3f4f6;
+}
 
-  h3 {
-    margin: 0 0 1rem 0;
-    color: #1a1a1a;
-    font-size: 1.25rem;
-  }
+.booking-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.07), 
+              0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
 
-  .booking-details {
-    display: grid;
-    gap: 0.5rem;
-    color: #4a5568;
+.booking-card h3 {
+  margin: 0 0 1.25rem 0;
+  color: #111827;
+  font-size: 1.375rem;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  position: relative;
+  padding-bottom: 0.75rem;
+}
 
-    p {
-      margin: 0;
-    }
-  }
+.booking-card h3::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 40px;
+  height: 2px;
+  background: #e5e7eb;
+}
+
+.booking-details {
+  display: grid;
+  gap: 0.75rem;
+  color: #374151;
+  font-size: 0.9375rem;
+}
+
+.booking-details p {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.booking-details strong {
+  color: #1f2937;
+  font-weight: 500;
+  min-width: 100px;
 }
 
 .no-bookings {
   text-align: center;
-  color: #4a5568;
-  margin-top: 2rem;
+  color: #6b7280;
+  margin-top: 3rem;
+  padding: 2rem;
+  background: #f9fafb;
+  border-radius: 12px;
+  font-size: 1.125rem;
+}
+
+.no-bookings svg {
+  width: 2.5rem;
+  height: 2.5rem;
+  margin-bottom: 1rem;
+  color: #d1d5db;
 }

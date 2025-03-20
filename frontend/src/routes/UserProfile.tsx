@@ -1,63 +1,94 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
-import { useState } from 'react';
-import { useNavigate } from '@tanstack/react-router';
+import { useEffect, useState } from 'react';
+import { useAtom } from 'jotai';
+import { userAtom } from '@/store';
 import "./styles/userprofile.scss";
 
 const UserProfile = () => {
-  const [userId, setUserId] = useState('');
   const [userData, setUserData] = useState(null);
   const [error, setError] = useState('');
-  const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
+  const [user] = useAtom(userAtom); // Get logged-in user
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currentPassword, setCurrentPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
 
-  const fetchUserData = async () => {
+  useEffect(() => {
+    if (!user?.id) {
+      setError('User not logged in.');
+      setLoading(false);
+      return;
+    }
+
+    
+  
+    const fetchUserData = async () => {
+      try {
+        const response = await fetch(`http://localhost:3000/api/v1/users/${user.id}`, {
+          credentials: 'include',
+        });
+
+        if (!response.ok) throw new Error('Failed to fetch user');
+
+        const userData = await response.json();
+        setUserData(userData);
+        setError('');
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUserData();
+  }, [user?.id]);
+
+  const handlePasswordChange = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+    setCurrentPassword('');
+    setNewPassword('');
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (currentPassword === newPassword) {
+      alert('New password cannot be the same as the current password.');
+      return;
+    }
     try {
-      const parsedUserId = parseInt(userId, 10);
-      if (isNaN(parsedUserId)) throw new Error('Invalid User ID');
-      const response = await fetch(`http://localhost:3000/api/v1/users/${parsedUserId}`, {
-        credentials: 'include',
-      });
-      if (!response.ok) throw new Error('Failed to fetch user');
-
-      const user = await response.json();
-      setUserData(user);
-      setError('');
+      // Add your password change logic here
+      console.log('Current Password:', currentPassword);
+      console.log('New Password:', newPassword);
+      handleModalClose();
     } catch (err) {
-      setError(err.message);
-      setUserData(null);
+      alert('An error occurred while changing the password.');
     }
   };
 
-  const handlePasswordChange = () => {
-    console.log('Password change initiated');
-  };
+  if (loading) return <p className="loading-message">Loading profile...</p>;
+  if (error) return <p className="error-message">{error}</p>;
 
   return (
     <div className="user-profile">
       <div className="profile-container">
         <div className="profile-card">
-          <div className="input-section">
-            <input
-              type="number"
-              placeholder="Enter User ID"
-              value={userId}
-              onChange={(e) => setUserId(e.target.value)}
-              className="input-field"
-              min="1"
-            />
-            <button onClick={fetchUserData} className="load-button">
-              Load Profile
-            </button>
-          </div>
-
-          {error && <p className="error-message">{error}</p>}
-
           {userData && (
             <div>
-              <div className="user-header">
-                <div className="avatar">{userData.firstname[0]}{userData.lastname[0]}</div>
+              <div className="profile-header">
+                <div className="avatar">
+                  {userData.firstname[0]}{userData.lastname[0]}
+                </div>
                 <div>
-                  <h1 className="user-name">{userData.firstname} {userData.lastname}</h1>
-                  <p className="user-joined">Member since {new Date(userData.registered).toLocaleDateString()}</p>
+                  <h1 className="user-name">
+                    {userData.firstname} {userData.lastname}
+                  </h1>
+                  <p className="user-joined">
+                    Member since {new Date(userData.registered).toLocaleDateString()}
+                  </p>
                 </div>
               </div>
 
@@ -81,6 +112,45 @@ const UserProfile = () => {
                   <button className="history-button">View Booking History</button>
                 </Link>
               </div>
+
+              {/* Modal for changing password */}
+              {isModalOpen && (
+                <div className="modal-overlay">
+                  <div className="modal">
+                    <h2>Change Password</h2>
+                    <form onSubmit={handleSubmit}>
+                      <div className="form-group">
+                        <label htmlFor="currentPassword">Current Password</label>
+                        <input
+                          type="password"
+                          id="currentPassword"
+                          value={currentPassword}
+                          onChange={(e) => setCurrentPassword(e.target.value)}
+                          required
+                        />
+                      </div>
+                      <div className="form-group">
+                        <label htmlFor="newPassword">New Password</label>
+                        <input
+                          type="password"
+                          id="newPassword"
+                          value={newPassword}
+                          onChange={(e) => setNewPassword(e.target.value)}
+                          required
+                        />
+                      </div>
+                      <div className="button-group">
+                        <button type="button" onClick={handleModalClose} className="cancel-button">
+                          Cancel
+                        </button>
+                        <button type="submit" className="submit-button">
+                          Submit
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              )}
             </div>
           )}
         </div>
