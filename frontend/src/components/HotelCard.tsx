@@ -85,7 +85,7 @@ export default function HotelCard({
       </figure>
       <div className="du-card-body not-dark:bg-blue-200 dark:bg-[#242a34] text-white h-[45%]">
         <div className="flex justify-between items-center">
-          <h2 className="du-card-title text-clip text-nowrap not-dark:text-black">
+          <h2 className="du-card-title truncate not-dark:text-black">
             {name}
           </h2>
         </div>

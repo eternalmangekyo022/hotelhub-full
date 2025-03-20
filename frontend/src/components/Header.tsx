@@ -7,23 +7,20 @@ import './styles/header.scss'
 
 import useScreen from '../hooks/useScreen.ts'
 import Navlink from './Navlink'
-import { favoritesAtom, userAtom } from '@store'
+import { userAtom } from '@store'
 import links from './header/links'
 
-import UserSvg from './svg/UserSvg.tsx'
 import LogoutSvg from './svg/LogoutSvg'
-import SettingSvg from './svg/SettingSvg.tsx'
-import ProfileSvg from './svg/ProfileSvg.tsx'
-import FavoriteHeart from './svg/FavoriteHeartSvg.tsx'
 
 import Menu from '../assets/images/Menu Icon.png'
+import HeartSvg from './svg/HeartSvg.tsx'
 
 export default function Header() {
+  const PATHS = ["/", "/about", "/hotel", "/contact"]
   const LS_KEY = 'hotelhub-theme'
   const location = useLocation()
   const [width] = useScreen()
 
-  const [favorites] = useAtom(favoritesAtom)
   const [user, setUser] = useAtom(userAtom)
 
   const listRef = useRef<HTMLUListElement>(null)
@@ -93,7 +90,8 @@ export default function Header() {
       for (let i = 0; i < links.length; i++) {
         if (path === links[i].link) setSelectedNav(i)
       }
-      if (path === '/favorites') setNavVisible(false)
+    console.log(path)
+      if (!PATHS.includes(path)) setNavVisible(false)
       else if (!navVisible) setNavVisible(true)
     })
     if (!listRef.current) return
@@ -179,18 +177,7 @@ export default function Header() {
               </ul>
             )}
           </nav>
-          <div className="favorites-button flex w-40 items-center justify-between">
-            <Link
-              to="/favorites"
-              className="relative grid place-content-center"
-            >
-              <FavoriteHeart color="#000" active />
-              {favorites.length > 0 && (
-                <p className="favorites-count absolute -right-0 bottom-2 text-white">
-                  favorites.length
-                </p>
-              )}
-            </Link>
+          <div className="favorites-button flex w-20 items-center justify-between">
             <label className="du-swap du-swap-rotate text-white">
               <input
                 type="checkbox"
@@ -221,7 +208,7 @@ export default function Header() {
             <div
               className="du-dropdown du-dropdown-center w-8"
               onClick={() => {
-                if (!user) router.navigate({ to: '/login' })
+                if (!user) router.navigate({ to: '/Login' })
               }}
             >
               <div
@@ -230,7 +217,20 @@ export default function Header() {
                 tabIndex={0}
                 role="button"
               >
-                {user ? <UserSvg /> : <LogoutSvg isDark={!isDark} />}
+                <svg
+                  className="w-7 h-7 mr-2"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M4 6h16M4 12h16M4 18h16"
+                  />
+                </svg>
               </div>
               {user && (
                 <>
@@ -239,24 +239,28 @@ export default function Header() {
                     className="du-dropdown-content du-menu bg-base-100 rounded-box z-1 w-32 p-2 shadow-sm not-dark:bg-white"
                   >
                     <li>
-                      <a>
-                        <SettingSvg />
+                      <Link to="/favorites">
+                        <HeartSvg />
                         <span className="not-dark:text-black dark:text-white">
-                          Settings
+                          Favorites
                         </span>
-                      </a>
+                      </Link>
                     </li>
-                    <Link to='/UserProfile'>
                     <li>
-                      
-                      <a>
-                        <ProfileSvg />
+                    <Link to='/UserProfile'>
+                      <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" className="w-7 h-7">
+                          <path
+                            fill="#fff"
+                            d="M31.278,25.525C34.144,23.332,36,19.887,36,16c0-6.627-5.373-12-12-12c-6.627,0-12,5.373-12,12
+                            c0,3.887,1.856,7.332,4.722,9.525C9.84,28.531,5,35.665,5,44h38C43,35.665,38.16,28.531,31.278,25.525z M16,16c0-4.411,3.589-8,8-8
+                            s8,3.589,8,8c0,4.411-3.589,8-8,8S16,20.411,16,16z M24,28c6.977,0,12.856,5.107,14.525,12H9.475C11.144,33.107,17.023,28,24,28z"
+                          />
+                        </svg>
                         <span className="not-dark:text-black dark:text-white">
                           Profile
                         </span>
-                      </a>
-                    </li>
                     </Link>
+                    </li>
                     <li onClick={handleLogout}>
                       <a>
                         <LogoutSvg reverse />

@@ -1,5 +1,5 @@
 - [ ] contact ui fix
-- [ ] header nav slider fix when in favorites
+- [ ] header nav slider resize fix WTF???
 - [ ] add complex search with dropdown
 - [ ] hotelId rework
 - [ ] hotelCard too long title workaround

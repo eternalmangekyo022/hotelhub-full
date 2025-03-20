@@ -3,13 +3,7 @@ import { useForm } from 'react-hook-form'
 import DatePicker from 'react-datepicker'
 import { createFileRoute, useParams } from '@tanstack/react-router'
 import 'react-datepicker/dist/react-datepicker.css'
-<<<<<<< HEAD
-import "./styles/booking.scss"
-import { useAtom } from 'jotai'
-import { userAtom } from '../store'
-=======
 import './styles/booking.scss'
->>>>>>> d8b7e5507eabfdae4aa8d63fba6fd6318639155a
 
 const HotelBooking = () => {
   const { id } = useParams({ strict: false })
