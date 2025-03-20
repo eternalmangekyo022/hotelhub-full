@@ -82,7 +82,7 @@ export default function HotelDetails() {
 
   return (
     <>
-      <div className="hotel-details">
+      <div className="hotel-details dark:bg-gray-500">
         <h1>{hotel.name}</h1>
         <div className="h-64 w-96 bg-white">
           <div className="du-carousel h-full w-full">
@@ -115,20 +115,24 @@ export default function HotelDetails() {
           </div>
         </div>
 
-        <p>
-          <strong>City:</strong> {hotel.city}
+        <p className="dark:text-stone-300">
+          <strong className="dark:text-white">City:</strong> {hotel.city}
         </p>
-        <p>
-          <strong>Price:</strong> ${hotel.price} per night
+
+        <p className="dark:text-stone-300">
+          <strong className="dark:text-white">Price:</strong> ${hotel.price} per
+          night
         </p>
-        <p>
-          <strong>Payment:</strong> {hotel.payment}
+        <p className="dark:text-stone-300">
+          <strong className="dark:text-white">Payment:</strong> {hotel.payment}
         </p>
-        <p>
-          <strong>Class:</strong> {hotel.class} stars
+        <p className="dark:text-stone-300">
+          <strong className="dark:text-white">Class:</strong> {hotel.class}{' '}
+          stars
         </p>
-        <p>
-          <strong>Description:</strong> {hotel.description}
+        <p className="dark:text-stone-300">
+          <strong className="dark:text-white">Description:</strong>{' '}
+          {hotel.description}
         </p>
         <p>
           <span className="rating-stars">
@@ -172,7 +176,7 @@ export default function HotelDetails() {
         >
           {added ? 'Remove from favorites' : 'Add to favorites'}
         </button>
-        <Link to={`/booking/${hotel.id}`}>
+        <Link to={`/booking/${hotel.id}` as string}>
           <button className="du-btn-primary">Book now</button>
         </Link>
       </div>

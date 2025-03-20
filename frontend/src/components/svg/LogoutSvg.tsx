@@ -30,13 +30,17 @@ function Wrapper({ children, reverse }: IWrapperProps) {
 }
 
 export default function LogoutSvg(
-  { reverse }: { reverse?: boolean } = { reverse: false },
+  { reverse, isDark }: { reverse?: boolean; isDark?: boolean } = {
+    reverse: false,
+    isDark: false,
+  },
 ) {
   return (
     <Wrapper reverse={reverse}>
       <g
         id="SVGRepo_iconCarrier"
-        className="not-dark:stroke-black dark:stroke-white"
+        className="dark:stroke-white"
+        stroke={isDark ? '#fff' : '#000'}
       >
         <path
           d="M21 12L13 12"

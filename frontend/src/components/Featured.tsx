@@ -1,15 +1,15 @@
-import "./styles/featured.scss";
-import topRated from "../assets/data/top-rated-restauransts.json";
-import Card from "./Card.tsx";
+import './styles/featured.scss'
+import topRated from '../assets/data/top-rated-restauransts.json'
+import Card from './Card.tsx'
 
 export default function Featured() {
   return (
     <section className="featured">
       <div className="featured-text">
-        <h1>Featured Hotels</h1>
+        <h1 className="dark:text-stone-300">Featured Hotels</h1>
         <h2>Discover Unforgettable Stays</h2>
       </div>
-      <div className="featured-cards">
+      <div className="featured-cards before:bg-slate-700">
         {topRated.map(({ description, image, name, rating, id }) => (
           <Card
             key={id}
@@ -22,5 +22,5 @@ export default function Featured() {
         ))}
       </div>
     </section>
-  );
+  )
 }

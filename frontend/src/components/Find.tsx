@@ -1,56 +1,56 @@
-import { useEffect, useRef, useState } from "react";
-import { useAtom } from "jotai";
-import z from "zod";
+import { useEffect, useRef, useState } from 'react'
+import { useAtom } from 'jotai'
+import z from 'zod'
 
-import "./styles/find.scss";
-import { sortByAtom, searchQueryAtom } from "../store";
+import './styles/find.scss'
+import { sortByAtom, searchQueryAtom } from '../store'
 
 export default function Find() {
-  const searchRef = useRef<HTMLInputElement>(null);
-  const [input, setInput] = useState("");
-  const [rating, setRating] = useState("");
-  const [location, setLocation] = useState("");
-  const [name, setName] = useState("");
-  const [isSimple, setIsSimple] = useState(true);
-  const [, setSearchQuery] = useAtom(searchQueryAtom);
+  const searchRef = useRef<HTMLInputElement>(null)
+  const [input, setInput] = useState('')
+  const [rating, setRating] = useState('')
+  const [location, setLocation] = useState('')
+  const [name, setName] = useState('')
+  const [isSimple, setIsSimple] = useState(true)
+  const [, setSearchQuery] = useAtom(searchQueryAtom)
 
-  const [sortBy, setSortBy] = useAtom(sortByAtom);
+  const [sortBy, setSortBy] = useAtom(sortByAtom)
 
   const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const sortBySchema = z.enum([
-      "",
-      "name-asc",
-      "name-desc",
-      "location-asc",
-      "location-desc",
-      "rating-asc",
-      "rating-desc",
-      "ratingtotal-asc",
-      "ratingtotal-desc",
-      "price-asc",
-      "price-desc",
-    ]);
-    if (!sortBySchema.safeParse(e.target.value).success) return;
-    const toSortBy = e.target.value as ISortBy;
-    setSortBy(toSortBy);
-  };
+      '',
+      'name-asc',
+      'name-desc',
+      'location-asc',
+      'location-desc',
+      'rating-asc',
+      'rating-desc',
+      'ratingtotal-asc',
+      'ratingtotal-desc',
+      'price-asc',
+      'price-desc',
+    ])
+    if (!sortBySchema.safeParse(e.target.value).success) return
+    const toSortBy = e.target.value as ISortBy
+    setSortBy(toSortBy)
+  }
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "k" && e.ctrlKey) {
-        e.preventDefault();
-        e.stopPropagation();
-        e.stopImmediatePropagation();
-        searchRef.current?.focus();
+      if (e.key === 'k' && e.ctrlKey) {
+        e.preventDefault()
+        e.stopPropagation()
+        e.stopImmediatePropagation()
+        searchRef.current?.focus()
       }
-    };
+    }
 
-    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener('keydown', handleKeyDown)
 
     return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, []);
+      window.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [])
 
   return (
     <section className="find-wrapper">
@@ -88,7 +88,7 @@ export default function Find() {
 
         <label
           htmlFor="sort"
-          className="du-select m-0 p-0 w-52 rounded-4xl not-dark:bg-neutral-content"
+          className="du-select not-dark:bg-neutral-content m-0 w-52 rounded-4xl p-0"
         >
           <span className="du-label">Sort</span>
           <select id="sort" value={sortBy} onChange={handleSortChange}>
@@ -105,5 +105,5 @@ export default function Find() {
         </label>
       </div>
     </section>
-  );
+  )
 }

@@ -1,0 +1,38 @@
+# DaisyUI 5 Installation and Usage Guide
+
+## Installation
+- Requires Tailwind CSS v4
+- Install via npm: `npm i -D daisyui@latest`
+- Note: tailwind.config.js is deprecated in Tailwind CSS v4
+
+## Basic Setup
+CSS file setup:
+```css
+@import "tailwindcss";
+@plugin "daisyui";
+```
+
+## Alternative CDN Setup
+```html
+<link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+```
+
+## Usage Guidelines
+1. Use daisyUI class names for styling HTML elements
+2. Customize components with Tailwind CSS utility classes
+3. Use `!` suffix for forceful style overrides (e.g., `btn bg-red-500!`)
+4. Create custom components with Tailwind CSS if needed
+5. Use responsive utility prefixes for layouts
+6. Stick to existing daisyUI and Tailwind CSS classes
+
+## Class Name Categories
+- component: required component class
+- part: child part of a component
+- style: specific style settings
+- behavior: behavior modifications
+- color: color settings
+- size: size settings
+- placement: placement settings
+- direction: direction settings
+- modifier: general modifications

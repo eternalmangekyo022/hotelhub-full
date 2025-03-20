@@ -1,145 +1,136 @@
 @use "../../global.scss" as global;
 
 .hotel-details {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  padding: 40px;
-  background: #f5f7fa;
-  min-height: calc(
-    100vh - map-get(global.$main, "header-h") - map-get(
-        global.$main,
-        "footer-h"
-      )
-  );
-  font-family: "Poppins", sans-serif;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	text-align: center;
+	padding: 40px;
+	min-height: calc(100vh - map-get(global.$main, "header-h") - map-get(global.$main, "footer-h"));
+	font-family: "Poppins", sans-serif;
 
-  h1 {
-    font-size: 2.5rem;
-    font-weight: 600;
-    color: #222;
-    margin-bottom: 15px;
-  }
+	h1 {
+		font-size: 2.5rem;
+		font-weight: 600;
+		margin-bottom: 15px;
+	}
 
-  .hotel-image {
-    width: 100%;
-    max-width: 600px;
-    height: auto;
-    border-radius: 15px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-    margin-bottom: 20px;
-  }
+	.hotel-image {
+		width: 100%;
+		max-width: 600px;
+		height: auto;
+		border-radius: 15px;
+		box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+		margin-bottom: 20px;
+	}
 
-  p {
-    font-size: 1.1rem;
-    color: #444;
-    margin: 10px 0;
+	p {
+		font-size: 1.1rem;
+		margin: 10px 0;
 
-    strong {
-      color: #111;
-      font-weight: 600;
-    }
-  }
+		strong {
+			font-weight: 600;
+		}
+	}
 
-  .rating-stars {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 5px;
+	.rating-stars {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 5px;
 
-    img {
-      width: 20px;
-      height: 20px;
-    }
-  }
+		img {
+			width: 20px;
+			height: 20px;
+		}
+	}
 
-  button {
-    margin: 15px;
-    display: inline-block;
-    outline: 0;
-    border: 0;
-    cursor: pointer;
-    background: #000000;
-    color: #ffffff;
-    border-radius: 8px;
-    padding: 14px 24px 16px;
-    font-size: 18px;
-    font-weight: 700;
-    line-height: 1;
-    transition:
-      transform 200ms,
-      background 200ms;
-    :hover {
-      transform: translateY(-2px);
-    }
-  }
-  .arrow {
-    width: 60px;
-    cursor: pointer;
-    padding-bottom: 160px;
-    padding-top: 150px;
-    border-radius: 10px;
-  }
-  .other-arrow {
-    transform: scaleX(-1);
-    width: 60px;
-    cursor: pointer;
-    padding-bottom: 160px;
-    padding-top: 150px;
-    border-radius: 10px;
-  }
-  .hotel-image {
-    width: 500px;
-    max-height: 500px;
-  }
-  .arrow:hover,
-  .other-arrow:hover {
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
-  }
+	button {
+		margin: 15px;
+		display: inline-block;
+		outline: 0;
+		border: 0;
+		cursor: pointer;
+		background: #000000;
+		color: #ffffff;
+		border-radius: 8px;
+		padding: 14px 24px 16px;
+		font-size: 18px;
+		font-weight: 700;
+		line-height: 1;
+		transition:
+			transform 200ms,
+			background 200ms;
+		:hover {
+			transform: translateY(-2px);
+		}
+	}
+	.arrow {
+		width: 60px;
+		cursor: pointer;
+		padding-bottom: 160px;
+		padding-top: 150px;
+		border-radius: 10px;
+	}
+	.other-arrow {
+		transform: scaleX(-1);
+		width: 60px;
+		cursor: pointer;
+		padding-bottom: 160px;
+		padding-top: 150px;
+		border-radius: 10px;
+	}
+	.hotel-image {
+		width: 500px;
+		max-height: 500px;
+	}
+	.arrow:hover,
+	.other-arrow:hover {
+		box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+	}
 }
 .amenities-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  padding: 10px;
-  margin: 0;
-  list-style: none;
-  width: 900px;
-  justify-content: center;
-  padding-bottom: 35px;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+	padding: 10px;
+	margin: 0;
+	list-style: none;
+	width: 900px;
+	justify-content: center;
+	padding-bottom: 35px;
 }
 
 .amenities-list li {
-  background-color: #f0f0f0;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 8px 12px;
-  font-size: 14px;
-  color: #333;
-  transition: background-color 0.3s ease;
-  display: flex;
-  align-items: center;
+	background-color: #f0f0f0;
+	border: 1px solid #ddd;
+	border-radius: 8px;
+	padding: 8px 12px;
+	font-size: 14px;
+	color: #333;
+	transition: background-color 0.3s ease;
+	display: flex;
+	align-items: center;
 }
 
 .amenities-list li:hover {
-  background-color: #e0e0e0;
-  cursor: pointer;
+	background-color: #e0e0e0;
+	cursor: pointer;
 }
 
 .amenities-container {
-  max-width: 100%;
-  overflow-x: auto;
-  white-space: nowrap;
+	max-width: 100%;
+	overflow-x: auto;
+	white-space: nowrap;
 }
 
 @media (max-width: 768px) {
-  .amenities-list {
-    gap: 8px;
-  }
+	.amenities-list {
+		gap: 8px;
+	}
 
-  .amenities-list li {
-    padding: 6px 10px;
-    font-size: 12px;
-  }
+	.amenities-list li {
+		padding: 6px 10px;
+		font-size: 12px;
+	}
 }

@@ -185,9 +185,11 @@ export default function Header() {
               className="relative grid place-content-center"
             >
               <FavoriteHeart color="#000" active />
-              <p className="favorites-count absolute -right-0 bottom-2 text-white">
-                {favorites.length}
-              </p>
+              {favorites.length > 0 && (
+                <p className="favorites-count absolute -right-0 bottom-2 text-white">
+                  favorites.length
+                </p>
+              )}
             </Link>
             <label className="du-swap du-swap-rotate text-white">
               <input
@@ -223,12 +225,12 @@ export default function Header() {
               }}
             >
               <div
-                className="du-btn h-full w-full border-0 bg-transparent p-0"
+                className="du-btn h-full w-full border-0 bg-transparent p-0 shadow-none"
                 style={{ margin: 0 }}
                 tabIndex={0}
                 role="button"
               >
-                {user ? <UserSvg /> : <LogoutSvg />}
+                {user ? <UserSvg /> : <LogoutSvg isDark={!isDark} />}
               </div>
               {user && (
                 <>
