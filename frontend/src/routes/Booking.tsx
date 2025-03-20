@@ -1,60 +1,64 @@
-import { useState, useEffect } from 'react'
-import { useForm } from 'react-hook-form'
-import DatePicker from 'react-datepicker'
-import { createFileRoute, useParams } from '@tanstack/react-router'
-import 'react-datepicker/dist/react-datepicker.css'
-import "./styles/booking.scss"
-import { useAtom } from 'jotai'
-import { userAtom } from '../store'
+import { useState, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import DatePicker from 'react-datepicker';
+import { createFileRoute, useParams } from '@tanstack/react-router';
+import 'react-datepicker/dist/react-datepicker.css';
+import "./styles/booking.scss";
+import { useAtom } from 'jotai';
+import { userAtom } from '../store';
+import CardPay from '../components/CardPay';
 
 const HotelBooking = () => {
-  const { id } = useParams({ strict: false })
-  const [hotel, setHotel] = useState(null)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
-  const [user] = useAtom(userAtom)
+  const { id } = useParams({ strict: false });
+  const [hotel, setHotel] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [user] = useAtom(userAtom);
+  const [paymentMethod, setPaymentMethod] = useState('cash');
 
   useEffect(() => {
     const fetchHotel = async () => {
       try {
         const response = await fetch(
           `http://localhost:3000/api/v1/hotels/id/${id}`,
-        )
-        if (!response.ok) throw new Error('Hotel not found')
-        const data = await response.json()
-        setHotel(data)
+        );
+        if (!response.ok) throw new Error('Hotel not found');
+        const data = await response.json();
+        setHotel(data);
       } catch (err) {
-        setError(err.message)
+        setError(err.message);
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
-    }
-    fetchHotel()
-  }, [id])
+    };
+    fetchHotel();
+  }, [id]);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
+    watch,
   } = useForm({
     defaultValues: {
       firstname: user?.firstname,
-      lastname: user?.lastname
-    }
-  })
-  const [arrivalDate, setArrivalDate] = useState(null)
-  const [leavingDate, setLeavingDate] = useState(null)
+      lastname: user?.lastname,
+    },
+  });
+
+  const [arrivalDate, setArrivalDate] = useState(null);
+  const [leavingDate, setLeavingDate] = useState(null);
 
   const formatDate = (date) => {
-    const pad = (num) => (num < 10 ? `0${num}` : num)
-    const year = date.getFullYear()
-    const month = pad(date.getMonth() + 1)
-    const day = pad(date.getDate())
-    const hours = pad(date.getHours())
-    const minutes = pad(date.getMinutes())
-    const seconds = pad(date.getSeconds())
-    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`
-  }
+    const pad = (num) => (num < 10 ? `0${num}` : num);
+    const year = date.getFullYear();
+    const month = pad(date.getMonth() + 1);
+    const day = pad(date.getDate());
+    const hours = pad(date.getHours());
+    const minutes = pad(date.getMinutes());
+    const seconds = pad(date.getSeconds());
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+  };
 
   const onSubmit = async (data) => {
     const bookingData = {
@@ -65,9 +69,17 @@ const HotelBooking = () => {
       checkout: formatDate(leavingDate),
       payment_id: data.payment_id === 'cash' ? 1 : 2,
       participants: parseInt(data.participants, 10),
-      rating: 0
+      rating: 0,
+    };
+
+    if (paymentMethod === 'card') {
+      bookingData.cardDetails = {
+        ccNumber: data.ccNumber,
+        ccExpiry: data.ccExpiry,
+        ccCvv: data.ccCvv,
+      };
     }
-    
+
     try {
       const response = await fetch('http://localhost:3000/api/v1/bookings', {
         method: 'POST',
@@ -89,10 +101,10 @@ const HotelBooking = () => {
       console.error('Error:', error);
       alert('An error occurred while submitting the booking');
     }
-  }
+  };
 
-  if (loading) return <div className="container">Loading...</div>
-  if (error) return <div className="container">Error: {error}</div>
+  if (loading) return <div className="container">Loading...</div>;
+  if (error) return <div className="container">Error: {error}</div>;
 
   return (
     <div className="container">
@@ -130,7 +142,9 @@ const HotelBooking = () => {
                 <span className="error">Last name is required</span>
               )}
             </div>
+          </div>
 
+          <div className="right-column">
             <div className="field">
               <label className="label">Address</label>
               <input
@@ -153,65 +167,13 @@ const HotelBooking = () => {
               )}
             </div>
           </div>
-
-          <div className="right-column">
-            <div className="field">
-              <label className="label">Credit Card Number</label>
-              <input
-                type="text"
-                className="input"
-                {...register('ccNumber', { required: true })}
-              />
-              {errors.ccNumber && (
-                <span className="error">Credit card number is required</span>
-              )}
-            </div>
-
-            <div className="field">
-              <label className="label">Expiry Date</label>
-              <input
-                type="text"
-                className="input"
-                placeholder="MM/YY"
-                maxLength={5}
-                {...register('ccExpiry', { required: true })}
-                onChange={(e) => {
-                  const value = e.target.value.replace(/\D+/g, '');
-                  const newValue = value.replace(/(\d{2})(?=\d)/g, '$1/');
-                  e.target.value = newValue;
-                }}
-              />
-              {errors.ccExpiry && (
-                <span className="error">Expiry date is required</span>
-              )}
-            </div>
-
-            <div className="field">
-              <label className="label">CVV</label>
-              <input
-                type="text"
-                className="input"
-                maxLength={3}
-                inputMode="numeric"
-                pattern="[0-9]{3}"
-                {...register('ccCvv', { required: true })}
-                onChange={(e) => {
-                  const value = e.target.value.replace(/[^\d]/g, '');
-                  e.target.value = value;
-                }}
-              />
-              {errors.ccCvv && (
-                <span className="error">CVV is required</span>
-              )}
-            </div>
-          </div>
         </div>
 
         <div className="field">
           <label className="label">Arrival Date</label>
           <DatePicker
-          minDate={new Date()}
-            popperPlacement='top'
+            minDate={new Date()}
+            popperPlacement="top"
             selected={arrivalDate}
             onChange={(date) => setArrivalDate(date)}
             className="input"
@@ -226,8 +188,8 @@ const HotelBooking = () => {
         <div className="field">
           <label className="label">Leaving Date</label>
           <DatePicker
-          minDate={new Date()}
-            popperPlacement='top'
+            minDate={new Date()}
+            popperPlacement="top"
             selected={leavingDate}
             onChange={(date) => setLeavingDate(date)}
             className="input"
@@ -267,6 +229,7 @@ const HotelBooking = () => {
           <select
             className="input"
             {...register('payment_id', { required: true })}
+            onChange={(e) => setPaymentMethod(e.target.value)}
           >
             <option value="">Select payment method</option>
             <option value="cash">Cash</option>
@@ -277,19 +240,24 @@ const HotelBooking = () => {
           )}
         </div>
 
-        <button
-          type="submit"
-          className="button"
-        >
+        {paymentMethod === 'card' && (
+          <CardPay
+            register={register}
+            errors={errors}
+            isRequired={paymentMethod === 'card'}
+          />
+        )}
+
+        <button type="submit" className="button">
           Submit Booking
         </button>
       </form>
     </div>
-  )
-}
+  );
+};
 
 export const Route = createFileRoute('/Booking')({
   component: HotelBooking,
-})
+});
 
-export default HotelBooking
+export default HotelBooking;
