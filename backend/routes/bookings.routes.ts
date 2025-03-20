@@ -8,5 +8,9 @@ export default (use: UseFn, app: Express) => {
   router.get("/:id", use(controller.getBookingsById));
   router.post("/", use(controller.addBooking));
   app.use("/bookings", router);
+
+  const rateRouter = Router();
+  rateRouter.put("/:bookingid", use(controller.updateRating));
+  app.use("/rate", rateRouter);
 };
 

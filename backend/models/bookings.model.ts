@@ -24,3 +24,7 @@ export async function addBooking(bookingData: {
   return res;
 }
 
+export async function updateRating(bookingId: number, rating: number) {
+  const res = await db.update("UPDATE bookings SET rating = ? WHERE id = ?", [rating, bookingId]);
+  return res;
+}
