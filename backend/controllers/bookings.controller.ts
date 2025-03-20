@@ -1,4 +1,4 @@
-import { getBookings, getBookingsById, addBooking } from "../models/bookings.model";
+import { getBookings, getBookingsById, addBooking, updateRating } from "../models/bookings.model";
 
 export default {
   getBookings: async (req: any, res: any) => {
@@ -27,5 +27,24 @@ addBooking: async (req: any, res: any) => {
       res.status(500).json({ message: "Error adding booking", error });
     }
   },
+  updateRating: async (req: any, res: any) => {
+    try {
+      const bookingId = parseInt(req.params.bookingid, 10);
+      if (isNaN(bookingId)) {
+        return res.status(400).json({ message: "Invalid booking ID" });
+      }
+      const { rating } = req.body;
+      if (typeof rating !== 'number') {
+        return res.status(400).json({ message: "Rating must be a number" });
+      }
+      const result = await updateRating(bookingId, rating);
+      if (result.affectedRows === 0) {
+        return res.status(404).json({ message: "Booking not found" });
+      }
+      res.json({ message: "Rating updated successfully" });
+    } catch (error) {
+      res.status(500).json({ message: "Error updating rating", error });
+    }
+  },
+  
 };
-

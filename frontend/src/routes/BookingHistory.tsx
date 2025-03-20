@@ -85,6 +85,33 @@ const BookingHistory = () => {
     }
   };
 
+  // Handle rating submission
+  const handleRate = async (bookingId: number, rating: number) => {
+    try {
+      const response = await fetch(`http://localhost:3000/api/v1/rate/${bookingId}`, {
+        method: 'PUT',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ rating }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to submit rating');
+      }
+
+      // Update the bookings state to reflect the new rating
+      setBookings((prevBookings) =>
+        prevBookings.map((booking) =>
+          booking.id === bookingId ? { ...booking, rating } : booking
+        )
+      );
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
   return (
     <div className="container">
       <h2 className="title">Booking History</h2>
@@ -119,6 +146,24 @@ const BookingHistory = () => {
                 <p>
                   <strong>Rating:</strong> {booking.rating > 0 ? `${booking.rating}/5` : 'Not rated yet'}
                 </p>
+
+                {booking.rating === 0 && (
+                  <div className="rating-component">
+                    <select
+                      defaultValue={0}
+                      onChange={(e) => handleRate(booking.id, Number(e.target.value))}
+                    >
+                      <option value={0} disabled>Rate your stay</option>
+                      <option value={1}>1 - Poor</option>
+                      <option value={2}>2 - Fair</option>
+                      <option value={3}>3 - Good</option>
+                      <option value={4}>4 - Very Good</option>
+                      <option value={5}>5 - Excellent</option>
+                    </select>
+                    
+                  </div>
+                )}
+
                 <hr />
               </div>
             </div>

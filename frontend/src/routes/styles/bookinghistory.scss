@@ -37,6 +37,7 @@
               0 2px 4px -1px rgba(0, 0, 0, 0.06);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   border: 1px solid #f3f4f6;
+
 }
 
 .booking-card:hover {
@@ -64,12 +65,12 @@
   height: 2px;
   background: #e5e7eb;
 }
-
 .booking-details {
   display: grid;
   gap: 0.75rem;
   color: #374151;
   font-size: 0.9375rem;
+  flex: 1; /* Allow details to take up remaining space */
 }
 
 .booking-details p {
@@ -100,4 +101,53 @@
   height: 2.5rem;
   margin-bottom: 1rem;
   color: #d1d5db;
+}
+
+.rating-component {
+  margin-left: 1.5rem; /* Add spacing between details and rating */
+  padding: 1rem;
+  background: #f9fafb;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.5rem;
+}
+
+.rating-component select {
+  padding: 0.5rem 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background-color: #fff;
+  cursor: pointer;
+  font-size: 0.9375rem;
+  color: #374151;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.rating-component select:hover {
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.rating-component select:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+.rating-component button {
+  padding: 0.5rem 1rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9375rem;
+  transition: background-color 0.2s ease;
+}
+
+.rating-component button:hover {
+  background-color: #0056b3;
 }
