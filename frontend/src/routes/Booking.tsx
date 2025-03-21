@@ -20,7 +20,9 @@ const HotelBooking = () => {
     const fetchHotel = async () => {
       try {
         const response = await fetch(
-          `http://localhost:3000/api/v1/hotels/id/${id}`,
+          `http://localhost:3000/api/v1/hotels/id/${id}`,{
+            credentials: 'include',
+          }
         );
         if (!response.ok) throw new Error('Hotel not found');
         const data = await response.json();
@@ -72,13 +74,7 @@ const HotelBooking = () => {
       rating: 0,
     };
 
-    if (paymentMethod === 'card') {
-      bookingData.cardDetails = {
-        ccNumber: data.ccNumber,
-        ccExpiry: data.ccExpiry,
-        ccCvv: data.ccCvv,
-      };
-    }
+   
 
     try {
       const response = await fetch('http://localhost:3000/api/v1/bookings', {
