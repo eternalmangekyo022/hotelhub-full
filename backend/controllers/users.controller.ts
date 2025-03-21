@@ -177,3 +177,35 @@ export async function getUserById(req: Request, res: Response) {
     res.status(500).json({ message: "Internal server error" });
   }
 }
+
+
+export async function changePassword(
+  req: Req<{ currentPassword: string; newPassword: string }>, // Remove userId from req.body
+  res: Response
+) {
+  const { currentPassword, newPassword } = req.body;
+  const userId = req.params.userId; // Extract userId from the URL
+  console.log(model);
+  // Validate the userId
+  const id = parseInt(userId, 10);
+  if (isNaN(id)) {
+    return res.status(400).json({ message: "Invalid user ID" });
+  }
+
+  try {
+    // Call the changePassword function from the model
+    const result = await model.changePassword(id, currentPassword, newPassword);
+    res.json(result);
+  } catch (error: any) {
+    if (error.code === 404) {
+      return res.status(404).json({ message: error.message });
+    } else if (error.code === 401) {
+      return res.status(401).json({ message: error.message });
+    } else {
+      console.error("Error changing password:", error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  }
+}
+
+

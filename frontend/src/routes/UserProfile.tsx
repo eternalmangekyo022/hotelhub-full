@@ -55,17 +55,38 @@ const UserProfile = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+  
+    // Validate that the new password is different from the current password
     if (currentPassword === newPassword) {
       alert('New password cannot be the same as the current password.');
       return;
     }
+  
     try {
-      // Add your password change logic here
-      console.log('Current Password:', currentPassword);
-      console.log('New Password:', newPassword);
-      handleModalClose();
+      // Make the API call to change the password
+      const response = await fetch(`http://localhost:3000/api/v1/users/${user.id}/change-password`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+          currentPassword,
+          newPassword,
+        }),
+      });
+      
+      // Handle the response
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to change password');
+      }
+  
+      const result = await response.json();
+      alert(result.message); // Show success message
+      handleModalClose(); // Close the modal
     } catch (err) {
-      alert('An error occurred while changing the password.');
+      alert(err.message || 'An error occurred while changing the password.');
     }
   };
 
