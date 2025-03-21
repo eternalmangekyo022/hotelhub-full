@@ -182,10 +182,10 @@ h2 {
 .price-calculation {
   margin-top: 1.5rem;
   padding: 1.5rem;
-  background: rgba(249, 250, 251, 0.8);
+  background: rgba(249, 250, 251, 0.95);
   border-radius: 10px;
   border-left: 4px solid var(--primary);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 .price-calculation h4 {
@@ -210,5 +210,6 @@ h2 {
 
 .price-calculation p strong {
   color: var(--text);
-  font-weight: 600;
+  font-weight: 700;
+  font-size: 1.5rem;
 }

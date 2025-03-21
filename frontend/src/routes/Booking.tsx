@@ -268,9 +268,10 @@ const HotelBooking = () => {
 
         <div className="price-calculation">
           <h4>Price Calculation</h4>
-          <p>Before Tax Price: ${beforeTaxPrice.toFixed(2)}</p>
-          <p>Total Price (including 27% tax): ${totalPrice.toFixed(2)}</p>
+          <p>Before Tax Price: <strong>${beforeTaxPrice.toFixed(2)}</strong></p>
+          <p>Total Price (27% tax): <strong>${totalPrice.toFixed(2)}</strong></p>
         </div>
+
 
         <button type="submit" className="button">
           Submit Booking
