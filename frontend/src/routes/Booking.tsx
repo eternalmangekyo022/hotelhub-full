@@ -15,6 +15,8 @@ const HotelBooking = () => {
   const [error, setError] = useState(null);
   const [user] = useAtom(userAtom);
   const [paymentMethod, setPaymentMethod] = useState('cash');
+  const [totalPrice, setTotalPrice] = useState(0);
+  const [beforeTaxPrice, setBeforeTaxPrice] = useState(0);
 
   useEffect(() => {
     const fetchHotel = async () => {
@@ -62,6 +64,22 @@ const HotelBooking = () => {
     return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
   };
 
+  const calculateTotalPrice = () => {
+    if (!arrivalDate || !leavingDate || !hotel) return;
+
+    const timeDifference = leavingDate.getTime() - arrivalDate.getTime();
+    const nights = Math.ceil(timeDifference / (1000 * 3600 * 24));
+    const participants = watch('participants') || 1;
+
+    const total = participants * hotel.price * nights;
+    setTotalPrice(total);
+    setBeforeTaxPrice(total / 1.27);
+  };
+
+  useEffect(() => {
+    calculateTotalPrice();
+  }, [arrivalDate, leavingDate, watch('participants')]);
+
   const onSubmit = async (data) => {
     const bookingData = {
       user_id: user?.id,
@@ -73,8 +91,6 @@ const HotelBooking = () => {
       participants: parseInt(data.participants, 10),
       rating: 0,
     };
-
-   
 
     try {
       const response = await fetch('http://localhost:3000/api/v1/bookings', {
@@ -249,6 +265,12 @@ const HotelBooking = () => {
             isRequired={paymentMethod === 'card'}
           />
         )}
+
+        <div className="price-calculation">
+          <h4>Price Calculation</h4>
+          <p>Before Tax Price: ${beforeTaxPrice.toFixed(2)}</p>
+          <p>Total Price (including 27% tax): ${totalPrice.toFixed(2)}</p>
+        </div>
 
         <button type="submit" className="button">
           Submit Booking
