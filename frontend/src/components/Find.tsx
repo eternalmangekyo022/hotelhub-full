@@ -1,18 +1,24 @@
 import { useEffect, useRef, useState } from 'react'
 import { useAtom } from 'jotai'
 import z from 'zod'
+import { useForm } from 'react-hook-form'
 
 import './styles/find.scss'
 import { sortByAtom, searchQueryAtom } from '../store'
+import AngleSvg from './svg/AngleSvg';
+import { motion as m } from 'motion/react';
 
 export default function Find() {
   const searchRef = useRef<HTMLInputElement>(null)
-  const [input, setInput] = useState('')
-  const [rating, setRating] = useState('')
-  const [location, setLocation] = useState('')
-  const [name, setName] = useState('')
   const [isSimple, setIsSimple] = useState(true)
   const [, setSearchQuery] = useAtom(searchQueryAtom)
+  const { register, handleSubmit } = useForm({
+    mode: 'onSubmit',
+    defaultValues: {
+      location: '',
+      rating: '',
+    }
+  })
 
   const [sortBy, setSortBy] = useAtom(sortByAtom)
 
@@ -84,6 +90,30 @@ export default function Find() {
             <kbd className="du-kbd du-kbd-sm not-dark:bg-gray-300">Ctrl</kbd>
             <kbd className="du-kbd du-kbd-sm not-dark:bg-gray-300">K</kbd>
           </label>
+        </div>
+
+        <div className='flex flex-col items-center pb-4'>
+          <AngleSvg active={isSimple} onClick={() => setIsSimple(prev => !prev)} />
+          <m.div className="w-full flex flex-col items-center justify-evenly" initial={{
+            height: isSimple ? '0' : 'auto',
+            opacity: isSimple ? 0 : 1,
+          }} animate={{
+            height: isSimple ? '0' : 'auto',
+            opacity: isSimple ? 0 : 1,
+            transition: {
+              duration: 0.3,
+              ease: 'easeInOut'
+            }
+          }}>
+            <fieldset className="du-fieldset w-3xs">
+              <legend className="du-fieldset-legend">Location</legend>
+              <input type="text" className="du-input" placeholder="e.g. New York" {...register('location')} />
+            </fieldset>
+            <fieldset className="du-fieldset w-3xs">
+              <legend className="du-fieldset-legend">Rating</legend>
+              <input type="text" className="du-input" placeholder="e.g. 4.5" {...register('rating')} />
+            </fieldset>
+          </m.div>
         </div>
 
         <label

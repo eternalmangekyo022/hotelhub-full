@@ -1,4 +1,5 @@
 import { getBookings, getBookingsById, addBooking, updateRating } from "../models/bookings.model";
+import bookingsRoutes from "../routes/bookings.routes";
 
 export default {
   getBookings: async (req: any, res: any) => {
@@ -21,9 +22,11 @@ export default {
 addBooking: async (req: any, res: any) => {
     try {
       const bookingData = req.body;
+      console.log(bookingData)
       const newBooking = await addBooking(bookingData);
       res.status(201).json(newBooking);
     } catch (error) {
+      console.log(error)
       res.status(500).json({ message: "Error adding booking", error });
     }
   },
