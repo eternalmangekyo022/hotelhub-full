@@ -69,7 +69,9 @@ const HotelBooking = () => {
 
     const timeDifference = leavingDate.getTime() - arrivalDate.getTime();
     const nights = Math.ceil(timeDifference / (1000 * 3600 * 24));
-    const participants = watch('participants') || 1;
+    let participants = watch('participants') || 1;
+    
+    participants = Math.min(participants, hotel.capacity);
 
     const total = participants * hotel.price * nights;
     setTotalPrice(total);
