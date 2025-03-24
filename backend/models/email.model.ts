@@ -40,7 +40,7 @@ export async function sendBookingEmail(data: BookingEmailRequest) {
         <p><strong>Check-out:</strong> ${data.checkout}</p>
         <p><strong>Total Price:</strong> $${parseInt(data.totalPrice).toFixed(2)}</p>
         <p>We look forward to welcoming you!</p>
-        <p>Best regards,<br>The Hotel Team</p>
+        <p>Best regards,<br>The Hotel HUB Team</p>
       `,
     };
 

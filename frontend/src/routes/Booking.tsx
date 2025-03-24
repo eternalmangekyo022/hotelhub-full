@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import DatePicker from 'react-datepicker';
-import { createFileRoute, useParams } from '@tanstack/react-router';
+import { createFileRoute, useParams, useNavigate} from '@tanstack/react-router';
 import 'react-datepicker/dist/react-datepicker.css';
 import "./styles/booking.scss";
 import { useAtom } from 'jotai';
@@ -17,7 +17,7 @@ const HotelBooking = () => {
   const [paymentMethod, setPaymentMethod] = useState('cash');
   const [totalPrice, setTotalPrice] = useState(0);
   const [beforeTaxPrice, setBeforeTaxPrice] = useState(0);
-
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchHotel = async () => {
       try {
@@ -122,7 +122,10 @@ const HotelBooking = () => {
         }),
       });
       console.log("email sent to " + user?.email);
+      
+      // Show alert and then navigate
       alert('Booking submitted successfully! A confirmation email has been sent.');
+      navigate({ to: '/' }); // Redirect to homepage
     } catch (error) {
       console.error('Error:', error);
       alert('An error occurred while submitting the booking.');
