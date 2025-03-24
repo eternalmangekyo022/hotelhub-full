@@ -7,12 +7,10 @@ export default function AngleSvg({ active = false, onClick }: { active?: boolean
             width="18"
             height="18"
             viewBox="0 0 24 24"
-            fill="none"
-            stroke="#fff"
             strokeWidth="1.5"
             strokeLinecap="round"
             strokeLinejoin="round"
-            className="w-7 h-7 cursor-pointer"
+            className="w-7 h-7 cursor-pointer fill-transparent dark:stroke-white not-dark:stroke-black"
             initial={{
                 rotate: 180
             }}
