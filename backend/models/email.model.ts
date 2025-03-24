@@ -15,6 +15,13 @@ interface BookingEmailRequest {
   totalPrice: string;
 }
 
+interface RegistrationEmailRequest {
+  email: string;
+  firstname: string;
+  lastname: string;
+}
+
+
 // Create a Gmail SMTP transporter
 const transporter = nodemailer.createTransport({
   host: 'smtp.gmail.com',
@@ -50,5 +57,29 @@ export async function sendBookingEmail(data: BookingEmailRequest) {
   } catch (error) {
     console.error('Error sending email:', error);
     throw new Error('Failed to send email');
+  }
+}
+
+export async function sendRegistrationEmail(data: RegistrationEmailRequest) {
+  try {
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
+      to: data.email,
+      subject: 'Welcome to Hotel HUB',
+      html: `
+        <h2>Welcome to Hotel HUB!</h2>
+        <p>Dear ${data.firstname} ${data.lastname},</p>
+        <p>Thank you for registering with Hotel HUB.</p>
+        <p>Your account has been successfully created and you can now start booking hotels with us.</p>
+        <p>If you have any questions, please don't hesitate to contact our support team.</p>
+        <p>Best regards,<br>The Hotel HUB Team</p>
+      `,
+    };
+
+    await transporter.sendMail(mailOptions);
+    console.log('Registration email sent successfully');
+  } catch (error) {
+    console.error('Error sending registration email:', error);
+    throw new Error('Failed to send registration email');
   }
 }

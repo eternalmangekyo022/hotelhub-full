@@ -9,6 +9,5 @@
     - [ ] contact ui fix
 
 - [] Szab
-    - [ ] receipt
     - [ ] header nav slider resize fix WTF???
     - [ ] hotelCard too long title workaround
