@@ -1,11 +1,14 @@
-- [ ] contact ui fix
-- [ ] header nav slider resize fix WTF???
-- [ ] grid layout, white mode for Find.tsx inputs
-- [ + ] add complex search with dropdown
-    - [ ] rating range
-    - [ ] price range
-    - [ ] location
-    - [ ] reviews
-    - [ ] distance
-- [ ] hotelId rework
-- [ ] hotelCard too long title workaround
+- [ ] Tibi
+    - [ + ] add complex search with dropdown
+        - [ ] rating range
+        - [ ] price range
+        - [ ] location
+        - [ ] reviews
+        - [ ] distance
+    - [ ] hotelId rework
+    - [ ] contact ui fix
+
+- [] Szab
+    - [ ] receipt
+    - [ ] header nav slider resize fix WTF???
+    - [ ] hotelCard too long title workaround

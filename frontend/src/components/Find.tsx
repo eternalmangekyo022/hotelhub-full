@@ -20,6 +20,7 @@ export default function Find() {
     }
   })
 
+
   const [sortBy, setSortBy] = useAtom(sortByAtom)
 
   const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -92,9 +93,9 @@ export default function Find() {
           </label>
         </div>
 
-        <div className='flex flex-col items-center pb-4'>
+        <div className='flex flex-col items-center pb-4 **:not-dark:text-black not-dark:[&_input,&_select]:bg-neutral-200 w-lg [&>div>fieldset]:w-6/7'>
           <AngleSvg active={isSimple} onClick={() => setIsSimple(prev => !prev)} />
-          <m.div className="w-full flex flex-col items-center justify-evenly" initial={{
+          <m.div className="w-full grid grid-cols-2 grid-rows-3 items-center justify-evenly [&_fieldset]:m-auto!" initial={{
             height: isSimple ? '0' : 'auto',
             opacity: isSimple ? 0 : 1,
           }} animate={{
@@ -105,13 +106,26 @@ export default function Find() {
               ease: 'easeInOut'
             }
           }}>
-            <fieldset className="du-fieldset w-3xs">
+            <fieldset className="du-fieldset">
               <legend className="du-fieldset-legend">Location</legend>
               <input type="text" className="du-input" placeholder="e.g. New York" {...register('location')} />
             </fieldset>
-            <fieldset className="du-fieldset w-3xs">
+            <fieldset className="du-fieldset flex flex-row justify-start gap-5 [&>label>input]:border-stone-300 [&>label]:select-none [&>label>input:checked]:border-2 h-full">
+              <legend className="du-fieldset-legend">Payment</legend>
+              <label className="du-fieldset-label">
+                <input type="checkbox" defaultChecked className="du-checkbox border-0" />
+                Credit Card
+              </label>
+              <label className="du-fieldset-label">
+                <input type="checkbox" defaultChecked className="du-checkbox" />
+                Cash
+              </label>
+            </fieldset>
+            <fieldset className="du-fieldset col-span-2 w-[92.5%]!">
               <legend className="du-fieldset-legend">Rating</legend>
-              <input type="text" className="du-input" placeholder="e.g. 4.5" {...register('rating')} />
+            </fieldset>
+            <fieldset className="du-fieldset col-span-2 w-[92.5%]!">
+              <legend className="du-fieldset-legend">Price</legend>
             </fieldset>
           </m.div>
         </div>
