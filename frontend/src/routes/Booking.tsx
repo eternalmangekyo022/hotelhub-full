@@ -91,7 +91,7 @@ const HotelBooking = () => {
       participants: parseInt(data.participants, 10),
       rating: 0,
     };
-
+  
     try {
       const response = await fetch('http://localhost:3000/api/v1/bookings', {
         method: 'POST',
@@ -101,17 +101,31 @@ const HotelBooking = () => {
         },
         body: JSON.stringify(bookingData),
       });
-
-      if (!response.ok) {
-        throw new Error('Failed to submit booking');
-      }
-
+  
+      if (!response.ok) throw new Error('Failed to submit booking');
+  
       const result = await response.json();
-      console.log(result);
-      alert('Booking submitted successfully!');
+  
+      // Send confirmation email
+      await fetch('http://localhost:3000/api/v1/email/send-booking-email', {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: user?.email,
+          firstname: user?.firstname,
+          lastname: user?.lastname,
+          hotel,
+          checkin: bookingData.checkin,
+          checkout: bookingData.checkout,
+          totalPrice,
+        }),
+      });
+      console.log("email sent to " + user?.email);
+      alert('Booking submitted successfully! A confirmation email has been sent.');
     } catch (error) {
       console.error('Error:', error);
-      alert('An error occurred while submitting the booking');
+      alert('An error occurred while submitting the booking.');
     }
   };
 
