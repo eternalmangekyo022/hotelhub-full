@@ -22,7 +22,7 @@ export const Route = createRootRoute({
 
 function RootComponent() {
   const [, setLocation] = useAtom(geoAtom);
-  const [user, setUser] = useAtom(userAtom);
+  const [, setUser] = useAtom(userAtom);
 
   useQuery<{ lat: number; lon: number }>({
     queryKey: ["location"],

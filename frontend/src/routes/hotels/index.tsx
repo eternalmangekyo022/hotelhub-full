@@ -1,85 +1,108 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import HotelCard from "../../components/HotelCard.tsx";
 import Find from "../../components/Find.tsx";
 
 import { getHotels } from "../../hooks/useHotels.ts";
 
 import { createFileRoute } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useForm } from 'react-hook-form'
 
 import { useAtom } from "jotai";
 import {
-  searchQueryAtom,
   sortByAtom,
   pageAtom,
-  hotelsAtom,
-} from "../../store.ts";
+} from "@store";
 
 import "../styles/hotels.scss";
-/* import HouseSvg from "../../components/HouseSvg.tsx";
-import HotelSignSvg from "../../components/HotelSignSvg.tsx";
-import HotelHangingSignSvg from "../../components/HotelHangingSignSvg.tsx";
-import FourStarsSvg from "../../components/FourStars.tsx";
-import BellSvg from "../../components/BellSvg.tsx";
-import BedSvg from "../../components/BedSvg.tsx";
-import HousesSvg from "../../components/HousesSvg.tsx";
-import Dog from "../../components/Dog.tsx"; */
 
 export const Route = createFileRoute("/hotels/")({
   component: Hotels,
 });
 
 function Hotels() {
-  const [searchQuery] = useAtom(searchQueryAtom);
   const [sortBy] = useAtom(sortByAtom);
   const [page, setPage] = useAtom(pageAtom);
-  const [mutatedHotels, setMutatedHotels] = useAtom(hotelsAtom);
-  const { data: hotels, isFetching } = useQuery({
-    queryKey: ["hotels", page],
-    queryFn: async () => {
-      const response = await getHotels(page - 1);
-      setMutatedHotels((prev) => [...prev, ...response]);
-      return response;
+  const queryClient = useQueryClient();
+
+  function useDebounce(value: string, delay: number) {
+    const [debouncedValue, setDebouncedValue] = useState(value);
+    useEffect(() => {
+      const timeout = setTimeout(() => setDebouncedValue(value), delay);
+      return () => clearTimeout(timeout);
+    }, [value]);
+    return debouncedValue;
+  }
+
+  const { register, handleSubmit: formHandleSubmit, setValue, watch } = useForm<{
+    location: string;
+    price: number[];
+    rating: number[];
+    searchQuery: string;
+    payment: {
+      card: boolean;
+      cash: boolean;
+    };
+  }>({
+    mode: "onChange",
+    defaultValues: {
+      location: "",
+      price: [1, 1000],
+      rating: [1, 5],
+      searchQuery: "",
+      payment: {
+        card: true,
+        cash: true
+      },
     },
-    initialData: [],
-    refetchOnMount: !mutatedHotels.length,
   });
 
   useEffect(() => {
-    if (!hotels.length) return;
+    console.log(page)
+  }, [page]);
 
-    const filtered =
-      searchQuery.trim() === ""
-        ? mutatedHotels
-        : mutatedHotels.filter((hotel) =>
-            hotel.name.toLowerCase().includes(searchQuery.toLowerCase()),
+  const search = useDebounce(watch("searchQuery"), 700);
+  const payment = watch("payment");
+  const location = useDebounce(watch("location"), 700);
+  const price = watch("price");
+  const rating = watch("rating");
+
+  // Main query for fetching hotels with pagination
+  const { isFetching } = useQuery<Hotel[]>({
+    queryKey: ["hotels", "infinite", page, sortBy, search, payment.card, payment.cash, location, price, rating],
+    queryFn: async () => {
+      const response = await getHotels({ 
+        offset: (page - 1),
+        location, 
+        price, 
+        payment, 
+        rating, 
+        searchQuery: search, 
+        sortBy 
+      });
+      
+      // Update the cache with new results
+      queryClient.setQueryData<Hotel[]>(
+        ["hotels", "all"],
+        (old = []) => {
+          if (page === 1) return response;
+          return [...old, ...response].filter((hotel, index, self) =>
+            index === self.findIndex((h) => h.id === hotel.id)
           );
+        }
+      );
+      return response;
+    }
+  });
 
-    const sortedHotels = [...filtered].sort((a, b) => {
-      switch (sortBy) {
-        case "name-asc":
-          return a.name.localeCompare(b.name);
-        case "name-desc":
-          return b.name.localeCompare(a.name);
-        case "rating-asc":
-          return a.rating.avg - b.rating.avg;
-        case "rating-desc":
-          return b.rating.avg - a.rating.avg;
-        case "ratingtotal-asc":
-          return a.rating.count - b.rating.count;
-        case "ratingtotal-desc":
-          return b.rating.count - a.rating.count;
-        case "price-asc":
-          return a.price - b.price;
-        case "price-desc":
-          return b.price - a.price;
-        default:
-          return 0;
-      }
-    });
+  // Effect to reset page when filters change
+  useEffect(() => {
+    setPage(1);
+    queryClient.invalidateQueries({ queryKey: ["hotels", "all"] });
+  }, [sortBy, search, payment.card, payment.cash, location, price, rating]);
 
-    setMutatedHotels(sortedHotels);
-  }, [sortBy, searchQuery, hotels]);
+  // Get the merged hotels data from cache
+  const hotels = queryClient.getQueryData<Hotel[]>(["hotels", "all"]) || [];
 
   const observe: IntersectionObserverCallback = (entries) => {
     if (!entries) return;
@@ -98,7 +121,7 @@ function Hotels() {
   });
 
   useEffect(() => {
-    if (!mutatedHotels.length) return;
+    if (!hotels.length) return;
     const hotelCards = document.querySelectorAll(".hotel-card");
     const dividable: number[] = [];
 
@@ -110,15 +133,20 @@ function Hotels() {
     observer.observe(toObserve);
 
     return () => {
-      observer.unobserve(hotelCards[dividable[dividable.length - 1]]);
+      if (toObserve) observer.unobserve(toObserve);
     };
-  }, [mutatedHotels]);
+  }, [hotels]);
 
   return (
     <>
-      <Find />
+      <Find 
+        refetch={() => queryClient.invalidateQueries({ queryKey: ["hotels"] })} 
+        register={register} 
+        handleSubmit={formHandleSubmit} 
+        setValue={setValue} 
+      />
       <div className="hotel-list">
-        {mutatedHotels.map((hotel, idx) => (
+        {hotels.map((hotel, idx) => (
           <HotelCard idx={idx} key={hotel.id} hotel={hotel} />
         ))}
       </div>

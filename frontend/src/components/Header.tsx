@@ -90,7 +90,6 @@ export default function Header() {
       for (let i = 0; i < links.length; i++) {
         if (path === links[i].link) setSelectedNav(i)
       }
-    console.log(path)
       if (!PATHS.includes(path)) setNavVisible(false)
       else if (!navVisible) setNavVisible(true)
     })
