@@ -68,7 +68,7 @@ export default function Find({
       },
     ]
   >
-  priceRange?: { min: number; max: number } | null
+  priceRange: { min: number; max: number }
   refetch: () => void
   register: IRegister
   handleSubmit: IHandleSubmit
@@ -85,7 +85,7 @@ export default function Find({
 
   const [price, setPrice] = useState({
     visible: false,
-    value: [1, 1000],
+    value: [priceRange.min, roundUp(priceRange.max)],
   })
 
   const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -125,6 +125,10 @@ export default function Find({
 
   function handleOnSubmit(data: any) {
     console.log(data)
+  }
+
+  function roundUp(num: number) {
+    return Math.ceil(num / 500) * 500
   }
 
   useEffect(() => {
@@ -281,33 +285,35 @@ export default function Find({
                       value: e,
                     }))
                   }}
-                  defaultValue={[priceRange?.min || 1, priceRange?.max || 5000]}
-                  min={priceRange?.min || 1}
-                  max={priceRange?.max || 5000}
+                  defaultValue={[priceRange.min, roundUp(priceRange.max)]}
+                  min={priceRange.min}
+                  max={roundUp(priceRange.max)}
                 />
               </div>
             </fieldset>
           </m.form>
         </div>
 
-        <label
-          htmlFor="sort"
-          className="du-select not-dark:bg-neutral-content m-0 w-52 rounded-4xl p-0"
-        >
-          <span className="du-label">Sort</span>
-          <select id="sort" value={sortBy} onChange={handleSortChange}>
-            <option value="">None</option>
-            <option value="rating">Rating</option>
-            <option value="ratingtotal">Reviews</option>
-            <option value="price">Price</option>
-          </select>
-        </label>
-        <button
-          onClick={() => dispatchSortMode({ type: 'toggle' })}
-          className="du-btn dark:bg-base-300 not-dark:bg-neutral-content size-10 border-none p-0"
-        >
-          <SortMode sortMode={sortMode} />
-        </button>
+        <div className="du-join">
+          <label
+            htmlFor="sort"
+            className="du-select not-dark:bg-neutral-content du-join-item m-0 w-52 rounded-lg rounded-r-none p-0"
+          >
+            <span className="du-label">Sort</span>
+            <select id="sort" value={sortBy} onChange={handleSortChange}>
+              <option value="">None</option>
+              <option value="rating">Rating</option>
+              <option value="ratingtotal">Reviews</option>
+              <option value="price">Price</option>
+            </select>
+          </label>
+          <button
+            onClick={() => dispatchSortMode({ type: 'toggle' })}
+            className="du-btn dark:bg-base-200 not-dark:bg-neutral-content du-join-item size-10 rounded-r-lg border-l-2 border-none fill-white p-0 shadow-none"
+          >
+            <SortMode sortMode={sortMode} />
+          </button>
+        </div>
       </div>
     </section>
   )

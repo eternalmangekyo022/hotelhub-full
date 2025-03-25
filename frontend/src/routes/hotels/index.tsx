@@ -169,7 +169,7 @@ function Hotels() {
       <Find
         sortMode={sortMode}
         dispatchSortMode={dispatchSortMode}
-        priceRange={priceRange?.price}
+        priceRange={priceRange!.price}
         refetch={() => queryClient.invalidateQueries({ queryKey: ['hotels'] })}
         register={register}
         handleSubmit={formHandleSubmit}

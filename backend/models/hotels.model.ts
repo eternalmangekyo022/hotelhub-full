@@ -41,9 +41,7 @@ export async function getHotels(filter: {
       params.push(ratingMin, ratingMax);
     }
 
-    // Base query
-    
-    let orderBy = 'h.id ASC'; // default fallback
+    let orderBy = 'h.id ASC';
     if (filter.sortBy) {
       switch (filter.sortBy) {
         case 'price-asc':
@@ -85,7 +83,7 @@ export async function getHotels(filter: {
 
     // Execute query
     const hotels = await db.select<Hotel & { avg_rating: number; rating_count: number }>(query, params);
-    
+
     // Fetch images if we got hotels
     if (hotels.length > 0) {
       const ids = hotels.map(h => h.id);
@@ -109,8 +107,8 @@ export async function getHotels(filter: {
         count: hotel.rating_count,
         avg: hotel.avg_rating
       },
-      payment: hotel.payment_id === 1 ? 'cash' : 
-              hotel.payment_id === 2 ? 'card' : 'both'
+      payment: hotel.payment_id === 1 ? 'cash' :
+        hotel.payment_id === 2 ? 'card' : 'both'
     }));
 
     return result;
@@ -182,25 +180,21 @@ export async function getHotelsFiltered(
       p === undefined ? undefined : Number(p)
     );
     if (minimum !== undefined && maximum !== undefined) {
-      priceFilter = `${
-        priceFilter || toSearch ? " and " : ""
-      }price between ${Math.min(minimum, maximum)} and ${Math.max(
-        minimum,
-        maximum
-      )}`;
+      priceFilter = `${priceFilter || toSearch ? " and " : ""
+        }price between ${Math.min(minimum, maximum)} and ${Math.max(
+          minimum,
+          maximum
+        )}`;
     } else if (minimum !== undefined) {
-      priceFilter = `${
-        priceFilter || toSearch ? " and " : ""
-      }price >= ${minimum}`;
+      priceFilter = `${priceFilter || toSearch ? " and " : ""
+        }price >= ${minimum}`;
     } else if (maximum !== undefined) {
-      priceFilter = `${
-        priceFilter || toSearch ? " and " : ""
-      }price <= ${maximum}`;
+      priceFilter = `${priceFilter || toSearch ? " and " : ""
+        }price <= ${maximum}`;
     }
   }
-  const searchQuery = `SELECT * FROM hotels where ${toSearch}${priceFilter} limit ${
-    Number(query.limit) || 30
-  } offset ${Number(query.offset) || 0}`;
+  const searchQuery = `SELECT * FROM hotels where ${toSearch}${priceFilter} limit ${Number(query.limit) || 30
+    } offset ${Number(query.offset) || 0}`;
 
   return await db.select<Hotel>(searchQuery);
 }
