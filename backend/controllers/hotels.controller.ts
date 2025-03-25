@@ -21,16 +21,16 @@ export default {
   getHotels: async (req: Request<{}, {}, {}, HotelQueryParams>, res: Res) => {
     try {
       // Extract all query parameters
-      const { 
-        offset = "0", 
-        searchQuery, 
-        sortBy, 
-        location, 
-        price, 
-        payment, 
-        rating 
+      const {
+        offset = "0",
+        searchQuery,
+        sortBy,
+        location,
+        price,
+        payment,
+        rating
       } = req.query;
-  
+
       // Call the model function with all filters
       const hotels = await getHotels({
         offset,
@@ -41,13 +41,13 @@ export default {
         payment,
         rating
       });
-  
+
       res.json(hotels);
     } catch (error) {
       console.error('Error in hotels controller:', error);
       res.status(500).json({ message: 'Internal server error' });
     }
-  }, 
+  },
   getHotelById: async ({ params: { id } }: any, res: any) => {
     const hotel = await getHotelById(id);
     if (!hotel) {

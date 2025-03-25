@@ -1,5 +1,4 @@
-import { useEffect, useRef, useState, FormEventHandler } from 'react'
-import { UseFormRegister, UseFormSetValue } from 'react-hook-form'
+import { useEffect, useRef, useState } from 'react'
 import { motion as m } from 'motion/react'
 import RangeSlider from 'react-range-slider-input'
 import { useAtom } from 'jotai'
@@ -11,45 +10,7 @@ import { sortByAtom } from '../store'
 import AngleSvg from './svg/Angle'
 
 import SortMode from './svg/SortMode'
-
-type ISetValue = UseFormSetValue<{
-  location: string
-  price: number[]
-  payment: {
-    card: boolean
-    cash: boolean
-  }
-  rating: number[]
-  searchQuery: string
-}>
-
-type IRegister = UseFormRegister<{
-  location: string
-  price: number[]
-  payment: {
-    card: boolean
-    cash: boolean
-  }
-  rating: number[]
-  searchQuery: string
-}>
-
-export interface IHandleSubmit {
-  (
-    onValid: (data: {
-      location: string
-      price: number[]
-      payment: {
-        card: boolean
-        cash: boolean
-      }
-      rating: number[]
-      searchQuery: string
-    }) => void,
-  ): FormEventHandler<HTMLFormElement>
-}
-
-type ISortMode = 'asc' | 'desc'
+import { ISortMode, IRegister, IHandleSubmit, ISetValue } from './ISortMode'
 
 export default function Find({
   sortMode,
@@ -59,6 +20,7 @@ export default function Find({
   register,
   handleSubmit,
   setValue,
+  formPrice,
 }: {
   sortMode: ISortMode
   dispatchSortMode: React.ActionDispatch<
@@ -68,25 +30,28 @@ export default function Find({
       },
     ]
   >
-  priceRange: { min: number; max: number }
+  priceRange: { min: number; max: number } | null
   refetch: () => void
   register: IRegister
   handleSubmit: IHandleSubmit
   setValue: ISetValue
+  formPrice: [number, number]
 }) {
   const searchRef = useRef<HTMLInputElement>(null)
-  const [isSimple, setIsSimple] = useState(true)
   const [sortBy, setSortBy] = useAtom(sortByAtom)
+
+  const [isSimple, setIsSimple] = useState(true)
 
   const [rating, setRating] = useState({
     visible: false,
     value: [1, 5],
   })
 
-  const [price, setPrice] = useState({
-    visible: false,
-    value: [priceRange.min, roundUp(priceRange.max)],
-  })
+  const [priceVisible, setPriceVisible] = useState(false)
+
+  // Update price visibility handlers
+  const showPrice = () => setPriceVisible(true)
+  const resetPrice = () => setPriceVisible(false)
 
   const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const toSortBy = e.target.value as ISortBy
@@ -100,23 +65,8 @@ export default function Find({
     }))
   }
 
-  function showPrice() {
-    setPrice((prev) => ({
-      ...prev,
-      visible: true,
-    }))
-  }
-
   function resetRating() {
     setRating((prev) => ({
-      ...prev,
-      visible: false,
-    }))
-    refetch()
-  }
-
-  function resetPrice() {
-    setPrice((prev) => ({
       ...prev,
       visible: false,
     }))
@@ -219,8 +169,7 @@ export default function Find({
               <label className="du-fieldset-label">
                 <input
                   type="checkbox"
-                  defaultChecked
-                  className="du-checkbox border-0"
+                  className="du-checkbox dark:bg-base-200 border-0! not-dark:checked:bg-slate-300"
                   {...register('payment.card')}
                 />
                 Credit Card
@@ -228,8 +177,7 @@ export default function Find({
               <label className="du-fieldset-label">
                 <input
                   type="checkbox"
-                  defaultChecked
-                  className="du-checkbox"
+                  className="du-checkbox dark:bg-base-200 border-0! not-dark:checked:bg-slate-300"
                   {...register('payment.cash')}
                 />
                 Cash
@@ -263,34 +211,30 @@ export default function Find({
                 />
               </div>
             </fieldset>
-            <fieldset className="du-fieldset w-[92.5%]!">
-              <legend className="du-fieldset-legend">Price</legend>
-              <div
-                className={
-                  'du-tooltip du-tooltip-success' +
-                  (price.visible ? ' du-tooltip-open' : '')
-                }
-                data-tip={`${price.value[0] > 0 ? '$' + price.value.join(' - $') : '$' + price.value[1]}`}
-              >
-                <RangeSlider
-                  onRangeDragEnd={resetPrice}
-                  onThumbDragEnd={resetPrice}
-                  step={20}
-                  onRangeDragStart={showPrice}
-                  onThumbDragStart={showPrice}
-                  onInput={(e: [number, number]) => {
-                    setValue('price', e)
-                    setPrice((prev) => ({
-                      ...prev,
-                      value: e,
-                    }))
-                  }}
-                  defaultValue={[priceRange.min, roundUp(priceRange.max)]}
-                  min={priceRange.min}
-                  max={roundUp(priceRange.max)}
-                />
-              </div>
-            </fieldset>
+            {priceRange && (
+              <fieldset className="du-fieldset w-[92.5%]!">
+                <legend className="du-fieldset-legend">Price</legend>
+                <div
+                  className={
+                    'du-tooltip du-tooltip-success' +
+                    (priceVisible ? ' du-tooltip-open' : '')
+                  }
+                  data-tip={`$${formPrice[0]} - $${formPrice[1]}`}
+                >
+                  <RangeSlider
+                    step={20}
+                    onRangeDragEnd={resetPrice}
+                    onThumbDragEnd={resetPrice}
+                    onRangeDragStart={showPrice}
+                    onThumbDragStart={showPrice}
+                    onInput={(e: [number, number]) => setValue('price', e)}
+                    value={formPrice}
+                    min={priceRange.min}
+                    max={roundUp(priceRange.max)}
+                  />
+                </div>
+              </fieldset>
+            )}
           </m.form>
         </div>
 

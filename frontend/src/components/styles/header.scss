@@ -3,7 +3,7 @@
 header {
   position: relative;
   width: 100vw;
-  height: map-get(global.$main, "header-h");
+  height: min(5rem, map-get(global.$main, "header-h"));
   display: flex;
   align-items: center;
   justify-content: center;

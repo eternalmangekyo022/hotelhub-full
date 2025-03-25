@@ -1,5 +1,9 @@
 import db from "./db";
 
+function transformSearchQuery(search: string) {
+  return `h.name LIKE '%${search}%'`
+}
+
 export async function getHotels(filter: {
   offset?: string;
   searchQuery?: string;
@@ -12,16 +16,20 @@ export async function getHotels(filter: {
   try {
     // Parse filter parameters
     const offset = parseInt(filter.offset || '0', 10);
-    const priceParam = filter.price;
-    const payment = filter.payment;
-    const ratingParam = filter.rating;
-
+    const { price: priceParam, payment, searchQuery: search, rating: ratingParam } = filter;
     // Parse ranges
+
     const [priceMin, priceMax] = priceParam?.split('-').map(Number) || [];
     const [ratingMin, ratingMax] = ratingParam?.split('-').map(Number) || [];
 
     // Build conditions
     const conditions: string[] = [];
+
+    if (search) {
+      const searches = decodeURI(search).split(' ').map(transformSearchQuery);
+      conditions.push(searches.join(" AND "));
+    }
+
     const params: any[] = [];
 
     // Price filter
@@ -31,8 +39,8 @@ export async function getHotels(filter: {
     }
 
     // Payment filter (more flexible version)
-    if (payment && payment !== "both") {
-      conditions.push(`h.payment_id = ${payment.includes("card") ? 2 : 1}`);
+    if (payment) {
+      conditions.push(`h.payment_id = ${payment.includes("card") ? 2 : payment.includes("cash") ? 1 : 3}`);
     }
 
     // Rating filter (more inclusive version)

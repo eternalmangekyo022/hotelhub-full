@@ -34,7 +34,7 @@ function Hotels() {
     }
   }
 
-  function useDebounce(value: string, delay: number) {
+  function useDebounce<T>(value: T, delay: number): T {
     const [debouncedValue, setDebouncedValue] = useState(value)
     useEffect(() => {
       const timeout = setTimeout(() => setDebouncedValue(value), delay)
@@ -50,8 +50,8 @@ function Hotels() {
     watch,
   } = useForm<{
     location: string
-    price: number[]
-    rating: number[]
+    price: [number, number]
+    rating: [number, number]
     searchQuery: string
     payment: {
       card: boolean
@@ -61,12 +61,12 @@ function Hotels() {
     mode: 'onChange',
     defaultValues: {
       location: '',
-      price: [1, 1000],
+      price: [-1, 0],
       rating: [1, 5],
       searchQuery: '',
       payment: {
-        card: true,
-        cash: true,
+        card: false,
+        cash: false,
       },
     },
   })
@@ -74,17 +74,18 @@ function Hotels() {
   const search = useDebounce(watch('searchQuery'), 700)
   const payment = watch('payment')
   const location = useDebounce(watch('location'), 700)
-  const price = watch('price')
-  const rating = watch('rating')
+  const rating = useDebounce(watch('rating'), 200)
+  const price = useDebounce(watch('price'), 200)
 
   const { data: priceRange } = useQuery({
     queryKey: ['price-range'],
     queryFn: async () => {
-      const { data } = await axios.get<{ price: { min: number; max: number } }>(
+      const {
+        data: { price },
+      } = await axios.get<{ price: { min: number; max: number } }>(
         'http://localhost:3000/api/v1/hotels/price-range',
       )
-      console.log(data)
-      return data
+      return price
     },
     initialData: null,
   })
@@ -110,8 +111,8 @@ function Hotels() {
         price,
         payment,
         rating,
-        searchQuery: search,
-        sortBy: sortBy + '-' + sortMode,
+        searchQuery: encodeURIComponent(search),
+        sortBy: sortBy ? sortBy + '-' + sortMode : '',
       })
 
       queryClient.setQueryData<Hotel[]>(['hotels', 'all'], (old = []) => {
@@ -123,7 +124,7 @@ function Hotels() {
       })
       return response
     },
-    enabled: !!priceRange,
+    enabled: price[0] !== -1,
   })
 
   const observe: IntersectionObserverCallback = (entries) => {
@@ -164,16 +165,24 @@ function Hotels() {
     queryClient.invalidateQueries({ queryKey: ['hotels', 'all'] })
   }, [sortBy, search, payment.card, payment.cash, location, price, rating])
 
+  useEffect(() => {
+    if (priceRange) {
+      const roundedMax = Math.ceil(priceRange.max / 500) * 500
+      setValue('price', [priceRange.min, roundedMax])
+    }
+  }, [priceRange])
+
   return (
     <>
       <Find
         sortMode={sortMode}
         dispatchSortMode={dispatchSortMode}
-        priceRange={priceRange!.price}
+        priceRange={priceRange}
         refetch={() => queryClient.invalidateQueries({ queryKey: ['hotels'] })}
         register={register}
         handleSubmit={formHandleSubmit}
         setValue={setValue}
+        formPrice={watch('price')}
       />
       <div className="hotel-list">
         {hotels.map((hotel, idx) => (
