@@ -21,6 +21,19 @@ interface RegistrationEmailRequest {
   lastname: string;
 }
 
+interface ContactEmailRequest {
+  email: string;
+  firstname: string;
+  lastname: string;
+  message: string;
+}
+
+interface ChangeEmailRequest {
+  email: string;
+  firstname: string;
+  lastname: string;
+}
+
 
 // Create a Gmail SMTP transporter
 const transporter = nodemailer.createTransport({
@@ -155,5 +168,110 @@ export async function sendRegistrationEmail(data: RegistrationEmailRequest) {
   } catch (error) {
     console.error('Error sending registration email:', error);
     throw new Error('Failed to send registration email');
+  }
+}
+
+export async function sendContactEmail(data: ContactEmailRequest) {
+  try {
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
+      to: data.email,
+      subject: `We've received your message!`,
+      html: `
+        <div style="font-family: 'Helvetica Neue', Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #e5e5e5; border-radius: 8px; overflow: hidden;">
+          <!-- Header -->
+          <div style="background-color: #2a4365; padding: 25px 20px; text-align: center;">
+            <h1 style="color: white; margin: 0; font-size: 24px;">Thank you for contacting us!</h1>
+            <p style="color: rgba(255, 255, 255, 0.8); margin: 5px 0 0; font-size: 16px;">We'll get back to you soon.</p>
+          </div>
+
+          <!-- Content -->
+          <div style="padding: 25px 20px; color: #333; line-height: 1.6;">
+            <p style="font-size: 16px;">Dear <strong>${data.firstname} ${data.lastname}</strong>,</p>
+            
+            <p style="font-size: 16px;">We've received your message and appreciate you reaching out to Hotel HUB.</p>
+
+            <!-- Confirmation Box -->
+            <div style="background-color: #f8f9fa; border-radius: 6px; padding: 20px; margin: 20px 0; border-left: 4px solid #2a4365;">
+              <h3 style="margin-top: 0; color: #2a4365; font-size: 18px;">Your message:</h3>
+              <p style="font-size: 15px; margin: 10px 0 0; white-space: pre-line;">${data.message}</p>
+            </div>
+
+            <p style="font-size: 16px;">Our team will review your inquiry and respond within <strong>1-2 business days</strong>.</p>
+
+            <p style="font-size: 16px;">For urgent matters, please call us at <a href="tel:+1234567890" style="color: #2a4365; text-decoration: none;">+1 (234) 567-890</a>.</p>
+          </div>
+
+          <!-- Footer -->
+          <div style="background-color: #f8f9fa; padding: 20px; text-align: center; font-size: 14px; color: #666; border-top: 1px solid #e5e5e5;">
+            <p style="margin: 0 0 10px 0;">The Hotel HUB Team</p>
+            <p style="margin: 0 0 10px 0;"><a href="https://yourhotelhubwebsite.com" style="color: #2a4365; text-decoration: none;">www.hotelhub.com</a></p>
+            <p style="margin: 0; font-size: 13px;">© ${new Date().getFullYear()} Hotel HUB. All rights reserved.</p>
+          </div>
+        </div>
+      `,
+    };
+
+    await transporter.sendMail(mailOptions);
+  } catch (error) {
+    console.error('Error sending contact email:', error);
+    throw new Error('Failed to send contact email');
+  }
+}
+
+export async function sendPasswordChangeEmail(data: ChangeEmailRequest) {
+  try {
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
+      to: data.email,
+      subject: 'Your Hotel HUB Password Has Been Changed',
+      html: `
+        <div style="font-family: 'Helvetica Neue', Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #e5e5e5; border-radius: 8px; overflow: hidden;">
+          <!-- Header -->
+          <div style="background-color: #2a4365; padding: 25px 20px; text-align: center;">
+            <h1 style="color: white; margin: 0; font-size: 24px;">Password Updated</h1>
+            <p style="color: rgba(255, 255, 255, 0.8); margin: 5px 0 0; font-size: 16px;">Your account security is important to us</p>
+          </div>
+    
+          <!-- Content -->
+          <div style="padding: 25px 20px; color: #333; line-height: 1.6;">
+            <p style="font-size: 16px;">Dear <strong>${data.firstname} ${data.lastname}</strong>,</p>
+            
+            <p style="font-size: 16px;">This is a confirmation that the password for your Hotel HUB account has been successfully changed.</p>
+    
+            <!-- Security Tip Box -->
+            <div style="background-color: #f8f9fa; border-radius: 6px; padding: 20px; margin: 20px 0; border-left: 4px solid #2a4365;">
+              <h3 style="margin-top: 0; color: #2a4365; font-size: 18px;">Security Tip</h3>
+              <p style="font-size: 15px; margin: 10px 0 0;">
+                Use a unique password that you don't reuse on other websites. 
+                Consider enabling two-factor authentication for extra security.
+              </p>
+            </div>
+    
+            <p style="font-size: 16px;">
+              If you didn't make this change, please secure your account immediately by 
+              <a href="https://yourhotelhubwebsite.com/reset-password" style="color: #2a4365; text-decoration: none;">resetting your password</a> 
+              or contacting our support team.
+            </p>
+          </div>
+    
+          <!-- Footer with Security Notice -->
+          <div style="background-color: #f8f9fa; padding: 20px; text-align: center; font-size: 14px; color: #666; border-top: 1px solid #e5e5e5;">
+            <p style="margin: 0 0 10px 0;">The Hotel HUB Team</p>
+            <p style="margin: 0 0 10px 0;"><a href="https://yourhotelhubwebsite.com" style="color: #2a4365; text-decoration: none;">www.hotelhub.com</a></p>
+            <p style="margin: 0; font-size: 12px; color: #999;">
+              If this wasn't you, please <a href="https://yourhotelhubwebsite.com/reset-password" style="color: #d32f2f; text-decoration: none;">reset your password immediately</a> 
+              and contact <a href="mailto:support@hotelhub.com" style="color: #d32f2f; text-decoration: none;">support@hotelhub.com</a>.
+            </p>
+            <p style="margin: 10px 0 0; font-size: 13px;">© ${new Date().getFullYear()} Hotel HUB. All rights reserved.</p>
+          </div>
+        </div>
+      `
+    };
+    await transporter.sendMail(mailOptions);
+  }
+  catch (error) {
+    console.error('Error sending password change email:', error);
+    throw new Error('Failed to send password change email');
   }
 }

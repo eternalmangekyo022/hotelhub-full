@@ -218,10 +218,12 @@ const BookingHistory = () => {
                     const total = pricePerDay * diffDays;
                     const beforeTax = total / 1.27;
                     const tax = total - beforeTax;
+                    const participants = selectedBookingForInvoice.participants;
 
                     return (
                       <>
                         <p><strong>Days Stayed:</strong> {diffDays}</p>
+                        <p><strong>Participants:</strong> {participants}</p>
                         <p><strong>Price per Day:</strong> ${pricePerDay.toFixed(2)}</p>
                         <hr />
                         <p><strong>Before Tax:</strong> ${beforeTax.toFixed(2)}</p>
