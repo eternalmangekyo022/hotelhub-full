@@ -210,3 +210,10 @@ export async function getHotelsFiltered(
 export async function getClosestHotels(location: string) {
   const [lat, lon] = location.split(",").map((i) => parseFloat(i));
 }
+
+export async function getPriceRange() {
+  const { price: minPrice } = await db.selectOne<{ price: number }>("select price from hotels order by price asc limit 1");
+  const { price: maxPrice } = await db.selectOne<{ price: number }>("select price from hotels order by price desc limit 1");
+
+  return { price: { min: minPrice, max: maxPrice } };
+}

@@ -3,6 +3,7 @@ import {
   getHotelById,
   getHotelsById,
   getHotelsFiltered,
+  getPriceRange
 } from "../models/hotels.model";
 import { type Request } from 'express';
 
@@ -46,7 +47,8 @@ export default {
       console.error('Error in hotels controller:', error);
       res.status(500).json({ message: 'Internal server error' });
     }
-  },  getHotelById: async ({ params: { id } }: any, res: any) => {
+  }, 
+  getHotelById: async ({ params: { id } }: any, res: any) => {
     const hotel = await getHotelById(id);
     if (!hotel) {
       return res.status(404).json({ error: "Hotel not found" });
@@ -63,5 +65,9 @@ export default {
   getHotelsFiltered: async ({ query }: any, res: any) => {
     const hotels = await getHotelsFiltered(query);
     res.json(hotels);
+  },
+  getPriceRange: async (req: any, res: any) => {
+    const range = await getPriceRange();
+    res.json(range);
   },
 };

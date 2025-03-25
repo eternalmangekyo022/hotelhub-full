@@ -10,13 +10,13 @@ import Navlink from './Navlink'
 import { userAtom } from '@store'
 import links from './header/links'
 
-import LogoutSvg from './svg/LogoutSvg'
+import LogoutSvg from './svg/Logout.tsx'
 
 import Menu from '../assets/images/Menu Icon.png'
-import HeartSvg from './svg/HeartSvg.tsx'
+import HeartSvg from './svg/Heart.tsx'
 
 export default function Header() {
-  const PATHS = ["/", "/about", "/hotel", "/contact"]
+  const PATHS = ['/', '/about', '/hotel', '/contact']
   const LS_KEY = 'hotelhub-theme'
   const location = useLocation()
   const [width] = useScreen()
@@ -204,9 +204,7 @@ export default function Header() {
                 <path d="M21.64,13a1,1,0,0,0-1.05-.14,8.05,8.05,0,0,1-3.37.73A8.15,8.15,0,0,1,9.08,5.49a8.59,8.59,0,0,1,.25-2A1,1,0,0,0,8,2.36,10.14,10.14,0,1,0,22,14.05,1,1,0,0,0,21.64,13Zm-9.5,6.69A8.14,8.14,0,0,1,7.08,5.22v.27A10.15,10.15,0,0,0,17.22,15.63a9.79,9.79,0,0,0,2.1-.22A8.11,8.11,0,0,1,12.14,19.73Z" />
               </svg>
             </label>
-            <div
-              className="du-dropdown du-dropdown-center w-8"
-            >
+            <div className="du-dropdown du-dropdown-center w-8">
               <div
                 className="du-btn h-full w-full border-0 bg-transparent p-0 shadow-none"
                 style={{ margin: 0 }}
@@ -214,7 +212,7 @@ export default function Header() {
                 role="button"
               >
                 <svg
-                  className="w-7 h-7 mr-2"
+                  className="mr-2 h-7 w-7"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -232,21 +230,25 @@ export default function Header() {
                 tabIndex={0}
                 className="du-dropdown-content du-menu bg-base-100 rounded-box z-1 w-32 p-2 shadow-sm not-dark:bg-white"
               >
+                <li>
+                  <Link to="/favorites">
+                    <HeartSvg />
+                    <span className="not-dark:text-black dark:text-white">
+                      Favorites
+                    </span>
+                  </Link>
+                </li>
+                {user ? (
+                  <>
                     <li>
-                      <Link to="/favorites">
-                        <HeartSvg />
-                        <span className="not-dark:text-black dark:text-white">
-                          Favorites
-                        </span>
-                      </Link>
-                    </li>
-              {user ? (
-                <>
-                    <li>
-                    <Link to='/UserProfile'>
-                      <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" className="w-7 h-7">
+                      <Link to="/UserProfile">
+                        <svg
+                          viewBox="0 0 48 48"
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-7 w-7"
+                        >
                           <path
-                            fill={isDark ? "#fff": "#000"}
+                            fill={isDark ? '#fff' : '#000'}
                             d="M31.278,25.525C34.144,23.332,36,19.887,36,16c0-6.627-5.373-12-12-12c-6.627,0-12,5.373-12,12
                             c0,3.887,1.856,7.332,4.722,9.525C9.84,28.531,5,35.665,5,44h38C43,35.665,38.16,28.531,31.278,25.525z M16,16c0-4.411,3.589-8,8-8
                             s8,3.589,8,8c0,4.411-3.589,8-8,8S16,20.411,16,16z M24,28c6.977,0,12.856,5.107,14.525,12H9.475C11.144,33.107,17.023,28,24,28z"
@@ -255,7 +257,7 @@ export default function Header() {
                         <span className="not-dark:text-black dark:text-white">
                           Profile
                         </span>
-                    </Link>
+                      </Link>
                     </li>
                     <li onClick={handleLogout}>
                       <a>
@@ -265,17 +267,17 @@ export default function Header() {
                         </span>
                       </a>
                     </li>
-                </>
-              ) : (
-                <li>
-                <Link to='/Login'>
-                <LogoutSvg/>
-                <span className="not-dark:text-black dark:text-white">
-                  Login
-                </span>
-                </Link>
-              </li>
-              )}
+                  </>
+                ) : (
+                  <li>
+                    <Link to="/Login">
+                      <LogoutSvg />
+                      <span className="not-dark:text-black dark:text-white">
+                        Login
+                      </span>
+                    </Link>
+                  </li>
+                )}
               </ul>
             </div>
           </div>

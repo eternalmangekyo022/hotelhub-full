@@ -1,117 +1,127 @@
 import { useEffect, useRef, useState, FormEventHandler } from 'react'
+import { UseFormRegister, UseFormSetValue } from 'react-hook-form'
+import { motion as m } from 'motion/react'
+import RangeSlider from 'react-range-slider-input'
 import { useAtom } from 'jotai'
-import z from 'zod'
 
-import RangeSlider from 'react-range-slider-input';
-import 'react-range-slider-input/dist/style.css';
-
+import 'react-range-slider-input/dist/style.css'
 import './styles/find.scss'
+
 import { sortByAtom } from '../store'
-import AngleSvg from './svg/AngleSvg';
-import { motion as m } from 'motion/react';
-import { UseFormRegister, UseFormSetValue } from 'react-hook-form';
+import AngleSvg from './svg/Angle'
+
+import SortMode from './svg/SortMode'
 
 type ISetValue = UseFormSetValue<{
-  location: string;
-  price: number[];
+  location: string
+  price: number[]
   payment: {
-      card: boolean;
-      cash: boolean;
-  };
-  rating: number[];
-  searchQuery: string;
+    card: boolean
+    cash: boolean
+  }
+  rating: number[]
+  searchQuery: string
 }>
 
 type IRegister = UseFormRegister<{
-  location: string;
-  price: number[];
+  location: string
+  price: number[]
   payment: {
-      card: boolean;
-      cash: boolean;
-  };
-  rating: number[];
-  searchQuery: string;
+    card: boolean
+    cash: boolean
+  }
+  rating: number[]
+  searchQuery: string
 }>
 
 export interface IHandleSubmit {
-  (onValid: (data: {
-    location: string;
-    price: number[];
-    payment: {
-      card: boolean;
-      cash: boolean;
-    };
-    rating: number[];
-    searchQuery: string;
-  }) => void): FormEventHandler<HTMLFormElement>;
+  (
+    onValid: (data: {
+      location: string
+      price: number[]
+      payment: {
+        card: boolean
+        cash: boolean
+      }
+      rating: number[]
+      searchQuery: string
+    }) => void,
+  ): FormEventHandler<HTMLFormElement>
 }
 
-export default function Find({ refetch, register, handleSubmit, setValue }: { refetch: () => void, register: IRegister, handleSubmit: IHandleSubmit, setValue: ISetValue }) {
+type ISortMode = 'asc' | 'desc'
+
+export default function Find({
+  sortMode,
+  dispatchSortMode,
+  priceRange,
+  refetch,
+  register,
+  handleSubmit,
+  setValue,
+}: {
+  sortMode: ISortMode
+  dispatchSortMode: React.ActionDispatch<
+    [
+      action: {
+        type: 'toggle'
+      },
+    ]
+  >
+  priceRange?: { min: number; max: number } | null
+  refetch: () => void
+  register: IRegister
+  handleSubmit: IHandleSubmit
+  setValue: ISetValue
+}) {
   const searchRef = useRef<HTMLInputElement>(null)
   const [isSimple, setIsSimple] = useState(true)
+  const [sortBy, setSortBy] = useAtom(sortByAtom)
 
   const [rating, setRating] = useState({
     visible: false,
-    value: [1, 5]
+    value: [1, 5],
   })
 
   const [price, setPrice] = useState({
     visible: false,
-    value: [1, 1000]
+    value: [1, 1000],
   })
-  
-  const [sortBy, setSortBy] = useAtom(sortByAtom)
 
   const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const sortBySchema = z.enum([
-      '',
-      'name-asc',
-      'name-desc',
-      'location-asc',
-      'location-desc',
-      'rating-asc',
-      'rating-desc',
-      'ratingtotal-asc',
-      'ratingtotal-desc',
-      'price-asc',
-      'price-desc',
-    ])
-    if (!sortBySchema.safeParse(e.target.value).success) return
     const toSortBy = e.target.value as ISortBy
     setSortBy(toSortBy)
   }
 
   function showRating() {
-    setRating(prev => ({
+    setRating((prev) => ({
       ...prev,
-      visible: true
+      visible: true,
     }))
   }
 
   function showPrice() {
-    setPrice(prev => ({
+    setPrice((prev) => ({
       ...prev,
-      visible: true
+      visible: true,
     }))
   }
 
   function resetRating() {
-    setRating(prev => ({
+    setRating((prev) => ({
       ...prev,
-      visible: false
+      visible: false,
     }))
     refetch()
   }
 
   function resetPrice() {
-    setPrice(prev => ({
+    setPrice((prev) => ({
       ...prev,
-      visible: false
+      visible: false,
     }))
     refetch()
   }
-
-
 
   function handleOnSubmit(data: any) {
     console.log(data)
@@ -170,56 +180,111 @@ export default function Find({ refetch, register, handleSubmit, setValue }: { re
           </label>
         </div>
 
-        <div className='flex flex-col items-center pb-4 **:not-dark:text-black not-dark:[&_input,&_select]:bg-neutral-200 w-lg [&>div>fieldset]:w-6/7'>
-          <AngleSvg active={isSimple} onClick={() => setIsSimple(prev => !prev)} />
-          <m.form onSubmit={handleSubmit(handleOnSubmit)} className="w-full grid grid-cols-2 grid-rows-3 items-center justify-evenly [&_fieldset]:w-[92.5%]! [&_fieldset]:m-auto!" initial={{
-            height: isSimple ? '0' : 'auto',
-            opacity: isSimple ? 0 : 1,
-          }} animate={{
-            height: isSimple ? '0' : 'auto',
-            opacity: isSimple ? 0 : 1,
-            transition: {
-              duration: 0.3,
-              ease: 'easeInOut'
-            }
-          }}>
+        <div className="flex w-lg flex-col items-center pb-4 **:not-dark:text-black not-dark:[&_input,&_select]:bg-neutral-200 [&>div>fieldset]:w-6/7">
+          <AngleSvg
+            active={isSimple}
+            onClick={() => setIsSimple((prev) => !prev)}
+          />
+          <m.form
+            onSubmit={handleSubmit(handleOnSubmit)}
+            className="grid w-full grid-cols-2 grid-rows-3 items-center justify-evenly [&_fieldset]:m-auto! [&_fieldset]:w-[92.5%]!"
+            initial={{
+              height: isSimple ? '0' : 'auto',
+              opacity: isSimple ? 0 : 1,
+            }}
+            animate={{
+              height: isSimple ? '0' : 'auto',
+              opacity: isSimple ? 0 : 1,
+              transition: {
+                duration: 0.3,
+                ease: 'easeInOut',
+              },
+            }}
+          >
             <fieldset className="du-fieldset">
               <legend className="du-fieldset-legend">Location</legend>
-              <input type="text" className="du-input" placeholder="e.g. New York" {...register('location')} />
+              <input
+                type="text"
+                className="du-input"
+                placeholder="e.g. New York"
+                {...register('location')}
+              />
             </fieldset>
-            <fieldset className="du-fieldset flex flex-row justify-start gap-5 [&>label>input]:border-stone-300 [&>label]:select-none [&>label>input:checked]:border-2 h-full">
+            <fieldset className="du-fieldset flex h-full flex-row justify-start gap-5 [&>label]:select-none [&>label>input]:border-stone-300 [&>label>input:checked]:border-2">
               <legend className="du-fieldset-legend">Payment</legend>
               <label className="du-fieldset-label">
-                <input type="checkbox" defaultChecked className="du-checkbox border-0" {...register('payment.card')} />
+                <input
+                  type="checkbox"
+                  defaultChecked
+                  className="du-checkbox border-0"
+                  {...register('payment.card')}
+                />
                 Credit Card
               </label>
               <label className="du-fieldset-label">
-                <input type="checkbox" defaultChecked className="du-checkbox" {...register('payment.cash')} />
+                <input
+                  type="checkbox"
+                  defaultChecked
+                  className="du-checkbox"
+                  {...register('payment.cash')}
+                />
                 Cash
               </label>
             </fieldset>
             <fieldset className="du-fieldset w-[92.5%]!">
               <legend className="du-fieldset-legend">Rating </legend>
-              <div className={"du-tooltip du-tooltip-warning" + (rating.visible ? ' du-tooltip-open' : '')} data-tip={rating.value.join(' - ')}>
-              <RangeSlider onRangeDragStart={showRating} onThumbDragStart={showRating} onThumbDragEnd={resetRating} onRangeDragEnd={resetRating} onInput={(e: [number, number]) => {
-                setValue('rating', e)
-                setRating(prev => ({
-                  ...prev,
-                  value: e
-                }))
-              }} defaultValue={[1, 5]} min={1} step={1} max={5} />
+              <div
+                className={
+                  'du-tooltip du-tooltip-warning' +
+                  (rating.visible ? ' du-tooltip-open' : '')
+                }
+                data-tip={rating.value.join(' - ')}
+              >
+                <RangeSlider
+                  onRangeDragStart={showRating}
+                  onThumbDragStart={showRating}
+                  onThumbDragEnd={resetRating}
+                  onRangeDragEnd={resetRating}
+                  onInput={(e: [number, number]) => {
+                    setValue('rating', e)
+                    setRating((prev) => ({
+                      ...prev,
+                      value: e,
+                    }))
+                  }}
+                  defaultValue={[1, 5]}
+                  min={1}
+                  step={1}
+                  max={5}
+                />
               </div>
             </fieldset>
             <fieldset className="du-fieldset w-[92.5%]!">
               <legend className="du-fieldset-legend">Price</legend>
-              <div className={"du-tooltip du-tooltip-success" + (price.visible ? ' du-tooltip-open' : '')} data-tip={`${price.value[0] > 0 ? "$" + price.value.join(' - $'): "$"+ price.value[1]}`}>
-              <RangeSlider onRangeDragEnd={resetPrice} onThumbDragEnd={resetPrice} step={20} onRangeDragStart={showPrice} onThumbDragStart={showPrice} onInput={(e: [number, number]) => {
-                setValue('price', e)
-                setPrice(prev => ({
-                  ...prev,
-                  value: e
-                }))
-              }} defaultValue={[0, 1000]} min={0} max={1000} />
+              <div
+                className={
+                  'du-tooltip du-tooltip-success' +
+                  (price.visible ? ' du-tooltip-open' : '')
+                }
+                data-tip={`${price.value[0] > 0 ? '$' + price.value.join(' - $') : '$' + price.value[1]}`}
+              >
+                <RangeSlider
+                  onRangeDragEnd={resetPrice}
+                  onThumbDragEnd={resetPrice}
+                  step={20}
+                  onRangeDragStart={showPrice}
+                  onThumbDragStart={showPrice}
+                  onInput={(e: [number, number]) => {
+                    setValue('price', e)
+                    setPrice((prev) => ({
+                      ...prev,
+                      value: e,
+                    }))
+                  }}
+                  defaultValue={[priceRange?.min || 1, priceRange?.max || 5000]}
+                  min={priceRange?.min || 1}
+                  max={priceRange?.max || 5000}
+                />
               </div>
             </fieldset>
           </m.form>
@@ -232,16 +297,17 @@ export default function Find({ refetch, register, handleSubmit, setValue }: { re
           <span className="du-label">Sort</span>
           <select id="sort" value={sortBy} onChange={handleSortChange}>
             <option value="">None</option>
-            <option value="name-asc">A -&gt; Z</option>
-            <option value="name-desc">Z -&gt; A</option>
-            <option value="rating-asc">Rating (Low to High)</option>
-            <option value="rating-desc">Rating (High to Low)</option>
-            <option value="ratingtotal-asc">Rating Count (Low to High)</option>
-            <option value="ratingtotal-desc">Rating Count (High to Low)</option>
-            <option value="price-asc">Price (Low to High)</option>
-            <option value="price-desc">Price (High to Low)</option>
+            <option value="rating">Rating</option>
+            <option value="ratingtotal">Reviews</option>
+            <option value="price">Price</option>
           </select>
         </label>
+        <button
+          onClick={() => dispatchSortMode({ type: 'toggle' })}
+          className="du-btn dark:bg-base-300 not-dark:bg-neutral-content size-10 border-none p-0"
+        >
+          <SortMode sortMode={sortMode} />
+        </button>
       </div>
     </section>
   )

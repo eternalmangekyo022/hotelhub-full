@@ -55,12 +55,14 @@ app.use(
   ) => {
     const {
       headers: { cookie },
+      baseUrl
     } = req;
-    console.log("need auth", req.path);
+
+    const isCheck = baseUrl.includes("check");
 
     const cookies = parseCookies(cookie || "");
     if (!Object.keys(cookies).filter((k) => k === "refreshToken").length) {
-      return res.status(401).json({ message: "Unauthorized" });
+      return res.status(isCheck ? 204 : 401).json({ message: "Unauthorized" });
     }
 
     const { accessToken, refreshToken } = cookies;
@@ -85,7 +87,7 @@ app.use(
       }
     } catch (e) {
       console.log((e as { message: string }).message);
-      return res.status(401).json({ message: "Unauthorized" });
+      return res.status(isCheck ? 204 : 401).json({ message: "Unauthorized" });
     }
     next();
   }
