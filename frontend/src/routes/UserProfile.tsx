@@ -53,6 +53,37 @@ const UserProfile = () => {
     setNewPassword('');
   };
 
+  const sendEmailConfirmation = async () => {
+    try {
+      if (!userData) {
+        throw new Error('User data not available');
+      }
+  
+      const response = await fetch('http://localhost:3000/api/v1/email/send-change-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+          firstname: userData.firstname,
+          lastname: userData.lastname,
+          email: userData.email
+        }),
+      });
+  
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'Failed to send email confirmation');
+      }
+  
+      const result = await response.json();
+      console.log('Email confirmation sent:', result.message);
+    } catch (err) {
+      console.error('Error sending email confirmation:', err.message);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
   
@@ -63,7 +94,7 @@ const UserProfile = () => {
     }
   
     try {
-      // Make the API call to change the password
+      // 1. Make the API call to change the password
       const response = await fetch(`http://localhost:3000/api/v1/users/${user.id}/change-password`, {
         method: 'POST',
         headers: {
@@ -84,6 +115,10 @@ const UserProfile = () => {
   
       const result = await response.json();
       alert(result.message); // Show success message
+  
+      // 2. Send email confirmation only if password change was successful
+      await sendEmailConfirmation();
+  
       handleModalClose(); // Close the modal
     } catch (err) {
       alert(err.message || 'An error occurred while changing the password.');
