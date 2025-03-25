@@ -1,13 +1,7 @@
-- [ ] Tibi
-    - [ + ] add complex search with dropdown
-        - [ ] rating range
-        - [ ] price range
-        - [ ] location
-        - [ ] reviews
-        - [ ] distance
-    - [ ] hotelId rework
-    - [ ] contact ui fix
-
-- [] Szab
-    - [ ] header nav slider resize fix WTF???
-    - [ ] hotelCard too long title workaround
+- [ ] hotelId rework
+- [ ] contact ui fix
+- [ ] add request for highest price hotel
+  - [ ] add request for highest price hotel
+- [ ] header nav slider resize fix WTF???
+- [ ] hotelCard too long title workaround
+- [ ] add favorite to corner of hotelcard

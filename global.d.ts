@@ -35,14 +35,15 @@ declare global {
     price: number;
     city: string;
     payment: string;
+    payment_id: number;
     owner_id: number;
     coords: { x: number; y: number };
     class: number;
     description: string;
     rating: {
-      avg: number;
-      count: number;
-    };
+      count: number
+      avg: number
+    }
     images: Image[];
   };
   interface User {
@@ -91,6 +92,7 @@ declare global {
     price: number;
     city: string;
     payment: string;
+    payment_id: number;
     owner_id: number;
     coords: { x: number; y: number };
     class: number;

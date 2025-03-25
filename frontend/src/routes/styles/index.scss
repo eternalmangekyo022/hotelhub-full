@@ -61,3 +61,18 @@ main {
 		}
 	}
 }
+
+.range-slider .range-slider__thumb {
+	$slider-size: 1.5em;
+	background-color: rgb(91, 95, 99) !important;
+	width: $slider-size !important;
+	height: $slider-size !important;
+}
+
+.range-slider .range-slider__range {
+	background-color: rgb(141, 144, 150) !important;
+}
+
+[data-theme="dark"] .range-slider {
+	background-color: rgb(222, 225, 230) !important;
+}

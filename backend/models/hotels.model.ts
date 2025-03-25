@@ -1,69 +1,122 @@
 import db from "./db";
 
-export async function getHotels(offset: string) {
-  const totalHotels = await db.selectOne<{ count: number }>(
-    "SELECT COUNT(*) AS count FROM hotels"
-  );
-  const total = totalHotels.count;
+export async function getHotels(filter: {
+  offset?: string;
+  searchQuery?: string;
+  sortBy?: string;
+  location?: string;
+  price?: string;
+  payment?: string;
+  rating?: string;
+}) {
+  try {
+    // Parse filter parameters
+    const offset = parseInt(filter.offset || '0', 10);
+    const priceParam = filter.price;
+    const payment = filter.payment;
+    const ratingParam = filter.rating;
 
-  const parsedOffset = parseInt(offset);
-  const requestedLimit = 30; // Default limit
-  const remainingRecords = total - parsedOffset;
+    // Parse ranges
+    const [priceMin, priceMax] = priceParam?.split('-').map(Number) || [];
+    const [ratingMin, ratingMax] = ratingParam?.split('-').map(Number) || [];
 
-  const adjustedLimit = Math.min(requestedLimit, remainingRecords);
+    // Build conditions
+    const conditions: string[] = [];
+    const params: any[] = [];
 
-  let hotels: Hotel[] = [];
+    // Price filter
+    if (!isNaN(priceMin) && !isNaN(priceMax)) {
+      conditions.push('h.price BETWEEN ? AND ?');
+      params.push(priceMin, priceMax);
+    }
 
-  if (adjustedLimit > 0) {
-    hotels = (
-      await db.select<Hotel>("SELECT * FROM hotels LIMIT ? OFFSET ?", [
-        adjustedLimit,
-        parsedOffset,
-      ])
-    ).map((h) => ({ ...h, images: [] as Image[] }));
+    // Payment filter (more flexible version)
+    if (payment && payment !== "both") {
+      conditions.push(`h.payment_id = ${payment.includes("card") ? 2 : 1}`);
+    }
 
-    const ids = hotels.map((hotel) => hotel.id).join(",");
-    const images = await db.select<{
-      id: number;
-      hotel_id: number;
-      thumb: string;
-      full: string;
-    }>(`SELECT * FROM images WHERE hotel_id IN (${ids})`);
+    // Rating filter (more inclusive version)
+    if (!isNaN(ratingMin) && !isNaN(ratingMax)) {
+      conditions.push('(r.avg_rating IS NULL OR r.avg_rating BETWEEN ? AND ?)');
+      params.push(ratingMin, ratingMax);
+    }
 
-    for (let i = 0; i < hotels.length; i++) {
-      for (let j = 0; j < images.length; j++) {
-        if (hotels[i].id === images[j].hotel_id) {
-          hotels[i].images.push({
-            thumb: images[j].thumb,
-            full: images[j].full,
-          });
-        }
+    // Base query
+    
+    let orderBy = 'h.id ASC'; // default fallback
+    if (filter.sortBy) {
+      switch (filter.sortBy) {
+        case 'price-asc':
+          orderBy = 'h.price ASC';
+          break;
+        case 'price-desc':
+          orderBy = 'h.price DESC';
+          break;
+        case 'rating-asc':
+          orderBy = 'COALESCE(r.avg_rating, 0) ASC';
+          break;
+        case 'rating-desc':
+          orderBy = 'COALESCE(r.avg_rating, 0) DESC';
+          break;
+        case 'popular':
+          orderBy = 'COALESCE(r.rating_count, 0) DESC';
+          break;
       }
     }
 
-    const toGet = hotels.map((i) => i.id).join(",");
-    const q = `SELECT hotel_id, AVG(rating) AS "avg", COUNT(rating) AS "count" FROM bookings WHERE hotel_id IN (${toGet}) GROUP BY hotel_id`;
-    const ratings = await db.select<{
-      hotel_id: number;
-      avg: string;
-      count: number;
-    }>(q);
+    const whereClause = conditions.length > 0 ? `WHERE ${conditions.join(' AND ')}` : '';
+    const query = `
+      SELECT 
+        h.*, 
+        COALESCE(r.avg_rating, 0) AS avg_rating,
+        COALESCE(r.rating_count, 0) AS rating_count
+      FROM hotels h
+      LEFT JOIN (
+        SELECT hotel_id, AVG(rating) AS avg_rating, COUNT(rating) AS rating_count
+        FROM bookings
+        GROUP BY hotel_id
+      ) r ON h.id = r.hotel_id
+      ${whereClause}
+      ORDER BY ${orderBy}
+      LIMIT 30 OFFSET ?
+    `;
 
-    let final: Hotel[] = [];
+    params.push(offset);
 
-    for (let i = 0; i < hotels.length; i++) {
-      const hotelRating = ratings.find((r) => r.hotel_id === hotels[i].id);
-      final.push({
-        ...hotels[i],
-        rating: {
-          avg: hotelRating ? parseFloat(hotelRating.avg) : 0,
-          count: hotelRating ? hotelRating.count : 0,
-        },
+    // Execute query
+    const hotels = await db.select<Hotel & { avg_rating: number; rating_count: number }>(query, params);
+    
+    // Fetch images if we got hotels
+    if (hotels.length > 0) {
+      const ids = hotels.map(h => h.id);
+      const images = await db.select<Image & { hotel_id: number }>(
+        `SELECT * FROM images WHERE hotel_id IN (?)`,
+        [ids]
+      );
+
+      // Attach images
+      hotels.forEach(hotel => {
+        hotel.images = images
+          .filter(img => img.hotel_id === hotel.id)
+          .map(img => ({ thumb: img.thumb, full: img.full }));
       });
     }
 
-    return final;
-  } else {
+    // Transform the results
+    const result = hotels.map(hotel => ({
+      ...hotel,
+      rating: {
+        count: hotel.rating_count,
+        avg: hotel.avg_rating
+      },
+      payment: hotel.payment_id === 1 ? 'cash' : 
+              hotel.payment_id === 2 ? 'card' : 'both'
+    }));
+
+    return result;
+
+  } catch (error) {
+    console.error('Error fetching hotels:', error);
     return [];
   }
 }
@@ -156,4 +209,11 @@ export async function getHotelsFiltered(
 
 export async function getClosestHotels(location: string) {
   const [lat, lon] = location.split(",").map((i) => parseFloat(i));
+}
+
+export async function getPriceRange() {
+  const { price: minPrice } = await db.selectOne<{ price: number }>("select price from hotels order by price asc limit 1");
+  const { price: maxPrice } = await db.selectOne<{ price: number }>("select price from hotels order by price desc limit 1");
+
+  return { price: { min: minPrice, max: maxPrice } };
 }

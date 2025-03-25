@@ -15,7 +15,5 @@ export const selectedHotelAtom = atom<Hotel | null>(null);
 export const geoAtom = atom<{ lat: number; lon: number }>({ lat: 0, lon: 0 });
 
 export const sortByAtom = atom<ISortBy>("");
-export const searchQueryAtom = atom("");
-export const pageAtom = atom<number>(1);
 export const hotelsAtom = atom<Hotel[]>([]);
 export const userAtom = atom<User | null>(null);
