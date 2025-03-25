@@ -1,9 +1,7 @@
-- [ ] Tibi
-    - [ ] hotelId rework
-    - [ ] contact ui fix
-    - [] add request for highest price hotel
-
-- [ ] Szab
-    - [ ] receipt
-    - [ ] header nav slider resize fix WTF???
-    - [ ] hotelCard too long title workaround
+- [ ] hotelId rework
+- [ ] contact ui fix
+- [ ] add request for highest price hotel
+  - [ ] add request for highest price hotel
+- [ ] header nav slider resize fix WTF???
+- [ ] hotelCard too long title workaround
+- [ ] add favorite to corner of hotelcard

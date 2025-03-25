@@ -6,7 +6,7 @@ export async function getHotels(filter: { offset: number, searchQuery?: string, 
     const { data: hotels } = await axios.get<Hotel[]>(
       `http://localhost:3000/api/v1/hotels?${Object.entries(filter)
         .map(([key, value]) => {
-          if (value === undefined || value === null || value === "") return "";
+          if (value === undefined || value === null || value === "" || (key === "rating" && (value as number[]).filter((i, idx) => (idx === 0 && i === 1) || (idx === 1 && i === 5)).length === 2)) return "";
           switch (key) {
             case "offset":
               return `offset=${(value as number) * 30}`;

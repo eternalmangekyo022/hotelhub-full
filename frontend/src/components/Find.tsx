@@ -7,7 +7,7 @@ import { useAtom } from 'jotai'
 import 'react-range-slider-input/dist/style.css'
 import './styles/find.scss'
 
-import { sortByAtom } from '../store'
+import { sortByAtom } from '@store'
 import AngleSvg from './svg/Angle'
 
 import SortMode from './svg/SortMode'
@@ -289,25 +289,28 @@ export default function Find({
             </fieldset>
           </m.form>
         </div>
-
-        <label
-          htmlFor="sort"
-          className="du-select not-dark:bg-neutral-content m-0 w-52 rounded-4xl p-0"
-        >
-          <span className="du-label">Sort</span>
-          <select id="sort" value={sortBy} onChange={handleSortChange}>
-            <option value="">None</option>
-            <option value="rating">Rating</option>
-            <option value="ratingtotal">Reviews</option>
-            <option value="price">Price</option>
-          </select>
-        </label>
-        <button
-          onClick={() => dispatchSortMode({ type: 'toggle' })}
-          className="du-btn dark:bg-base-300 not-dark:bg-neutral-content size-10 border-none p-0"
-        >
-          <SortMode sortMode={sortMode} />
-        </button>
+        <div className="flex items-center gap-2">
+          <label
+            htmlFor="sort"
+            className="du-select not-dark:bg-neutral-content m-0 w-52 rounded-4xl p-0"
+          >
+            <span className="du-label">Sort</span>
+            <select id="sort" value={sortBy} onChange={handleSortChange}>
+              <option value="">None</option>
+              <option value="rating">Rating</option>
+              <option value="ratingtotal">Reviews</option>
+              <option value="price">Price</option>
+            </select>
+          </label>
+          {sortBy !== '' && (
+            <button
+              onClick={() => dispatchSortMode({ type: 'toggle' })}
+              className="du-btn dark:bg-base-300 not-dark:bg-neutral-content size-8 border-none p-0"
+            >
+              <SortMode sortMode={sortMode} />
+            </button>
+          )}
+        </div>
       </div>
     </section>
   )
