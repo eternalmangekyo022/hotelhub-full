@@ -1,9 +1,6 @@
 - [ ] Tibi
-    - [ ] hotelId rework
-    - [ ] contact ui fix
-    - [] add request for highest price hotel
 
-- [ ] Szab
-    - [ ] receipt
-    - [ ] header nav slider resize fix WTF???
-    - [ ] hotelCard too long title workaround
+  - [ ] hotelId rework
+  - [ ] contact ui fix
+  - [ ] when triggering infinite scroll, it sends like 10 requests at the same time
+  - [ ] store query state in url

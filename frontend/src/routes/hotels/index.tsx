@@ -18,6 +18,12 @@ export const Route = createFileRoute('/hotels/')({
   component: Hotels,
 })
 
+/**
+ * Component for the /hotels route.
+ *
+ * @returns JSX for the hotels list page.
+ */
+
 function Hotels() {
   const [sortBy] = useAtom(sortByAtom)
   const [page, setPage] = useState(1)
@@ -107,11 +113,11 @@ function Hotels() {
     queryFn: async () => {
       const response = await getHotels({
         offset: page - 1,
-        location,
+        location: encodeURI(location),
         price,
         payment,
         rating,
-        searchQuery: encodeURIComponent(search),
+        searchQuery: encodeURI(search),
         sortBy: sortBy ? sortBy + '-' + sortMode : '',
       })
 

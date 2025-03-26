@@ -1,7 +1,7 @@
 import db from "./db";
 
-function transformSearchQuery(search: string) {
-  return `h.name LIKE '%${search}%'`
+function transformURI(search: string, property: string) {
+  return `${property} LIKE '%${search}%'`
 }
 
 export async function getHotels(filter: {
@@ -16,7 +16,7 @@ export async function getHotels(filter: {
   try {
     // Parse filter parameters
     const offset = parseInt(filter.offset || '0', 10);
-    const { price: priceParam, payment, searchQuery: search, rating: ratingParam } = filter;
+    const { location: hotelLocation, price: priceParam, payment, searchQuery: search, rating: ratingParam } = filter;
     // Parse ranges
 
     const [priceMin, priceMax] = priceParam?.split('-').map(Number) || [];
@@ -26,8 +26,13 @@ export async function getHotels(filter: {
     const conditions: string[] = [];
 
     if (search) {
-      const searches = decodeURI(search).split(' ').map(transformSearchQuery);
+      const searches = decodeURI(search).split(' ').map((i) => transformURI(i, "h.name"));
       conditions.push(searches.join(" AND "));
+    }
+
+    if (hotelLocation) {
+      const locations = decodeURI(hotelLocation).split(' ').map(i => transformURI(i, "h.city"));
+      conditions.push(locations.join(" AND "));
     }
 
     const params: any[] = [];

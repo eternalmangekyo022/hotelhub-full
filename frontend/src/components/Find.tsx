@@ -241,7 +241,10 @@ export default function Find({
         <div className="du-join">
           <label
             htmlFor="sort"
-            className="du-select not-dark:bg-neutral-content du-join-item m-0 w-52 rounded-lg rounded-r-none p-0"
+            className={
+              'du-select not-dark:bg-neutral-content du-join-item m-0 w-52 rounded-lg p-0' +
+              (sortBy !== '' ? ' rounded-r-none' : '')
+            }
           >
             <span className="du-label">Sort</span>
             <select id="sort" value={sortBy} onChange={handleSortChange}>
@@ -251,12 +254,14 @@ export default function Find({
               <option value="price">Price</option>
             </select>
           </label>
-          <button
-            onClick={() => dispatchSortMode({ type: 'toggle' })}
-            className="du-btn dark:bg-base-200 not-dark:bg-neutral-content du-join-item size-10 rounded-r-lg border-l-2 border-none fill-white p-0 shadow-none"
-          >
-            <SortMode sortMode={sortMode} />
-          </button>
+          {sortBy !== '' && (
+            <button
+              onClick={() => dispatchSortMode({ type: 'toggle' })}
+              className="du-btn dark:bg-base-200 not-dark:bg-neutral-content du-join-item size-10 rounded-r-lg border-l-2 border-none fill-white p-0 shadow-none"
+            >
+              <SortMode sortMode={sortMode} />
+            </button>
+          )}
         </div>
       </div>
     </section>
