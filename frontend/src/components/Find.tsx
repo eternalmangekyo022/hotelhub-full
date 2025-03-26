@@ -6,7 +6,7 @@ import { useAtom } from 'jotai'
 import 'react-range-slider-input/dist/style.css'
 import './styles/find.scss'
 
-import { sortByAtom } from '../store'
+import { sortByAtom } from '@store'
 import AngleSvg from './svg/Angle'
 
 import SortMode from './svg/SortMode'

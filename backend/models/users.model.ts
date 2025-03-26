@@ -75,3 +75,21 @@ export async function getUsers() {
 export async function getUserById(id: number) {
   return await db.selectOne<User>("SELECT * FROM users WHERE id = ?", id);
 }
+
+export async function changePassword(userId: number, currentPassword: string, newPassword: string) {
+  const user = await db.selectOne<User>("SELECT * FROM users WHERE id = ?", userId);
+  if (!user) throw { message: "User not found", code: 404 };
+
+  const hashedCurrentPassword = crypto.createHash("md5").update(currentPassword).digest("hex");
+
+  if (user.password !== hashedCurrentPassword) {
+    throw { message: "Invalid current password", code: 401 };
+  }
+
+  const hashedNewPassword = crypto.createHash("md5").update(newPassword).digest("hex");
+
+  await db.update("UPDATE users SET password = ? WHERE id = ?", [hashedNewPassword, userId]);
+  return { message: "Password changed successfully" };
+}
+
+

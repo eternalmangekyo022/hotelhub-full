@@ -12,6 +12,7 @@ import hotels from "./routes/hotels.routes";
 import images from "./routes/images.routes";
 import bookings from "./routes/bookings.routes";
 import amenities from "./routes/amenities.routes";
+import email from "./routes/email.routes";
 import { refresh } from "./models/users.model";
 
 dotenv.config({ path: "./.env" });
@@ -31,7 +32,7 @@ api.use(
 );
 api.use(e.json());
 
-const excludeToken = ["register", "login", "refresh", "hotels", "amenities"];
+const excludeToken = ["register", "login", "refresh", "hotels", "amenities", "email"];
 
 const reg = `^(?!.*(${excludeToken.join("|")})).*`;
 
@@ -97,6 +98,7 @@ hotels(use, app);
 images(use, app);
 bookings(use, app);
 amenities(use, app);
+email(use, app);
 
 api.use("/api/v1", app);
 

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import DatePicker from 'react-datepicker';
-import { createFileRoute, useParams } from '@tanstack/react-router';
+import { createFileRoute, useParams, useNavigate} from '@tanstack/react-router';
 import 'react-datepicker/dist/react-datepicker.css';
 import "./styles/booking.scss";
 import { useAtom } from 'jotai';
@@ -15,7 +15,9 @@ const HotelBooking = () => {
   const [error, setError] = useState(null);
   const [user] = useAtom(userAtom);
   const [paymentMethod, setPaymentMethod] = useState('cash');
-
+  const [totalPrice, setTotalPrice] = useState(0);
+  const [beforeTaxPrice, setBeforeTaxPrice] = useState(0);
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchHotel = async () => {
       try {
@@ -62,6 +64,24 @@ const HotelBooking = () => {
     return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
   };
 
+  const calculateTotalPrice = () => {
+    if (!arrivalDate || !leavingDate || !hotel) return;
+
+    const timeDifference = leavingDate.getTime() - arrivalDate.getTime();
+    const nights = Math.ceil(timeDifference / (1000 * 3600 * 24));
+    let participants = watch('participants') || 1;
+    
+    participants = Math.min(participants, hotel.capacity);
+
+    const total = participants * hotel.price * nights;
+    setTotalPrice(total);
+    setBeforeTaxPrice(total / 1.27);
+  };
+
+  useEffect(() => {
+    calculateTotalPrice();
+  }, [arrivalDate, leavingDate, watch('participants')]);
+
   const onSubmit = async (data) => {
     const bookingData = {
       user_id: user?.id,
@@ -73,9 +93,7 @@ const HotelBooking = () => {
       participants: parseInt(data.participants, 10),
       rating: 0,
     };
-
-   
-
+  
     try {
       const response = await fetch('http://localhost:3000/api/v1/bookings', {
         method: 'POST',
@@ -85,17 +103,34 @@ const HotelBooking = () => {
         },
         body: JSON.stringify(bookingData),
       });
-
-      if (!response.ok) {
-        throw new Error('Failed to submit booking');
-      }
-
+  
+      if (!response.ok) throw new Error('Failed to submit booking');
+  
       const result = await response.json();
-      console.log(result);
-      alert('Booking submitted successfully!');
+  
+      // Send confirmation email
+      await fetch('http://localhost:3000/api/v1/email/send-booking-email', {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: user?.email,
+          firstname: user?.firstname,
+          lastname: user?.lastname,
+          hotel,
+          checkin: bookingData.checkin,
+          checkout: bookingData.checkout,
+          totalPrice,
+        }),
+      });
+      console.log("email sent to " + user?.email);
+      
+      // Show alert and then navigate
+      alert('Booking submitted successfully! A confirmation email has been sent.');
+      navigate({ to: '/' }); // Redirect to homepage
     } catch (error) {
       console.error('Error:', error);
-      alert('An error occurred while submitting the booking');
+      alert('An error occurred while submitting the booking.');
     }
   };
 
@@ -249,6 +284,13 @@ const HotelBooking = () => {
             isRequired={paymentMethod === 'card'}
           />
         )}
+
+        <div className="price-calculation">
+          <h4>Price Calculation</h4>
+          <p>Before Tax Price: <strong>${beforeTaxPrice.toFixed(2)}</strong></p>
+          <p>Total Price (27% tax): <strong>${totalPrice.toFixed(2)}</strong></p>
+        </div>
+
 
         <button type="submit" className="button">
           Submit Booking

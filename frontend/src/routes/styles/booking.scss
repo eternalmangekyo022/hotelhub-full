@@ -178,3 +178,38 @@ h2 {
   content: '⚠️';
   margin-right: 0.25rem;
 }
+
+.price-calculation {
+  margin-top: 1.5rem;
+  padding: 1.5rem;
+  background: rgba(249, 250, 251, 0.95);
+  border-radius: 10px;
+  border-left: 4px solid var(--primary);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.price-calculation h4 {
+  margin: 0 0 1rem 0;
+  color: var(--text);
+  font-size: 1.125rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.price-calculation p {
+  margin: 0.5rem 0;
+  color: var(--muted);
+  font-size: 1rem;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.price-calculation p:last-child {
+  margin-bottom: 0;
+}
+
+.price-calculation p strong {
+  color: var(--text);
+  font-weight: 700;
+  font-size: 1.5rem;
+}

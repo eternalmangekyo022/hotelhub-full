@@ -27,24 +27,56 @@ export default function Login({ register }: IProps) {
     queryKey: [register ? "register" : "login"],
     async queryFn() {
       try {
-        const {
-          data: { user },
-        } = await axios.post<{ user: User }>(
-          "http://localhost:3000/api/v1/login",
-          {
-            email: formData.email,
-            password: formData.password,
-          },
-          {
-            headers: { "Content-Type": "application/json" },
-            withCredentials: true,
-          },
-        );
-        setUser(user);
-        navigate({ to: "/" });
-        return user;
+        if (register) {
+          // Registration flow
+          const { data: { user } } = await axios.post<{ user: User }>(
+            "http://localhost:3000/api/v1/register",
+            {
+              firstname: formData.firstname,
+              lastname: formData.lastname,
+              phone: formData.phone,
+              email: formData.email,
+              password: formData.password,
+            },
+            {
+              headers: { "Content-Type": "application/json" },
+              withCredentials: true,
+            },
+          );
+
+          // Send registration email (fire and forget - don't block registration if email fails)
+          try {
+            await axios.post("http://localhost:3000/api/v1/email/send-registration-email", {
+              email: formData.email,
+              firstname: formData.firstname,
+              lastname: formData.lastname,
+            });
+          } catch (emailError) {
+            console.error("Failed to send welcome email:", emailError);
+          }
+
+          setUser(user);
+          navigate({ to: "/" });
+          return user;
+        } else {
+          // Login flow
+          const { data: { user } } = await axios.post<{ user: User }>(
+            "http://localhost:3000/api/v1/login",
+            {
+              email: formData.email,
+              password: formData.password,
+            },
+            {
+              headers: { "Content-Type": "application/json" },
+              withCredentials: true,
+            },
+          );
+          setUser(user);
+          navigate({ to: "/" });
+          return user;
+        }
       } catch (e) {
-        setError((e as { message: string }).message);
+        setError((e as any).response?.data?.message || (e as Error).message);
         return null;
       }
     },
@@ -64,10 +96,15 @@ export default function Login({ register }: IProps) {
     if (user) redirect({ to: "/" });
   }, []);
 
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    refetch();
+  };
+
   return (
     <div className={`login-wrapper${register ? " register" : ""} bg-base-100`}>
       <div className={`login-form-wrapper ${register ? "register" : "login"}`}>
-        <form className="login-form">
+        <form className="login-form" onSubmit={handleSubmit}>
           <div className="login-form-inner">
             <div className="form-title dark:text-black">
               <h1>{register ? "Register" : "Welcome back"}</h1>
@@ -133,8 +170,8 @@ export default function Login({ register }: IProps) {
               {error && <p className="error">{error}</p>}
               <button
                 className="no-select"
-                type="button"
-                onClick={() => refetch()}
+                type="submit"
+                disabled={isLoading}
               >
                 {isLoading ? (
                   <span className="du-loading du-loading-spinner w-6 h-6"></span>

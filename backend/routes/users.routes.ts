@@ -14,6 +14,7 @@ export default (use: UseFn, app: Express) => {
   userRouter.patch("/:userId", use(users.patchUser));
   userRouter.get("/:userId", use(users.getUserById));
   router.get('/users/:id', use(users.getUserById));
+  userRouter.post("/:userId/change-password", use(users.changePassword));
   //delete user
   //update user
   //get user
