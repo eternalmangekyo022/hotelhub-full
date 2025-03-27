@@ -48,7 +48,10 @@ const BookingHistory = () => {
         fetchHotel(booking.hotel_id)
       })
     } catch (err) {
-      setError(err.message || 'An error occurred while fetching bookings')
+      setError(
+        (err as { message?: string }).message ||
+          'An error occurred while fetching bookings',
+      )
     } finally {
       setLoading(false)
     }
@@ -164,7 +167,9 @@ const BookingHistory = () => {
                 </p>
                 <p>
                   <strong>Rating:</strong>{' '}
-                  {booking.rating > 0 ? `${booking.rating}/5` : 'Not rated yet'}
+                  {booking.rating && booking.rating > 0
+                    ? `${booking.rating}/5`
+                    : 'Not rated yet'}
                 </p>
 
                 {booking.rating === 0 && (

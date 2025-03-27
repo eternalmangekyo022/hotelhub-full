@@ -1,8 +1,9 @@
+@use "sass:map";
 @use "../../global.scss";
 
 $main: (
-  light: map-get(global.$main, light),
-  dark: map-get(global.$main, dark),
+  light: map.get(global.$main, light),
+  dark: map.get(global.$main, dark),
 );
 
 * {
@@ -34,7 +35,7 @@ h1 {
 
   button {
     background-color: white;
-    color: map-get($main, dark);
+    color: map.get($main, dark);
     cursor: pointer;
     border: none;
     height: 3rem;

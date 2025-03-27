@@ -1,3 +1,4 @@
+@use "sass:map";
 $main: (
   "light": #f0ecfc,
   "dark": #803cec,
@@ -29,7 +30,7 @@ $main: (
     @include center-abs;
     width: 100%;
     height: 1.3px;
-    background-color: map-get($main, "dark");
+    background-color: map.get($main, "dark");
   }
 
   .timeline {
@@ -89,7 +90,7 @@ $main: (
 
       width: $size;
       height: $size;
-      border: 3px solid map-get($main, "dark");
+      border: 3px solid map.get($main, "dark");
       border-radius: 50%;
       > div {
         $size: 70%;
@@ -97,13 +98,13 @@ $main: (
         left: 51%; // didnt work otherwise, but why tho????
         width: $size;
         height: $size;
-        background-color: map-get($main, "dark");
+        background-color: map.get($main, "dark");
         border-radius: 50%;
       }
 
       &:before {
         content: attr(data-date);
-        color: map-get($main, "dark");
+        color: map.get($main, "dark");
         font-weight: 600;
         font-size: 1.2rem;
         @include center-abs;

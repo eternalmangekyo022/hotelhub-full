@@ -1,3 +1,4 @@
+@use "sass:map";
 $main: (
   "light": #f0ecfc,
   "dark": #600dc6,
@@ -7,6 +8,6 @@ $main: (
 
 main {
   min-height: calc(
-    100vh - map-get($main, "header-h") - map-get($main, "footer-h")
+    100vh - map.get($main, "header-h") - map.get($main, "footer-h")
   );
 }

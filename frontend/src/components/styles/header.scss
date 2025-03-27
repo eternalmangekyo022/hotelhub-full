@@ -1,9 +1,10 @@
 @use "../../global.scss" as global;
+@use "sass:map";
 
 header {
   position: relative;
   width: 100vw;
-  height: min(5rem, map-get(global.$main, "header-h"));
+  height: min(5rem, map.get(global.$main, "header-h"));
   display: flex;
   align-items: center;
   justify-content: center;

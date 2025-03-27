@@ -10,7 +10,7 @@ const bookingSchema = z.object({
   payment_id: z.number(),
   participants: z.number(),
   rating: z.number().optional()
-}) satisfies z.ZodType<Booking>;
+}) satisfies z.ZodType<Omit<Booking, "id">>;
 
 export default {
   getBookings: async (req: any, res: any) => {
@@ -30,7 +30,7 @@ export default {
       res.status(500).json({ message: "Error fetching booking", error });
     }
   },
-  addBooking: async (req: { body: Booking }, res: any) => {
+  addBooking: async (req: { body: Omit<Booking, "id"> }, res: any) => {
     try {
       const bookingData = bookingSchema.parse(req.body);
       const newBooking = await addBooking(bookingData);

@@ -27,7 +27,7 @@ const mockBooking = {
     checkout: new Date().toISOString().split('T')[0],
     payment_id: 1,
     participants: 1
-} satisfies Booking;
+} satisfies Omit<Booking, "id">;
 
 async function insertBooking() {
     return await withCookie(true).post<{ insertId: number }>("/bookings", mockBooking);

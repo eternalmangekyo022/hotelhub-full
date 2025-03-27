@@ -81,6 +81,7 @@ declare global {
   type Image = { thumb: string; full: string };
 
   interface Booking {
+    id: number;
     user_id: number;
     hotel_id: number;
     booked: string;
