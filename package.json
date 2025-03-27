@@ -3,6 +3,8 @@
 		"concurrently": "^9.1.2"
 	},
 	"scripts": {
-		"dev": "concurrently \"cd backend && bun dev\" \"cd frontend && bun dev\""
+		"dev": "concurrently \"cd backend && bun dev\" \"cd frontend && bun dev\"",
+		"backend": "cd backend && bun dev",
+		"frontend": "cd frontend && bun dev"
 	}
 }

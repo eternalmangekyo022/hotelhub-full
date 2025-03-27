@@ -250,14 +250,14 @@ export default function Find({
             <select id="sort" value={sortBy} onChange={handleSortChange}>
               <option value="">None</option>
               <option value="rating">Rating</option>
-              <option value="ratingtotal">Reviews</option>
+              <option value="reviews">Reviews</option>
               <option value="price">Price</option>
             </select>
           </label>
           {sortBy !== '' && (
             <button
               onClick={() => dispatchSortMode({ type: 'toggle' })}
-              className="du-btn dark:bg-base-200 not-dark:bg-neutral-content du-join-item size-10 rounded-r-lg border-l-2 border-none fill-white p-0 shadow-none"
+              className="du-btn dark:bg-base-200 du-join-item size-10 rounded-r-lg border-l-2 border-none fill-white p-0 shadow-none not-dark:bg-stone-300"
             >
               <SortMode sortMode={sortMode} />
             </button>

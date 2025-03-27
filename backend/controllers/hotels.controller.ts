@@ -2,15 +2,15 @@ import {
   getHotels,
   getHotelById,
   getHotelsById,
-  getHotelsFiltered,
-  getPriceRange
-} from "../models/hotels.model";
+  getPriceRange,
+  type SortTypes
+} from "../models/hotels.model"
 import { type Request } from 'express';
 
 interface HotelQueryParams {
   offset?: string;
   searchQuery?: string;
-  sortBy?: string;
+  sortBy?: `${SortTypes["sortBy"]}-${"asc" | "desc"}`;
   location?: string;
   price?: string;
   payment?: string;
@@ -35,7 +35,7 @@ export default {
       const hotels = await getHotels({
         offset,
         searchQuery,
-        sortBy,
+        sortBy: sortBy as `${SortTypes["sortBy"]}-${"asc" | "desc"}`,
         location,
         price,
         payment,
@@ -59,11 +59,8 @@ export default {
     { query: { ids } }: { query: { ids: `^\d+(,\d+)*$` } },
     res: any
   ) => {
-    const hotels = await getHotelsById(ids.split(",").map(Number));
-    res.json(hotels);
-  },
-  getHotelsFiltered: async ({ query }: any, res: any) => {
-    const hotels = await getHotelsFiltered(query);
+    const splitIds = ids.split(",").map(Number);
+    const hotels = await getHotelsById(splitIds);
     res.json(hotels);
   },
   getPriceRange: async (req: any, res: any) => {

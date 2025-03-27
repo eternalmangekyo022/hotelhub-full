@@ -21,7 +21,6 @@ export async function login(email: string, password: string) {
 // |><|
 
 export async function register(user: UserRegister) {
-  console.log(user);
   const foundUser = await db.selectOne<User>(
     "SELECT * FROM users WHERE email = ?",
     user.email
@@ -83,7 +82,9 @@ export async function changePassword(userId: number, currentPassword: string, ne
   const hashedCurrentPassword = crypto.createHash("md5").update(currentPassword).digest("hex");
 
   if (user.password !== hashedCurrentPassword) {
-    throw { message: "Invalid current password", code: 401 };
+    const msg = { message: "Invalid current password", code: 401 };
+    console.log(msg)
+    throw msg;
   }
 
   const hashedNewPassword = crypto.createHash("md5").update(newPassword).digest("hex");
@@ -91,5 +92,3 @@ export async function changePassword(userId: number, currentPassword: string, ne
   await db.update("UPDATE users SET password = ? WHERE id = ?", [hashedNewPassword, userId]);
   return { message: "Password changed successfully" };
 }
-
-

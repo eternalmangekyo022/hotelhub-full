@@ -73,5 +73,5 @@ Authorization: Bearer pankix
 }
 
 ###
-GET {{base}}/hotels/filtered?minPrice=1000&limit=10
+GET {{base}}/hotels?price=1700-1900
 Content-Type: application/json

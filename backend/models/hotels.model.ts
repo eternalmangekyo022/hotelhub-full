@@ -4,10 +4,14 @@ function transformURI(search: string, property: string) {
   return `${property} LIKE '%${search}%'`
 }
 
+export interface SortTypes {
+  sortBy: "reviews" | "rating" | "price";
+}
+
 export async function getHotels(filter: {
   offset?: string;
   searchQuery?: string;
-  sortBy?: string;
+  sortBy?: `${SortTypes["sortBy"]}-${"asc" | "desc"}`;
   location?: string;
   price?: string;
   payment?: string;
@@ -69,7 +73,10 @@ export async function getHotels(filter: {
         case 'rating-desc':
           orderBy = 'COALESCE(r.avg_rating, 0) DESC';
           break;
-        case 'popular':
+        case 'reviews-asc':
+          orderBy = 'COALESCE(r.rating_count, 0) ASC';
+          break;
+        case 'reviews-desc':
           orderBy = 'COALESCE(r.rating_count, 0) DESC';
           break;
       }
@@ -85,6 +92,7 @@ export async function getHotels(filter: {
       LEFT JOIN (
         SELECT hotel_id, AVG(rating) AS avg_rating, COUNT(rating) AS rating_count
         FROM bookings
+        WHERE rating > 0
         GROUP BY hotel_id
       ) r ON h.id = r.hotel_id
       ${whereClause}
@@ -163,53 +171,8 @@ export async function getHotelsById(ids: number[]) {
     "SELECT * FROM hotels WHERE id in (?)",
     [ids]
   );
+  if (hotels.length !== ids.length) throw { status: 404, message: "Not found" }
   return hotels;
-}
-
-export async function getHotelsFiltered(
-  query: Partial<
-    Omit<Hotel, "id" | "price" | "images" | "description"> & {
-      minPrice: string;
-      maxPrice: string;
-      limit: string;
-      offset: string;
-    }
-  >
-) {
-  const numbers = "id,minPrice,maxPrice,owner_id,x,y,class,capacity".split(",");
-  const toSearch = Object.entries(query)
-    .filter(([k]) => !["maxPrice", "minPrice", "limit", "offset"].includes(k))
-    .map(([k, v]) => `${k} = ${numbers.includes(k) ? v : `'${v}'`}`)
-    .join(" and ");
-
-  let priceFilter = "";
-
-  if (query.maxPrice || query.minPrice) {
-    let {
-      minPrice: minimum,
-      maxPrice: maximum,
-    }: { minPrice?: string | number; maxPrice?: string | number } = query;
-    [minimum, maximum] = [minimum, maximum].map((p) =>
-      p === undefined ? undefined : Number(p)
-    );
-    if (minimum !== undefined && maximum !== undefined) {
-      priceFilter = `${priceFilter || toSearch ? " and " : ""
-        }price between ${Math.min(minimum, maximum)} and ${Math.max(
-          minimum,
-          maximum
-        )}`;
-    } else if (minimum !== undefined) {
-      priceFilter = `${priceFilter || toSearch ? " and " : ""
-        }price >= ${minimum}`;
-    } else if (maximum !== undefined) {
-      priceFilter = `${priceFilter || toSearch ? " and " : ""
-        }price <= ${maximum}`;
-    }
-  }
-  const searchQuery = `SELECT * FROM hotels where ${toSearch}${priceFilter} limit ${Number(query.limit) || 30
-    } offset ${Number(query.offset) || 0}`;
-
-  return await db.select<Hotel>(searchQuery);
 }
 
 //https://api.geoapify.com/v1/geocode/search?text=Barcelona%20Spain&format=json&apiKey=1679f7cee64a411a929232a6cf0e4987

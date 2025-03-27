@@ -10,16 +10,7 @@ export async function getBookingsById(id: number) {
   return res;
 }
 
-export async function addBooking(bookingData: {
-  user_id: number;
-  hotel_id: number;
-  booked: string;
-  checkin: string;
-  checkout: string;
-  payment_id: number;
-  participants: number;
-  rating: number;
-}) {
+export async function addBooking(bookingData: Booking) {
   const res = await db.insert("INSERT INTO bookings SET ?", bookingData);
   return res;
 }

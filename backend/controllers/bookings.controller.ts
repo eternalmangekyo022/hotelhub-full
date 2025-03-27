@@ -1,5 +1,16 @@
+import { z } from 'zod'
 import { getBookings, getBookingsById, addBooking, updateRating } from "../models/bookings.model";
-import bookingsRoutes from "../routes/bookings.routes";
+
+const bookingSchema = z.object({
+  user_id: z.number(),
+  hotel_id: z.number(),
+  booked: z.string(),
+  checkin: z.string(),
+  checkout: z.string(),
+  payment_id: z.number(),
+  participants: z.number(),
+  rating: z.number().optional()
+}) satisfies z.ZodType<Booking>;
 
 export default {
   getBookings: async (req: any, res: any) => {
@@ -15,24 +26,26 @@ export default {
       const id = req.params.id;
       const booking = await getBookingsById(id);
       res.json(booking);
-      } catch (error) {
+    } catch (error) {
       res.status(500).json({ message: "Error fetching booking", error });
     }
   },
-addBooking: async (req: any, res: any) => {
+  addBooking: async (req: { body: Booking }, res: any) => {
     try {
-      const bookingData = req.body;
-      console.log(bookingData)
+      const bookingData = bookingSchema.parse(req.body);
       const newBooking = await addBooking(bookingData);
       res.status(201).json(newBooking);
     } catch (error) {
-      console.log(error)
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ message: "Invalid booking data", errors: error.errors });
+      }
+      console.log(error);
       res.status(500).json({ message: "Error adding booking", error });
     }
   },
   updateRating: async (req: any, res: any) => {
     try {
-      const bookingId = parseInt(req.params.bookingid, 10);
+      const bookingId = parseInt(req.params.bookingId);
       if (isNaN(bookingId)) {
         return res.status(400).json({ message: "Invalid booking ID" });
       }
@@ -49,5 +62,4 @@ addBooking: async (req: any, res: any) => {
       res.status(500).json({ message: "Error updating rating", error });
     }
   },
-  
 };

@@ -1,41 +1,40 @@
-import { useEffect, useState } from "react";
-import "../components/styles/timeline.scss";
+import '../components/styles/timeline.scss'
 
 interface ITimeLine {
-  date: number;
-  description: string;
+  date: number
+  description: string
 }
 
 export default function TimeLine() {
   const timelines: ITimeLine[] = [
     {
       date: 0,
-      description: "Birth of HotelHub",
+      description: 'Birth of HotelHub',
     },
     {
       date: 0,
-      description: "Culinary Connections Made",
+      description: 'Culinary Connections Made',
     },
     {
       date: 0,
-      description: "Curatorial Excellence Emerges",
+      description: 'Curatorial Excellence Emerges',
     },
     {
       date: 0,
-      description: "Redefining Dining	Landscape",
+      description: 'Redefining Dining	Landscape',
     },
     {
       date: 0,
-      description: "Redefining Dining Landscape",
+      description: 'Redefining Dining Landscape',
     },
-  ].map((i, idx) => ({ ...i, date: idx + 2021 }));
+  ].map((i, idx) => ({ ...i, date: idx + 2021 }))
 
   return (
     <section className="timeline-container">
       {timelines.map(({ date, description }, idx) => (
         <div
           key={idx}
-          className={`timeline${(idx + 1) % 2 !== 0 ? " reverse" : ""}`}
+          className={`timeline ${(idx + 1) % 2 !== 0 ? 'reverse' : ''}`}
         >
           <div className="circle" /* circle, center */ data-date={date}>
             <div />
@@ -51,5 +50,5 @@ export default function TimeLine() {
         </div>
       ))}
     </section>
-  );
+  )
 }

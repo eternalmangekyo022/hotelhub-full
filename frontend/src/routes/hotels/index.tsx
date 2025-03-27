@@ -112,7 +112,7 @@ function Hotels() {
     ],
     queryFn: async () => {
       const response = await getHotels({
-        offset: page - 1,
+        offset: (page - 1) * 30,
         location: encodeURI(location),
         price,
         payment,

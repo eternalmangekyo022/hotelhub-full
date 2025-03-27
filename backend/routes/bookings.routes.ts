@@ -10,7 +10,7 @@ export default (use: UseFn, app: Express) => {
   app.use("/bookings", router);
 
   const rateRouter = Router();
-  rateRouter.put("/:bookingid", use(controller.updateRating));
+  rateRouter.put("/:bookingId", use(controller.updateRating));
   app.use("/rate", rateRouter);
 };
 
