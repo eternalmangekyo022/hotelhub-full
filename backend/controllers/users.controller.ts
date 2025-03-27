@@ -160,7 +160,6 @@ export async function getUserById(req: Request, res: Response) {
   }
 }
 
-
 export async function changePassword(
   req: Req<{ currentPassword: string; newPassword: string }>, // Remove userId from req.body
   res: Response

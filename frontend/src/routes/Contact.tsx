@@ -1,58 +1,82 @@
 //hooks
-import { useState, useEffect } from "react";
-import { createFileRoute } from "@tanstack/react-router";
-import ContactInput from "../components/ContactInput.tsx";
+import { useEffect } from 'react'
+import { createFileRoute } from '@tanstack/react-router'
 
 //styles
-import "./styles/contact.scss";
+import './styles/contact.scss'
 
 //assets
-import Facebook from "../assets/images/Facebook Iconvector.svg";
-import Instagram from "../assets/images/Instagram Iconvector.svg";
-import Twitter from "../assets/images/Twitter Iconvector.svg";
-import Tel from "../assets/images/phone.svg";
-import Location from "../assets/images/location-filled.svg";
-import Mail from "../assets/images/email.svg";
+import Facebook from '../assets/images/Facebook Iconvector.svg'
+import Instagram from '../assets/images/Instagram Iconvector.svg'
+import Twitter from '../assets/images/Twitter Iconvector.svg'
+import Tel from '../assets/images/phone.svg'
+import Location from '../assets/images/location-filled.svg'
+import Mail from '../assets/images/email.svg'
+import { useForm, SubmitHandler } from 'react-hook-form'
 
 type FormData = {
-  firstName: string;
-  lastName: string;
-  email: string;
-  phone: string;
-  message: string;
-};
+  firstName: string
+  lastName: string
+  email: string
+  phone: string
+  message: string
+}
 
-export const Route = createFileRoute("/Contact")({
+export const Route = createFileRoute('/Contact')({
   component: Contact,
-});
+})
 
 function Contact() {
-  const tel = "+36 30 123 4567";
-  const mail = "support@hotelhub.com";
-  const contactLocation = "Herman Kiefer, Detroit, Michigan, Egyesült Államok";
+  const tel = '+36 30 123 4567'
+  const mail = 'support@hotelhub.com'
+  const contactLocation = 'Herman Kiefer, Detroit, Michigan, Egyesült Államok'
   const initial = {
-    firstName: "",
-    lastName: "",
-    email: "",
-    phone: "",
-    message: "",
-  };
-  const [formData, setFormData] = useState<FormData>({ ...initial });
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    message: '',
+  }
+  const { register, handleSubmit } = useForm<FormData>({
+    mode: 'onChange',
+    defaultValues: initial,
+    errors: {
+      firstName: {
+        message: 'First name is required',
+        type: 'required',
+      },
+      lastName: {
+        message: 'Last name is required',
+        type: 'required',
+      },
+      email: {
+        message: 'Email is required',
+        type: 'required',
+      },
+      phone: {
+        message: 'Phone is required',
+        type: 'required',
+      },
+      message: {
+        message: 'Message is required',
+        type: 'required',
+      },
+    },
+  })
 
-  const onSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
-    e.preventDefault();
-    setFormData({ ...initial });
-  };
+  const onSubmit: SubmitHandler<FormData> = (data) => {
+    console.log(data) // handle your form submission here
+  }
 
   useEffect(() => {
-    document.title = "HotelHub™ - Contact Us";
-  }, []);
+    document.title = 'HotelHub™ - Contact Us'
+  }, [])
 
   return (
     <>
-      <div /**100vw */ className="wrapper">
-        <div /* 90% */ className="wrapper-inner">
-          <section /* 40%, flex-col */ className="contact-card bg-blue-800">
+      <div className="wrapper">
+        <div className="wrapper-inner">
+          <section className="contact-card bg-blue-800">
             <section className="contact-title">
               <h1>Contact Information</h1>
               <h2>Have an inquery? Fill out the form to contact our team.</h2>
@@ -109,49 +133,46 @@ function Contact() {
               </a>
             </section>
           </section>
-          <section /* 60% */ className="contact-form">
+          <section className="contact-form">
             <h1>Contact Us</h1>
             <h2>Have an inquery? Fill out the form to contact our team.</h2>
-            <form onSubmit={onSubmit}>
-              <ContactInput placeholder="First Name" />
-              <ContactInput placeholder="Last Name" />
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <label className="du-input">
+                <svg
+                  className="h-[1em] opacity-50"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                >
+                  <g
+                    strokeLinejoin="round"
+                    strokeLinecap="round"
+                    strokeWidth="2.5"
+                    fill="none"
+                    stroke="currentColor"
+                  >
+                    <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path>
+                    <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
+                  </g>
+                </svg>
+                <input type="text" className="grow" placeholder="index.php" />
+              </label>
               <input
-                onChange={(e) =>
-                  setFormData((p) => ({ ...p, lastName: e.target.value }))
-                }
-                value={formData.lastName}
+                type="text"
+                placeholder="First Name"
+                {...register('firstName')}
+              />
+              <input
                 type="text"
                 placeholder="Last Name"
+                {...register('lastName')}
               />
-              <input
-                onChange={(e) =>
-                  setFormData((p) => ({ ...p, email: e.target.value }))
-                }
-                value={formData.email}
-                type="text"
-                placeholder="Email"
-              />
-              <input
-                onChange={(e) =>
-                  setFormData((p) => ({ ...p, phone: e.target.value }))
-                }
-                value={formData.phone}
-                type="text"
-                placeholder="Phone Number"
-              />
-              <input
-                onChange={(e) =>
-                  setFormData((p) => ({ ...p, message: e.target.value }))
-                }
-                value={formData.message}
-                id="message"
-                type="text"
-                placeholder="Message"
-              />
+              <input type="email" placeholder="Email" {...register('email')} />
+              <input type="tel" placeholder="Phone" {...register('phone')} />
+              <textarea placeholder="Message" {...register('message')} />
             </form>
           </section>
         </div>
       </div>
     </>
-  );
+  )
 }

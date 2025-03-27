@@ -84,7 +84,7 @@ app.use(
         req.user = verifiedRefreshToken;
       }
     } catch (e) {
-      //console.log((e as { message: string }).message);
+      console.log((e as { message: string }).message);
       return res.status(isCheck ? 204 : 401).json({ message: "Unauthorized" });
     }
     next();

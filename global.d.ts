@@ -45,6 +45,7 @@ declare global {
       avg: number
     }
     images: Image[];
+    capacity: number;
   };
   interface User {
     id: number;

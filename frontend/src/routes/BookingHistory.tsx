@@ -3,6 +3,7 @@ import { createFileRoute } from '@tanstack/react-router'
 import { useAtom } from 'jotai'
 import { userAtom } from '../store'
 import './styles/bookinghistory.scss'
+import axios from 'axios'
 
 interface Hotel {
   id: number
@@ -29,18 +30,13 @@ const BookingHistory = () => {
     try {
       setLoading(true)
       setError(null)
-      const response = await fetch(
+      const { data } = await axios.get<Booking[]>(
         `http://localhost:3000/api/v1/bookings/${userId}`,
         {
-          credentials: 'include',
+          withCredentials: true,
         },
       )
 
-      if (!response.ok) {
-        throw new Error('Failed to fetch bookings')
-      }
-
-      const data = await response.json()
       setBookings(data)
 
       // Fetch hotel details for each booking
@@ -59,18 +55,13 @@ const BookingHistory = () => {
 
   const fetchHotel = async (hotelId: number) => {
     try {
-      const response = await fetch(
+      const { data: hotelData } = await axios.get<Hotel>(
         `http://localhost:3000/api/v1/hotels/id/${hotelId}`,
         {
-          credentials: 'include',
+          withCredentials: true,
         },
       )
 
-      if (!response.ok) {
-        throw new Error('Failed to fetch hotel details')
-      }
-
-      const hotelData = await response.json()
       setHotels((prevHotels) => ({
         ...prevHotels,
         [hotelId]: hotelData,

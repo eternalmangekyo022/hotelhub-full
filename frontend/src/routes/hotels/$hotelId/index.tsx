@@ -5,12 +5,12 @@ import { selectedHotelAtom } from '@store'
 import { useAtom } from 'jotai'
 import { useState, useEffect } from 'react'
 import { favoritesAtom } from '@store'
-import Amenity from '../../components/Amenity.tsx'
-import star from '../../assets/images/star.png'
-import emptyStar from '../../assets/images/empty_star.png'
-import '../styles/details.scss'
+import Amenity from '@com/Amenity'
+import star from '../../../assets/images/star.png'
+import emptyStar from '../../../assets/images/empty_star.png'
+import '../../styles/details.scss'
 
-export const Route = createFileRoute('/hotels/$hotelId')({
+export const Route = createFileRoute('/hotels/$hotelId/')({
   component: HotelDetails,
 })
 export default function HotelDetails() {
@@ -176,7 +176,7 @@ export default function HotelDetails() {
         >
           {added ? 'Remove from favorites' : 'Add to favorites'}
         </button>
-        <Link to={`/booking/${hotel.id}` as string}>
+        <Link to={`/hotels/${hotel.id}/booking` as string}>
           <button className="du-btn-primary">Book now</button>
         </Link>
       </div>
