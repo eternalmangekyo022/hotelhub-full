@@ -73,7 +73,7 @@ describe("/register", async () => {
     })
 
     test("correct", async () => {
-        const testingMail = "users.routes.testing@jest.com";
+        const testingMail = "users.routes.testing@jest.com" + "corr";
         await axios.post<{ user: User }>("http://localhost:3000/api/v1/register", {
             firstname: "John",
             lastname: "Doe",
