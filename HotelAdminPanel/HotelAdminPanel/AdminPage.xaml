@@ -1,0 +1,131 @@
+﻿<Window x:Class="HotelAdminPanel.AdminPage"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:HotelAdminPanel"
+        mc:Ignorable="d"
+        Title="Admin Page" Height="450" Width="800"
+        WindowStartupLocation="CenterScreen">
+    <Grid Background="#F4F4F4">
+        <!-- Welcome Labels -->
+        <Label Content="Welcome!" HorizontalContentAlignment="Center" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" 
+               Width="264" Height="51" FontSize="30" FontWeight="Bold" Foreground="#333333"/>
+        <Label Content="Hotel Admin Panel" HorizontalContentAlignment="Center" HorizontalAlignment="Center" Margin="0,57,0,0" VerticalAlignment="Top" 
+               Width="314" Height="51" FontSize="30" FontWeight="Bold" Foreground="#555555"/>
+
+        <!-- User Management Button -->
+        <Button x:Name="usermg" Content="User Management" HorizontalAlignment="Center" Margin="0,113,0,0" VerticalAlignment="Top" 
+                Width="222" Height="46" FontSize="16" FontWeight="Bold" Foreground="#FFFFFF" Background="#6200EA" 
+                BorderBrush="#3700B3" BorderThickness="1" Cursor="Hand" Click="usermg_Click">
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="Button">
+                                <Border x:Name="border" Background="{TemplateBinding Background}" 
+                                        BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"
+                                        CornerRadius="5" Padding="{TemplateBinding Padding}">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#7C4DFF"/>
+                                        <Setter Property="BorderBrush" Value="#03DAC6"/>
+                                        <Setter Property="Foreground" Value="#FFFFFF"/>
+                                    </Trigger>
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter Property="Background" Value="#3700B3"/>
+                                        <Setter Property="BorderBrush" Value="#018786"/>
+                                        <Setter Property="Foreground" Value="#E0E0E0"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="Effect">
+                        <Setter.Value>
+                            <DropShadowEffect ShadowDepth="2" Color="#000000" Opacity="0.5" BlurRadius="5"/>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Button.Style>
+        </Button>
+
+        <!-- Hotel Management Button -->
+        <Button x:Name="hotelmg" Content="Hotel Management" HorizontalAlignment="Center" Margin="0,164,0,0" VerticalAlignment="Top" 
+                Width="222" Height="46" FontSize="16" FontWeight="Bold" Foreground="#FFFFFF" Background="#6200EA" 
+                BorderBrush="#3700B3" BorderThickness="1" Cursor="Hand" Click="hotelmg_Click">
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="Button">
+                                <Border x:Name="border" Background="{TemplateBinding Background}" 
+                                        BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"
+                                        CornerRadius="5" Padding="{TemplateBinding Padding}">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#7C4DFF"/>
+                                        <Setter Property="BorderBrush" Value="#03DAC6"/>
+                                        <Setter Property="Foreground" Value="#FFFFFF"/>
+                                    </Trigger>
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter Property="Background" Value="#3700B3"/>
+                                        <Setter Property="BorderBrush" Value="#018786"/>
+                                        <Setter Property="Foreground" Value="#E0E0E0"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="Effect">
+                        <Setter.Value>
+                            <DropShadowEffect ShadowDepth="2" Color="#000000" Opacity="0.5" BlurRadius="5"/>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Button.Style>
+        </Button>
+
+        <!-- Other Data Button -->
+        <Button x:Name="datamg" Content="Other Data" HorizontalAlignment="Center" Margin="0,217,0,0" VerticalAlignment="Top" 
+                Width="222" Height="46" FontSize="16" FontWeight="Bold" Foreground="#FFFFFF" Background="#6200EA" 
+                BorderBrush="#3700B3" BorderThickness="1" Cursor="Hand" Click="datamg_Click">
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="Button">
+                                <Border x:Name="border" Background="{TemplateBinding Background}" 
+                                        BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}"
+                                        CornerRadius="5" Padding="{TemplateBinding Padding}">
+                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter Property="Background" Value="#7C4DFF"/>
+                                        <Setter Property="BorderBrush" Value="#03DAC6"/>
+                                        <Setter Property="Foreground" Value="#FFFFFF"/>
+                                    </Trigger>
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter Property="Background" Value="#3700B3"/>
+                                        <Setter Property="BorderBrush" Value="#018786"/>
+                                        <Setter Property="Foreground" Value="#E0E0E0"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="Effect">
+                        <Setter.Value>
+                            <DropShadowEffect ShadowDepth="2" Color="#000000" Opacity="0.5" BlurRadius="5"/>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Button.Style>
+        </Button>
+    </Grid>
+</Window>
