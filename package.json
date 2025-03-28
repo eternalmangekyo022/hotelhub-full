@@ -4,6 +4,7 @@
 	},
 	"scripts": {
 		"dev": "concurrently \"cd backend && bun dev\" \"cd frontend && bun dev\"",
+		"ins": "concurrently \"cd backend && bun install\" \"cd frontend && bun install\"",
 		"backend": "cd backend && bun dev",
 		"frontend": "cd frontend && bun dev"
 	}
