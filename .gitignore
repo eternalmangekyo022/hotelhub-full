@@ -1,4 +1,8 @@
 node_modules
 
 /remove-images
+<<<<<<< HEAD
+=======
+
+>>>>>>> b542482954f5eaa59a94e21a800c71b5f9809efa
 .env
