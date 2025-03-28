@@ -134,7 +134,7 @@ export default function Login({ register }: IProps) {
   }
 
   return (
-    <div className={`login-wrapper${register ? 'register' : ''} bg-base-100`}>
+    <div className={`login-wrapper ${register ? 'register' : ''} bg-base-100`}>
       <div className={`login-form-wrapper ${register ? 'register' : 'login'}`}>
         <form className="login-form" onSubmit={handleSubmit}>
           <div className="login-form-inner">

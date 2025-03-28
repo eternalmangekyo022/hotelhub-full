@@ -12,7 +12,6 @@ import links from './header/links'
 
 import LogoutSvg from './svg/Logout.tsx'
 
-import Menu from '../assets/images/Menu Icon.png'
 import HeartSvg from './svg/Heart.tsx'
 
 export default function Header() {
