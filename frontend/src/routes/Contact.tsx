@@ -13,12 +13,12 @@ import Tel from '../assets/images/phone.svg'
 import Location from '../assets/images/location-filled.svg'
 import Mail from '../assets/images/email.svg'
 import { useForm, SubmitHandler } from 'react-hook-form'
+import axios from 'axios'
 
 type FormData = {
   firstName: string
   lastName: string
   email: string
-  phone: string
   message: string
 }
 
@@ -34,7 +34,6 @@ function Contact() {
     firstName: '',
     lastName: '',
     email: '',
-    phone: '',
     message: '',
   }
   const { register, handleSubmit } = useForm<FormData>({
@@ -53,10 +52,6 @@ function Contact() {
         message: 'Email is required',
         type: 'required',
       },
-      phone: {
-        message: 'Phone is required',
-        type: 'required',
-      },
       message: {
         message: 'Message is required',
         type: 'required',
@@ -64,8 +59,21 @@ function Contact() {
     },
   })
 
-  const onSubmit: SubmitHandler<FormData> = (data) => {
-    console.log(data) // handle your form submission here
+  const onSubmit: SubmitHandler<FormData> = async (data) => {
+    await axios.post(
+      'http://localhost:3000/api/v1/email/send-contact-email',
+      {
+        firstname: data.firstName,
+        lastname: data.lastName,
+        email: data.email,
+        message: data.message,
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    )
   }
 
   useEffect(() => {
@@ -137,38 +145,44 @@ function Contact() {
             <h1>Contact Us</h1>
             <h2>Have an inquery? Fill out the form to contact our team.</h2>
             <form onSubmit={handleSubmit(onSubmit)}>
-              <label className="du-input">
-                <svg
-                  className="h-[1em] opacity-50"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                >
-                  <g
-                    strokeLinejoin="round"
-                    strokeLinecap="round"
-                    strokeWidth="2.5"
-                    fill="none"
-                    stroke="currentColor"
-                  >
-                    <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path>
-                    <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
-                  </g>
-                </svg>
-                <input type="text" className="grow" placeholder="index.php" />
-              </label>
-              <input
-                type="text"
-                placeholder="First Name"
-                {...register('firstName')}
-              />
-              <input
-                type="text"
-                placeholder="Last Name"
-                {...register('lastName')}
-              />
-              <input type="email" placeholder="Email" {...register('email')} />
-              <input type="tel" placeholder="Phone" {...register('phone')} />
-              <textarea placeholder="Message" {...register('message')} />
+              <fieldset className="du-fieldset">
+                <legend className="du-fieldset-legend">First Name</legend>
+                <input
+                  type="text"
+                  className="du-input"
+                  placeholder="First Name"
+                  {...register('firstName')}
+                />
+              </fieldset>
+              <fieldset className="du-fieldset">
+                <legend className="du-fieldset-legend">Last Name</legend>
+                <input
+                  type="text"
+                  className="du-input"
+                  placeholder="Last Name"
+                  {...register('lastName')}
+                />
+              </fieldset>
+              <fieldset className="du-fieldset">
+                <legend className="du-fieldset-legend">Email</legend>
+                <input
+                  type="text"
+                  className="du-input"
+                  placeholder="Email"
+                  {...register('email')}
+                />
+              </fieldset>
+              <fieldset className="du-fieldset">
+                <legend className="du-fieldset-legend">Message</legend>
+                <textarea
+                  className="du-input"
+                  placeholder="Message"
+                  {...register('message')}
+                />
+              </fieldset>
+              <button type="submit" className="du-btn du-btn-primary h-8">
+                Send
+              </button>
             </form>
           </section>
         </div>

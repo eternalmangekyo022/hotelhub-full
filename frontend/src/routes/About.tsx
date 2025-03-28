@@ -6,7 +6,7 @@ import { createFileRoute } from '@tanstack/react-router'
 
 //assets, images
 import Person1 from '../assets/images/Person3.png'
-import Person2 from '../assets/images/zlatan.webp'
+import Person2 from '../assets/images/photo-1507003211169-0a1dd7228f2d.jpg'
 import Person3 from '../assets/images/Person1.png'
 import Person4 from '../assets/images/Person4.png'
 import Person5 from '../assets/images/Person5.png'

@@ -119,10 +119,9 @@ $main: (
   .wrapper {
     height: 85vh;
     .wrapper-inner {
-      flex-direction: column;
       height: 85vh !important;
 
-      justify-content: space-between;
+      justify-content: space-evenly;
 
       .contact {
         &-card {
