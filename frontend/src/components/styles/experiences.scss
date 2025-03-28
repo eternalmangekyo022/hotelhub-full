@@ -1,3 +1,4 @@
+@use "sass:map";
 @use "../../global.scss" as global;
 
 $shadow:
@@ -80,7 +81,7 @@ $height: 40rem;
 					left: 4%;
 					top: 6%;
 					width: 1vw;
-					fill: map-get(global.$main, "dark");
+					fill: map.get(global.$main, "dark");
 				}
 
 				span {

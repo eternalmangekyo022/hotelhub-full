@@ -12,7 +12,7 @@ declare global {
     params: P;
   }
   type Res = Response;
-  interface Next extends NextFunction {}
+  interface Next extends NextFunction { }
   type UserUpdated = Omit<User, "registered" | "email" | "permission"> & {
     newPassword: string;
   };
@@ -45,6 +45,7 @@ declare global {
       avg: number
     }
     images: Image[];
+    capacity: number;
   };
   interface User {
     id: number;
@@ -80,6 +81,18 @@ declare global {
 
   type Image = { thumb: string; full: string };
 
+  interface Booking {
+    id: number;
+    user_id: number;
+    hotel_id: number;
+    booked: string;
+    checkin: string;
+    checkout: string;
+    payment_id: number;
+    participants: number;
+    rating?: number;
+  }
+
   type Amenity = {
     id: number;
     amenity: string;
@@ -114,4 +127,4 @@ declare global {
   };
 }
 
-export {};
+export { };

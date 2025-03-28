@@ -96,7 +96,7 @@ const UserProfile = () => {
     try {
       // 1. Make the API call to change the password
       const response = await fetch(`http://localhost:3000/api/v1/users/${user.id}/change-password`, {
-        method: 'POST',
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },

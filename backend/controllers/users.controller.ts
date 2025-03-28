@@ -77,23 +77,6 @@ export async function register(
 }
 
 /**
- * @function refresh
- * @description Handles token refresh
- */
-export async function refresh(
-  { body: { refreshToken } }: Req<{ refreshToken: string }>,
-  res: Res
-) {
-  if (!refreshToken) throw { message: "Missing refresh token", code: 400 };
-  res.cookie("accessToken", await model.refresh(refreshToken), {
-    httpOnly: true,
-    maxAge: 900 * 1000,
-    secure: process.env.NODE_ENV === "production",
-  });
-  res.send();
-}
-
-/**
  * @function deleteUser
  * @description Handles user deletion
  */
@@ -136,7 +119,6 @@ export async function getUsers(req: Req, res: Res) {
   res.json(users);
 }
 
-
 export async function check(req: Request, res: Response) {
   res.json(await model.getUserById(req.user?.id as number));
 }
@@ -156,16 +138,16 @@ export async function logout(req: Request, res: Response) {
 }
 
 export async function getUserById(req: Request, res: Response) {
-  const { id } = req.params;
+  const { userId } = req.params;
 
   // Validate the ID
-  const userId = parseInt(id, 10);
-  if (isNaN(userId)) {
+  const id = parseInt(userId, 10);
+  if (isNaN(id)) {
     return res.status(400).json({ message: "Invalid user ID" });
   }
 
   try {
-    const user = await model.getUserById(userId);
+    const user = await model.getUserById(id);
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });
@@ -178,14 +160,12 @@ export async function getUserById(req: Request, res: Response) {
   }
 }
 
-
 export async function changePassword(
   req: Req<{ currentPassword: string; newPassword: string }>, // Remove userId from req.body
   res: Response
 ) {
   const { currentPassword, newPassword } = req.body;
   const userId = req.params.userId; // Extract userId from the URL
-  console.log(model);
   // Validate the userId
   const id = parseInt(userId, 10);
   if (isNaN(id)) {
@@ -207,5 +187,3 @@ export async function changePassword(
     }
   }
 }
-
-

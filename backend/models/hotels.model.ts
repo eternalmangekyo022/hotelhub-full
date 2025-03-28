@@ -1,9 +1,17 @@
 import db from "./db";
 
+function transformURI(search: string, property: string) {
+  return `${property} LIKE '%${search}%'`
+}
+
+export interface SortTypes {
+  sortBy: "reviews" | "rating" | "price";
+}
+
 export async function getHotels(filter: {
   offset?: string;
   searchQuery?: string;
-  sortBy?: string;
+  sortBy?: `${SortTypes["sortBy"]}-${"asc" | "desc"}`;
   location?: string;
   price?: string;
   payment?: string;
@@ -12,16 +20,25 @@ export async function getHotels(filter: {
   try {
     // Parse filter parameters
     const offset = parseInt(filter.offset || '0', 10);
-    const priceParam = filter.price;
-    const payment = filter.payment;
-    const ratingParam = filter.rating;
-
+    const { location: hotelLocation, price: priceParam, payment, searchQuery: search, rating: ratingParam } = filter;
     // Parse ranges
+
     const [priceMin, priceMax] = priceParam?.split('-').map(Number) || [];
     const [ratingMin, ratingMax] = ratingParam?.split('-').map(Number) || [];
 
     // Build conditions
     const conditions: string[] = [];
+
+    if (search) {
+      const searches = decodeURI(search).split(' ').map((i) => transformURI(i, "h.name"));
+      conditions.push(searches.join(" AND "));
+    }
+
+    if (hotelLocation) {
+      const locations = decodeURI(hotelLocation).split(' ').map(i => transformURI(i, "h.city"));
+      conditions.push(locations.join(" AND "));
+    }
+
     const params: any[] = [];
 
     // Price filter
@@ -31,8 +48,8 @@ export async function getHotels(filter: {
     }
 
     // Payment filter (more flexible version)
-    if (payment && payment !== "both") {
-      conditions.push(`h.payment_id = ${payment.includes("card") ? 2 : 1}`);
+    if (payment) {
+      conditions.push(`h.payment_id = ${payment.includes("card") ? 2 : payment.includes("cash") ? 1 : 3}`);
     }
 
     // Rating filter (more inclusive version)
@@ -41,9 +58,7 @@ export async function getHotels(filter: {
       params.push(ratingMin, ratingMax);
     }
 
-    // Base query
-    
-    let orderBy = 'h.id ASC'; // default fallback
+    let orderBy = 'h.id ASC';
     if (filter.sortBy) {
       switch (filter.sortBy) {
         case 'price-asc':
@@ -58,7 +73,10 @@ export async function getHotels(filter: {
         case 'rating-desc':
           orderBy = 'COALESCE(r.avg_rating, 0) DESC';
           break;
-        case 'popular':
+        case 'reviews-asc':
+          orderBy = 'COALESCE(r.rating_count, 0) ASC';
+          break;
+        case 'reviews-desc':
           orderBy = 'COALESCE(r.rating_count, 0) DESC';
           break;
       }
@@ -74,6 +92,7 @@ export async function getHotels(filter: {
       LEFT JOIN (
         SELECT hotel_id, AVG(rating) AS avg_rating, COUNT(rating) AS rating_count
         FROM bookings
+        WHERE rating > 0
         GROUP BY hotel_id
       ) r ON h.id = r.hotel_id
       ${whereClause}
@@ -85,7 +104,7 @@ export async function getHotels(filter: {
 
     // Execute query
     const hotels = await db.select<Hotel & { avg_rating: number; rating_count: number }>(query, params);
-    
+
     // Fetch images if we got hotels
     if (hotels.length > 0) {
       const ids = hotels.map(h => h.id);
@@ -109,8 +128,8 @@ export async function getHotels(filter: {
         count: hotel.rating_count,
         avg: hotel.avg_rating
       },
-      payment: hotel.payment_id === 1 ? 'cash' : 
-              hotel.payment_id === 2 ? 'card' : 'both'
+      payment: hotel.payment_id === 1 ? 'cash' :
+        hotel.payment_id === 2 ? 'card' : 'both'
     }));
 
     return result;
@@ -152,57 +171,8 @@ export async function getHotelsById(ids: number[]) {
     "SELECT * FROM hotels WHERE id in (?)",
     [ids]
   );
+  if (hotels.length !== ids.length) throw { status: 404, message: "Not found" }
   return hotels;
-}
-
-export async function getHotelsFiltered(
-  query: Partial<
-    Omit<Hotel, "id" | "price" | "images" | "description"> & {
-      minPrice: string;
-      maxPrice: string;
-      limit: string;
-      offset: string;
-    }
-  >
-) {
-  const numbers = "id,minPrice,maxPrice,owner_id,x,y,class,capacity".split(",");
-  const toSearch = Object.entries(query)
-    .filter(([k]) => !["maxPrice", "minPrice", "limit", "offset"].includes(k))
-    .map(([k, v]) => `${k} = ${numbers.includes(k) ? v : `'${v}'`}`)
-    .join(" and ");
-
-  let priceFilter = "";
-
-  if (query.maxPrice || query.minPrice) {
-    let {
-      minPrice: minimum,
-      maxPrice: maximum,
-    }: { minPrice?: string | number; maxPrice?: string | number } = query;
-    [minimum, maximum] = [minimum, maximum].map((p) =>
-      p === undefined ? undefined : Number(p)
-    );
-    if (minimum !== undefined && maximum !== undefined) {
-      priceFilter = `${
-        priceFilter || toSearch ? " and " : ""
-      }price between ${Math.min(minimum, maximum)} and ${Math.max(
-        minimum,
-        maximum
-      )}`;
-    } else if (minimum !== undefined) {
-      priceFilter = `${
-        priceFilter || toSearch ? " and " : ""
-      }price >= ${minimum}`;
-    } else if (maximum !== undefined) {
-      priceFilter = `${
-        priceFilter || toSearch ? " and " : ""
-      }price <= ${maximum}`;
-    }
-  }
-  const searchQuery = `SELECT * FROM hotels where ${toSearch}${priceFilter} limit ${
-    Number(query.limit) || 30
-  } offset ${Number(query.offset) || 0}`;
-
-  return await db.select<Hotel>(searchQuery);
 }
 
 //https://api.geoapify.com/v1/geocode/search?text=Barcelona%20Spain&format=json&apiKey=1679f7cee64a411a929232a6cf0e4987

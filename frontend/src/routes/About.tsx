@@ -5,13 +5,12 @@ import { useEffect } from 'react'
 import { createFileRoute } from '@tanstack/react-router'
 
 //assets, images
-import Person1 from '../assets/images/Person1.png'
-import Person2 from '../assets/images/bene.png'
-import Person3 from '../assets/images/Person3.png'
+import Person1 from '../assets/images/Person3.png'
+import Person2 from '../assets/images/zlatan.webp'
+import Person3 from '../assets/images/Person1.png'
 import Person4 from '../assets/images/Person4.png'
 import Person5 from '../assets/images/Person5.png'
 
-const test = 'hi'
 //components
 export const Route = createFileRoute('/About')({
   component: About,
@@ -27,7 +26,7 @@ export default function About() {
       img: Person1,
     },
     {
-      name: 'Bene Zoltán',
+      name: 'Bené Zlatan',
       position: 'Super CEO',
       img: Person2,
     },

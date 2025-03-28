@@ -20,9 +20,10 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
-      "@/com/*": ["./src/components/*"],
+      "@com/*": ["./src/components/*"],
       "@store": ["./src/store.ts"],
-      "@hooks": ["./src/hooks/*"]
+      "@hooks": ["./src/hooks/*"],
+      "@utils": ["./src/utils/*"],
     }
   },
   "include": ["src", "global.d.ts"],

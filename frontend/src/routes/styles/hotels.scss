@@ -1,4 +1,5 @@
 @use "../../global.scss" as global;
+@use "sass:map";
 
 $hover-detail: #0056b3; // For button hover effect
 
@@ -150,7 +151,7 @@ $hover-detail: #0056b3; // For button hover effect
 .hotel-list {
   width: 100%;
   $min-h: calc(
-    calc(100svh - map-get(global.$main, "footer-h")) - map-get(
+    calc(100svh - map.get(global.$main, "footer-h")) - map.get(
         global.$main,
         "header-h"
       )

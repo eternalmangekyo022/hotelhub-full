@@ -1,7 +1,6 @@
 - [ ] hotelId rework
 - [ ] contact ui fix
-- [ ] add request for highest price hotel
-  - [ ] add request for highest price hotel
-- [ ] header nav slider resize fix WTF???
-- [ ] hotelCard too long title workaround
-- [ ] add favorite to corner of hotelcard
+- [ ] when triggering infinite scroll, it sends like 10 requests at the same time
+- [ ] rating page
+- [ ] mobile size hamburger
+- [ ] tests

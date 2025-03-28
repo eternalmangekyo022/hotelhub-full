@@ -9,7 +9,6 @@ import jwt from "jsonwebtoken";
 
 import users from "./routes/users.routes";
 import hotels from "./routes/hotels.routes";
-import images from "./routes/images.routes";
 import bookings from "./routes/bookings.routes";
 import amenities from "./routes/amenities.routes";
 import email from "./routes/email.routes";
@@ -32,7 +31,7 @@ api.use(
 );
 api.use(e.json());
 
-const excludeToken = ["register", "login", "refresh", "hotels", "amenities", "email"];
+const excludeToken = ["register", "login", "logout", "hotels", "amenities", "email"];
 
 const reg = `^(?!.*(${excludeToken.join("|")})).*`;
 
@@ -62,7 +61,7 @@ app.use(
     const isCheck = baseUrl.includes("check");
 
     const cookies = parseCookies(cookie || "");
-    if (!Object.keys(cookies).filter((k) => k === "refreshToken").length) {
+    if (!Object.keys(cookies).filter((k) => ["refreshToken", "accessToken"].includes(k)).length) {
       return res.status(isCheck ? 204 : 401).json({ message: "Unauthorized" });
     }
 
@@ -70,9 +69,7 @@ app.use(
 
     try {
       if (accessToken) {
-        const verifiedAccessToken =
-          accessToken &&
-          jwt.verify(accessToken, process.env.JWT_ACCESS_SECRET!);
+        const verifiedAccessToken = jwt.verify(accessToken, process.env.JWT_ACCESS_SECRET!);
         req.user = verifiedAccessToken as TokenVerified;
       } else if (refreshToken) {
         const verifiedRefreshToken = jwt.verify(
@@ -95,15 +92,14 @@ app.use(
 );
 users(use, app);
 hotels(use, app);
-images(use, app);
 bookings(use, app);
 amenities(use, app);
 email(use, app);
 
 api.use("/api/v1", app);
 
-api.use((error: Err | null, _req: Req, res: Res, _next: NextFunction) => {
-  console.log("error", error);
+api.use((error: Err | null, req: Req, res: Res, _next: NextFunction) => {
+  //console.log("error", error);
   if (error?.message === "jwt expired")
     res.status(401).json({ message: "Token expired" });
   else if (error) res.status(error.code).json({ message: error.message });

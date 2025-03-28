@@ -17,6 +17,7 @@ export default defineConfig({
       "@com": path.resolve(__dirname, "./src/components"),
       "@store": path.resolve(__dirname, "./src/store.ts"),
       "@hooks": path.resolve(__dirname, "./src/hooks"),
+      "@utils": path.resolve(__dirname, "./src/utils"),
     },
   },
   server: {
@@ -27,4 +28,11 @@ export default defineConfig({
       },
     },
   },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        api: "modern"
+      },
+    },
+  }
 });

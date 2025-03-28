@@ -75,14 +75,14 @@
             margin-bottom: 6%;
             border-radius: 6px;
             font-size: 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
 
             * {
               transition: 0.2s;
             }
 
-            display: flex;
-            justify-content: center;
-            align-items: center;
 
             label {
               position: absolute;
