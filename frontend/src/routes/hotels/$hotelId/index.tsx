@@ -176,7 +176,10 @@ export default function HotelDetails() {
         >
           {added ? 'Remove from favorites' : 'Add to favorites'}
         </button>
-        <Link to={`/hotels/${hotel.id}/booking` as string}>
+        <Link
+          params={{ hotelId: hotel.id.toString() }}
+          to={`/hotels/$hotelId/booking` as string}
+        >
           <button className="du-btn-primary">Book now</button>
         </Link>
       </div>

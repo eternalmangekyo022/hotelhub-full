@@ -1,5 +1,5 @@
 //hooks
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { createFileRoute } from '@tanstack/react-router'
 
 //styles
@@ -14,10 +14,11 @@ import Location from '../assets/images/location-filled.svg'
 import Mail from '../assets/images/email.svg'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import axios from 'axios'
+import { useQuery } from '@tanstack/react-query'
 
 type FormData = {
-  firstName: string
-  lastName: string
+  firstname: string
+  lastname: string
   email: string
   message: string
 }
@@ -31,20 +32,21 @@ function Contact() {
   const mail = 'support@hotelhub.com'
   const contactLocation = 'Herman Kiefer, Detroit, Michigan, Egyesült Államok'
   const initial = {
-    firstName: '',
-    lastName: '',
+    firstname: '',
+    lastname: '',
     email: '',
     message: '',
   }
-  const { register, handleSubmit } = useForm<FormData>({
+  const [alertVisible, setAlertVisible] = useState(false)
+  const { register, handleSubmit, getValues } = useForm<FormData>({
     mode: 'onChange',
     defaultValues: initial,
     errors: {
-      firstName: {
+      firstname: {
         message: 'First name is required',
         type: 'required',
       },
-      lastName: {
+      lastname: {
         message: 'Last name is required',
         type: 'required',
       },
@@ -59,21 +61,41 @@ function Contact() {
     },
   })
 
-  const onSubmit: SubmitHandler<FormData> = async (data) => {
-    await axios.post(
-      'http://localhost:3000/api/v1/email/send-contact-email',
-      {
-        firstname: data.firstName,
-        lastname: data.lastName,
-        email: data.email,
-        message: data.message,
-      },
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      },
-    )
+  const { refetch, isSuccess, isLoading, isError } = useQuery({
+    queryKey: ['email'],
+    retry: false,
+    queryFn: async () => {
+      const formData = getValues()
+      try {
+        const { status } = await axios.post(
+          'http://localhost:3000/api/v1/email/send-contact-email',
+          formData,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          },
+        )
+        return status
+      } finally {
+        setAlertVisible(true)
+        const sleep = (ms: number, cb: () => void) =>
+          new Promise((res, _rej) => {
+            setTimeout(() => {
+              cb()
+              res(0)
+            }, ms)
+          })
+        sleep(5000, () => {
+          setAlertVisible(false)
+        })
+      }
+    },
+    enabled: false,
+  })
+
+  const onSubmit: SubmitHandler<FormData> = async () => {
+    refetch()
   }
 
   useEffect(() => {
@@ -144,14 +166,17 @@ function Contact() {
           <section className="contact-form">
             <h1>Contact Us</h1>
             <h2>Have an inquery? Fill out the form to contact our team.</h2>
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              className="[&_input,&_textarea]:not-dark:border-1 [&_input,&_textarea]:not-dark:border-gray-300 [&_input,&_textarea]:not-dark:bg-gray-200!"
+            >
               <fieldset className="du-fieldset">
                 <legend className="du-fieldset-legend">First Name</legend>
                 <input
                   type="text"
                   className="du-input"
                   placeholder="First Name"
-                  {...register('firstName')}
+                  {...register('firstname')}
                 />
               </fieldset>
               <fieldset className="du-fieldset">
@@ -160,7 +185,7 @@ function Contact() {
                   type="text"
                   className="du-input"
                   placeholder="Last Name"
-                  {...register('lastName')}
+                  {...register('lastname')}
                 />
               </fieldset>
               <fieldset className="du-fieldset">
@@ -175,13 +200,24 @@ function Contact() {
               <fieldset className="du-fieldset">
                 <legend className="du-fieldset-legend">Message</legend>
                 <textarea
-                  className="du-input"
+                  className="du-textarea"
                   placeholder="Message"
                   {...register('message')}
                 />
               </fieldset>
-              <button type="submit" className="du-btn du-btn-primary h-8">
-                Send
+              <button
+                type="submit"
+                className={`du-btn h-8 ${isSuccess && alertVisible ? 'du-btn-success' : isError && alertVisible ? 'du-btn-error' : 'du-btn-primary'}`}
+              >
+                {isSuccess && alertVisible ? (
+                  'Success'
+                ) : isLoading ? (
+                  <span className="du-loading du-loading-spinner du-loading-md"></span>
+                ) : isError && alertVisible ? (
+                  'X'
+                ) : (
+                  'Send'
+                )}
               </button>
             </form>
           </section>
