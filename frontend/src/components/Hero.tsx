@@ -35,7 +35,7 @@ export default function Hero() {
           src={width > 768 ? DineEase : DineEaseVector}
           alt="DineEase Logo"
           title="DineEase Logo"
-          className="rounded-xl ring-3 not-dark:shadow-2xl not-dark:ring-0 dark:ring-black"
+          className="rounded-xl not-dark:shadow-2xl not-dark:ring-0 lg:ring-3"
         />
       </div>
       <div className="blur" />

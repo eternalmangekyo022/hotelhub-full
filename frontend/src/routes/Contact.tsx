@@ -29,7 +29,7 @@ export const Route = createFileRoute('/Contact')({
 
 function Contact() {
   const tel = '+36 30 123 4567'
-  const mail = 'support@hotelhub.com'
+  const mail = 'hotelhubsupp@gmail.com'
   const contactLocation = 'Herman Kiefer, Detroit, Michigan, Egyesült Államok'
   const initial = {
     firstname: '',

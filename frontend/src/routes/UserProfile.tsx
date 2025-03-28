@@ -1,48 +1,15 @@
-import { createFileRoute, Link } from '@tanstack/react-router'
+import { createFileRoute, Link, redirect } from '@tanstack/react-router'
 import { useEffect, useState } from 'react'
 import { useAtom } from 'jotai'
 import { userAtom } from '@/store'
 import './styles/userprofile.scss'
+import axios from 'axios'
 
 const UserProfile = () => {
-  const [userData, setUserData] = useState(null)
-  const [error, setError] = useState('')
-  const [loading, setLoading] = useState(true)
   const [user] = useAtom(userAtom) // Get logged-in user
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [currentPassword, setCurrentPassword] = useState('')
   const [newPassword, setNewPassword] = useState('')
-
-  useEffect(() => {
-    if (!user?.id) {
-      setError('User not logged in.')
-      setLoading(false)
-      return
-    }
-
-    const fetchUserData = async () => {
-      try {
-        const response = await fetch(
-          `http://localhost:3000/api/v1/users/${user.id}`,
-          {
-            credentials: 'include',
-          },
-        )
-
-        if (!response.ok) throw new Error('Failed to fetch user')
-
-        const userData = await response.json()
-        setUserData(userData)
-        setError('')
-      } catch (err) {
-        setError((err as { message: string }).message)
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    fetchUserData()
-  }, [user?.id])
 
   const handlePasswordChange = () => {
     setIsModalOpen(true)
@@ -54,7 +21,7 @@ const UserProfile = () => {
     setNewPassword('')
   }
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault()
 
     // Validate that the new password is different from the current password
@@ -63,32 +30,23 @@ const UserProfile = () => {
       return
     }
 
+    if (!user) return
     try {
-      // Make the API call to change the password
-      const response = await fetch(
+      const { data } = await axios.post(
         `http://localhost:3000/api/v1/users/${user.id}/change-password`,
         {
-          method: 'POST',
+          currentPassword,
+          newPassword,
+        },
+        {
           headers: {
-            'Content-Type': 'application/json',
+            'Content-Type': 'applicaton/json',
           },
-          credentials: 'include',
-          body: JSON.stringify({
-            currentPassword,
-            newPassword,
-          }),
+          withCredentials: true,
         },
       )
-
-      // Handle the response
-      if (!response.ok) {
-        const errorData = await response.json()
-        throw new Error(errorData.message || 'Failed to change password')
-      }
-
-      const result = await response.json()
-      alert(result.message) // Show success message
-      handleModalClose() // Close the modal
+      alert(data)
+      handleModalClose()
     } catch (err) {
       alert(
         (err as { message: string }).message ||
@@ -97,27 +55,32 @@ const UserProfile = () => {
     }
   }
 
-  if (loading) return <p className="loading-message">Loading profile...</p>
-  if (error) return <p className="error-message">{error}</p>
+  useEffect(() => {
+    if (!user)
+      redirect({
+        to: '/Login',
+        params: { redirect: encodeURIComponent('/userprofile') },
+      })
+  }, [])
 
   return (
     <div className="user-profile [*]:not-dark:text-black">
       <div className="profile-container">
         <div className="profile-card">
-          {userData && (
+          {user && (
             <div>
               <div className="profile-header">
                 <div className="avatar">
-                  {userData.firstname[0]}
-                  {userData.lastname[0]}
+                  {user.firstname[0]}
+                  {user.lastname[0]}
                 </div>
                 <div>
                   <h1 className="user-name">
-                    {userData.firstname} {userData.lastname}
+                    {user.firstname} {user.lastname}
                   </h1>
                   <p className="user-joined">
                     Member since{' '}
-                    {new Date(userData.registered).toLocaleDateString()}
+                    {new Date(user.registered).toLocaleDateString()}
                   </p>
                 </div>
               </div>
@@ -126,21 +89,23 @@ const UserProfile = () => {
                 <h2>Account Details</h2>
                 <p>
                   <span>User Role:</span>{' '}
-                  {userData.permissionId === 1 ? 'Member' : 'Administrator'}
+                  {(user as any).permissionId === '1'
+                    ? 'Member'
+                    : 'Administrator'}
                 </p>
                 <p>
                   <span>Registration Date:</span>{' '}
-                  {new Date(userData.registered).toLocaleDateString()}
+                  {new Date(user.registered).toLocaleDateString()}
                 </p>
               </div>
 
               <div className="info-card">
                 <h2>Contact Details</h2>
                 <p>
-                  <span>Email:</span> {userData.email}
+                  <span>Email:</span> {user.email}
                 </p>
                 <p>
-                  <span>Phone:</span> {userData.phone}
+                  <span>Phone:</span> {user.phone}
                 </p>
               </div>
 
@@ -151,14 +116,13 @@ const UserProfile = () => {
                 >
                   Change Password
                 </button>
-                <Link to="/bookinghistory">
+                <Link to="/BookingHistory">
                   <button className="history-button">
                     View Booking History
                   </button>
                 </Link>
               </div>
 
-              {/* Modal for changing password */}
               {isModalOpen && (
                 <div className="modal-overlay [*]:not-dark:text-black">
                   <div className="modal">
