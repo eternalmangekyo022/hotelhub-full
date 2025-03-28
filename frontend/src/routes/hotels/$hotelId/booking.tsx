@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react'
-import { useForm, FormProvider } from 'react-hook-form'
 import axios from 'axios'
 import { createFileRoute, useNavigate, redirect } from '@tanstack/react-router'
+import { useForm, FormProvider } from 'react-hook-form'
+import { useState, useEffect } from 'react'
 import 'react-datepicker/dist/react-datepicker.css'
 import DatePicker from 'react-datepicker'
 import CardPay from '../../../components/CardPay'
@@ -102,14 +102,14 @@ function HotelBooking() {
   }, [user])
 
   return (
-    <div className="mx-auto max-w-4xl px-4 py-8 [*]:not-dark:text-white">
+    <div className="mx-auto max-w-4xl px-4 py-8 [&_input,&_select]:not-dark:bg-white [*]:not-dark:text-black">
       <div className="du-card bg-base-100 shadow-xl">
-        <div className="du-card-body space-y-8 rounded-xl border-0! not-dark:bg-gray-500">
+        <div className="du-card-body space-y-8 rounded-xl border-0! not-dark:bg-gray-300">
           <h2 className="du-card-title mb-8 text-3xl font-bold">
             Hotel Booking
           </h2>
           {hotel && (
-            <div className="bg-base-200 my-5! rounded-lg p-6 not-dark:bg-gray-700">
+            <div className="bg-base-200 ! my-5! rounded-lg p-6 not-dark:bg-gray-400">
               <h3 className="text-2xl font-semibold">{hotel.name}</h3>
               <p className="mt-2 text-lg">
                 Price per night:
@@ -322,7 +322,7 @@ function HotelBooking() {
                 <CardPay />
               </FormProvider>
             )}
-            <div className="bg-base-200 my-5! rounded-lg p-6 not-dark:bg-gray-700">
+            <div className="bg-base-200 ! my-5! rounded-lg p-6 not-dark:bg-gray-400">
               <h4 className="mb-4 text-xl font-semibold">Price Calculation</h4>
               <div className="space-y-3">
                 <p className="flex justify-between">
