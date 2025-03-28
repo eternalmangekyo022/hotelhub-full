@@ -16,7 +16,6 @@ import { refresh } from "./models/users.model";
 
 dotenv.config({ path: __dirname + "./.env" });
 
-
 const use: UseFn = (fn) => (req, res, next) =>
   Promise.resolve(fn(req, res, next)).catch(next);
 

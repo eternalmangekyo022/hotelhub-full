@@ -1,7 +1,8 @@
 import mysql from "mysql2";
 import dotenv from "dotenv";
 
-dotenv.config({ path: __dirname + "./jwt.env" });
+dotenv.config({ path: __dirname + "/.env" });
+dotenv.config({ path: __dirname + "/jwt.env" });
 
 const conn = mysql.createPool({
   host: process.env.HOST,
