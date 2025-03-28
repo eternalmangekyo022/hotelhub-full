@@ -78,29 +78,34 @@ export default function Login({ register }: IProps) {
           return user
         } else {
           // Login flow
-          const {
-            data: { user },
-          } = await axios.post<{ user: User }>(
-            'http://localhost:3000/api/v1/login',
-            {
-              email: formData.email,
-              password: formData.password,
-            },
-            {
-              headers: { 'Content-Type': 'application/json' },
-              withCredentials: true,
-            },
-          )
-          setUser(user)
-          if (Object.keys(location.search).includes('redirect')) {
-            navigate({
-              to: decodeURIComponent(
-                (location.search as { redirect: string }).redirect,
-              ),
-              search: {},
-            })
-          } else navigate({ to: '/' })
-          return user
+          try {
+            const {
+              data: { user },
+            } = await axios.post<{ user: User }>(
+              'http://localhost:3000/api/v1/login',
+              {
+                email: formData.email,
+                password: formData.password,
+              },
+              {
+                headers: { 'Content-Type': 'application/json' },
+                withCredentials: true,
+              },
+            )
+            setUser(user)
+            if (Object.keys(location.search).includes('redirect')) {
+              navigate({
+                to: decodeURIComponent(
+                  (location.search as { redirect: string }).redirect,
+                ),
+                search: {},
+              })
+              return user
+            } else navigate({ to: '/' })
+          } catch (e) {
+            setError('Wrong credentials')
+            return null
+          }
         }
       } catch (e) {
         setError((e as any).response?.data?.message || (e as Error).message)
@@ -112,8 +117,8 @@ export default function Login({ register }: IProps) {
   })
 
   const [formData, setFormData] = useState<IFormData>({
-    email: 'benezoltancime@gmail.com',
-    password: 'admin123',
+    email: '',
+    password: '',
     firstname: '',
     lastname: '',
     phone: '',
@@ -176,6 +181,7 @@ export default function Login({ register }: IProps) {
                 uid="login-email"
                 value={formData.email}
                 setValue={(val) => setFormData({ ...formData, email: val })}
+                error={error}
               >
                 Email
               </LoginFormInput>
@@ -184,6 +190,7 @@ export default function Login({ register }: IProps) {
                 value={formData.password}
                 setValue={(val) => setFormData({ ...formData, password: val })}
                 maxLength={16}
+                error={error}
               >
                 Password
               </LoginFormInput>
@@ -194,7 +201,6 @@ export default function Login({ register }: IProps) {
                   <span className="no-select">Forgot your password?</span>
                 </div>
               )}
-              {error && <p className="error">{error}</p>}
               <button className="no-select" type="submit" disabled={isLoading}>
                 {isLoading ? (
                   <span className="du-loading du-loading-spinner h-6 w-6"></span>

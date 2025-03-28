@@ -75,14 +75,17 @@ export async function onSubmit(data: {
   }
 }
 
-export function calculateTotalPrice(arrivalDate: Date | null, leavingDate: Date | null, hotel: Hotel | undefined, participants: number, cb: (total: number) => void) {
-  if (!arrivalDate || !leavingDate || !hotel) return
+export function calculateTotalPrice(arrivalDate: Date | null, leavingDate: Date | null, hotel: Hotel | undefined, participants: number): number {
+  if (!arrivalDate || !leavingDate || !hotel) return 0
+  if (!participants) {
+    return 0
+  }
 
   const timeDifference = leavingDate.getTime() - arrivalDate.getTime()
   const nights = Math.ceil(timeDifference / (1000 * 3600 * 24))
 
   const total = Math.min(participants, hotel.capacity) * hotel.price * nights
-  cb(total)
+  return total
 }
 
 export function useHotel(hotelId: string | undefined) {

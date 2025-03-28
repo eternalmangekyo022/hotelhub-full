@@ -12,7 +12,7 @@ const CardPay = () => {
 
   return (
     <div>
-      <div className="card-payment bg-base-200! border-0! not-dark:bg-gray-400!">
+      <div className="card-payment bg-base-200! border-0! not-dark:bg-gray-300!">
         <div className="field">
           <label className="label">Credit Card Number</label>
           <input

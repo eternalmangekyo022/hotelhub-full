@@ -126,11 +126,6 @@ const BookingHistory = () => {
 
   return (
     <div className="container">
-      <h2 className="title">Booking History</h2>
-
-      {loading && <p>Loading...</p>}
-      {error && <div className="error-message">{error}</div>}
-
       {bookings.length > 0 ? (
         <div className="bookings-list">
           {bookings.map((booking) => (

@@ -2,3 +2,4 @@ node_modules
 
 /remove-images
 **/public/images/**
+.env

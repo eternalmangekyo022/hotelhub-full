@@ -53,7 +53,7 @@ function HotelBooking() {
     defaultValues: {
       firstname: user?.firstname || '',
       lastname: user?.lastname || '',
-      participants: '' as unknown as number,
+      participants: '0' as unknown as number,
       address: '',
       payment_id: (hotel.payment_id === 3
         ? ''
@@ -61,7 +61,9 @@ function HotelBooking() {
           ? 'card'
           : 'cash') as 'cash' | 'card' | '',
       arrivalDate: new Date(),
-      leavingDate: new Date(),
+      leavingDate: new Date(
+        new Date().setHours(8, 0, 0, 0) + 1000 * 60 * 60 * 24,
+      ),
       postCode: '' as unknown as number,
       ccNumber: '',
       ccExpiry: '',
@@ -82,16 +84,14 @@ function HotelBooking() {
   const paymentMethod = watch('payment_id')
 
   useEffect(() => {
-    calculateTotalPrice(
+    const total = calculateTotalPrice(
       arrivalDate,
       leavingDate,
       hotel,
       participants,
-      (total) => {
-        setTotalPrice(total)
-        setBeforeTaxPrice(total / 1.27)
-      },
     )
+    setTotalPrice(total)
+    setBeforeTaxPrice(total / 1.27)
   }, [watch('arrivalDate'), watch('leavingDate'), watch('participants')])
 
   useEffect(() => {
@@ -102,14 +102,14 @@ function HotelBooking() {
   }, [user])
 
   return (
-    <div className="mx-auto max-w-4xl px-4 py-8 [&_input,&_select]:not-dark:bg-white [*]:not-dark:text-black">
-      <div className="du-card bg-base-100 shadow-xl">
-        <div className="du-card-body space-y-8 rounded-xl border-0! not-dark:bg-gray-300">
+    <div className="flex w-full items-center justify-center not-dark:bg-gray-400 [&_input,&_select]:not-dark:bg-white [*]:not-dark:text-black">
+      <div className="du-card max-w-4xl px-4 py-8">
+        <div className="du-card-body rounded-xl border-0! shadow-xl not-dark:bg-gray-200 [&_.du-form-control]:flex [&_.du-form-control]:flex-col">
           <h2 className="du-card-title mb-8 text-3xl font-bold">
             Hotel Booking
           </h2>
           {hotel && (
-            <div className="bg-base-200 ! my-5! rounded-lg p-6 not-dark:bg-gray-400">
+            <div className="bg-base-200 my-5! rounded-lg p-6 not-dark:bg-gray-300">
               <h3 className="text-2xl font-semibold">{hotel.name}</h3>
               <p className="mt-2 text-lg">
                 Price per night:
@@ -223,6 +223,19 @@ function HotelBooking() {
                   {...(register('arrivalDate', { required: true }) as any)}
                   onChange={(date) => {
                     setValue('arrivalDate', date as Date)
+                    if (
+                      date &&
+                      leavingDate &&
+                      (date.toDateString() === leavingDate.toDateString() ||
+                        date.getDate() > leavingDate.getDate())
+                    ) {
+                      setValue(
+                        'leavingDate',
+                        new Date(
+                          date.setHours(8, 0, 0, 0) + 1000 * 60 * 60 * 24,
+                        ),
+                      )
+                    }
                   }}
                 />
                 {errors.arrivalDate && (
@@ -238,7 +251,6 @@ function HotelBooking() {
                   <span className="du-label-text">Leaving Date</span>
                 </label>
                 <DatePicker
-                  minDate={new Date()}
                   popperPlacement="top"
                   selected={watch('leavingDate')}
                   showTimeSelect
@@ -250,6 +262,17 @@ function HotelBooking() {
                   {...(register('leavingDate', { required: true }) as any)}
                   onChange={(date) => {
                     setValue('leavingDate', date as Date)
+                    if (
+                      arrivalDate &&
+                      date &&
+                      (arrivalDate.getDate() > date.getDate() ||
+                        arrivalDate.toDateString() === date.toDateString())
+                    ) {
+                      setValue(
+                        'arrivalDate',
+                        new Date(date.getTime() - 1000 * 60 * 60 * 24),
+                      )
+                    }
                   }}
                 />
                 {errors.leavingDate && (
@@ -274,8 +297,8 @@ function HotelBooking() {
                     const value = e.target.value.replace(/[^0-9]/g, '')
                     setValue(
                       'participants',
-                      value > (hotel?.capacity || 0)
-                        ? hotel?.capacity || 0
+                      value > (hotel.capacity || 0)
+                        ? hotel.capacity || 0
                         : value,
                     )
                   },
@@ -295,7 +318,7 @@ function HotelBooking() {
                 <span className="du-label-text">Payment Method</span>
               </label>
               <select
-                className={`du-select du-select-bordered ${errors.payment_id ? 'du-select-error' : ''}`}
+                className={`du-select du-select-bordered not-dark:bg-white! not-dark:text-black! disabled:not-dark:bg-gray-200! ${errors.payment_id ? 'du-select-error' : ''}`}
                 disabled={hotel?.payment_id !== 3}
                 {...register('payment_id', { required: true })}
               >
@@ -322,20 +345,22 @@ function HotelBooking() {
                 <CardPay />
               </FormProvider>
             )}
-            <div className="bg-base-200 ! my-5! rounded-lg p-6 not-dark:bg-gray-400">
+            <div className="! bg-base-200 my-5! rounded-lg p-6 not-dark:bg-gray-300">
               <h4 className="mb-4 text-xl font-semibold">Price Calculation</h4>
               <div className="space-y-3">
                 <p className="flex justify-between">
                   <span>Before Tax Price:</span>
-                  <strong>${beforeTaxPrice.toFixed(2)}</strong>
+                  <strong>${beforeTaxPrice.toFixed(2) || '0.00'}</strong>
                 </p>
                 <p className="flex justify-between">
                   <span>Tax (27%):</span>
-                  <strong>${(totalPrice - beforeTaxPrice).toFixed(2)}</strong>
+                  <strong>
+                    ${(totalPrice - beforeTaxPrice).toFixed(2) || '0.00'}
+                  </strong>
                 </p>
                 <p className="border-base-300 flex justify-between border-t pt-3 text-lg font-bold">
                   <span>Total Price:</span>
-                  <strong>${totalPrice.toFixed(2)}</strong>
+                  <strong>${totalPrice.toFixed(2) || '0.00'}</strong>
                 </p>
               </div>
             </div>
