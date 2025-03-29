@@ -10,6 +10,7 @@ export type ISetValue = UseFormSetValue<{
   }
   rating: [number, number]
   searchQuery: string
+  sortMode: 'asc' | 'desc'
 }>
 export type IRegister = UseFormRegister<{
   location: string
